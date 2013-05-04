@@ -27,13 +27,13 @@ all: Server
 
 dependents:
 	-cd /home/lucas/workspace/commons/Debug && $(MAKE) all
-	-cd /home/lucas/workspace/uncommons/Debug && $(MAKE) all
+	-cd /home/lucas/git/tp-20131c-tp-so-1c2013/uncommons/Debug && $(MAKE) all
 
 # Tool invocations
-Server: $(OBJS) $(USER_OBJS) /home/lucas/workspace/commons/Debug/libcommons.so /home/lucas/workspace/uncommons/Debug/libuncommons.so
+Server: $(OBJS) $(USER_OBJS) /home/lucas/workspace/commons/Debug/libcommons.so /home/lucas/git/tp-20131c-tp-so-1c2013/uncommons/Debug/libuncommons.so
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc -L"/home/lucas/workspace/uncommons/Debug" -L"/home/lucas/workspace/commons/Debug" -o "Server" $(OBJS) $(USER_OBJS) $(LIBS)
+	gcc -L"/home/lucas/git/tp-20131c-tp-so-1c2013/uncommons/Debug" -L"/home/lucas/workspace/commons/Debug" -o "Server" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -45,6 +45,6 @@ clean:
 .PHONY: all clean dependents
 .SECONDARY:
 /home/lucas/workspace/commons/Debug/libcommons.so:
-/home/lucas/workspace/uncommons/Debug/libuncommons.so:
+/home/lucas/git/tp-20131c-tp-so-1c2013/uncommons/Debug/libuncommons.so:
 
 -include ../makefile.targets

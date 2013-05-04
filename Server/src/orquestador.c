@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <commons/collections/queue.h>
-#include "fileStructures.h"
+#include "uncommons/fileStructures.h"
 #include <commons/collections/dictionary.h>
 #include <commons/collections/list.h>
 
