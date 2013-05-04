@@ -16,15 +16,17 @@
 #include <commons/string.h>
 #include "fileStructures.h"
 
+#define NIVEL "nivel"
+#define PLANIFICADOR "planificador"
 #define EXTENSIONLENGTH 7
 #define NEXTPORT 2
 #define MAXSIZE 1024
 #define START 0
 #define IP "127.0.0.1"
 #define STARTINGPORT 9931
-const char *fileExtension = ".config";
-const char *directoryPathLevels = "/home/lucas/Levels";
-const char *directoryPathCharacters = "/home/lucas/Characters";
+#define fileExtension ".config"
+#define directoryPathLevels "/home/lucas/config/niveles"
+#define directoryPathCharacters "/home/lucas/Characters"
 
 t_dictionary* getCharacters(){
 
@@ -42,13 +44,14 @@ t_dictionary* getCharacters(){
 	 exit(2);
 	 }
 
+
+	 char *finalPath = (char*) malloc(MAXSIZE);
+	 character *character_struct = (character *) malloc(sizeof(character));
+
 	 /* Leemos las entradas del directorio */
 	 while ((direntp = readdir(dirp)) != NULL) {
 
 		 if (strlen(direntp->d_name) >= EXTENSIONLENGTH && strcmp(direntp->d_name + strlen(direntp->d_name) - EXTENSIONLENGTH, fileExtension) == 0) {
-
-			 char *finalPath = (char*) malloc(MAXSIZE);
-			 character *character_struct = (character *) malloc(sizeof(character));
 
 			 string_append(&finalPath, directoryPathCharacters);
 			 string_append(&finalPath, "/");
@@ -58,19 +61,20 @@ t_dictionary* getCharacters(){
 
 			 character_struct->nombre = config_get_string_value(configFile, NOMBRE);
 			 character_struct->simbolo = config_get_string_value(configFile, SIMBOLO);
-			 character_struct->planDeNiveles = config_get_string_value(configFile, PLANDENIVELES);
-			 character_struct->obj1 = config_get_string_value(configFile, OBJ1);
-			 character_struct->obj2 = config_get_string_value(configFile, OBJ2);
-			 character_struct->obj3 = config_get_string_value(configFile, OBJ3);
+			 character_struct->planDeNiveles = config_get_array_value(configFile, PLANDENIVELES);
 			 character_struct->vidas = config_get_string_value(configFile, VIDAS);
 			 character_struct->orquestador = config_get_string_value(configFile, ORQUESTADOR);
 
+			 //TODO GET DICTIONARY OF OBJECTIVES
+
+			 //character_struct->obj1 = config_get_string_value(configFile, OBJ1);
+
+
 			 dictionary_put(character_dictionary, character_struct->nombre, character_struct);
 
-			 free(finalPath);
-			 free(character_struct);
 		 }
-
+		 free(finalPath);
+		 free(character_struct);
 	 }
 
 	 /* Cerramos el directorio */
@@ -82,10 +86,7 @@ t_dictionary* getLevelsMap(){
 
 	t_dictionary *level_addresses = dictionary_create();
 	t_config *configFile;
-	int PORTSCHEDULER = STARTINGPORT;
-	int PORTLEVEL = PORTSCHEDULER + 1;
-	char *bufferScheduler = malloc(MAXSIZE);
-	char *bufferLevel = malloc(MAXSIZE);
+
 
 	 /* Variables */
 	 DIR *dirp;
@@ -98,35 +99,40 @@ t_dictionary* getLevelsMap(){
 	 exit(2);
 	 }
 
+	 char *schedulerString = (char*) malloc(MAXSIZE);
+	 char *levelString = (char*) malloc(MAXSIZE);
+	 char *finalPath = (char*) malloc(MAXSIZE);
+	 level_address *level = (level_address *) malloc(sizeof(level_address));
+	 int level_number = 1;
+	 char *buffer = (char*) malloc(MAXSIZE);
+
 	 /* Leemos las entradas del directorio */
 	 while ((direntp = readdir(dirp)) != NULL) {
 
 		 if (strlen(direntp->d_name) >= EXTENSIONLENGTH && strcmp(direntp->d_name + strlen(direntp->d_name) - EXTENSIONLENGTH, fileExtension) == 0) {
-
-			 char *finalPath = (char*) malloc(MAXSIZE);
-			 level_address *level = (level_address *) malloc(sizeof(level_address));
-			 sprintf(bufferScheduler, "%d", PORTSCHEDULER);
-			 sprintf(bufferLevel, "%d", PORTLEVEL);
+			 levelString = NIVEL;
+			 schedulerString = PLANIFICADOR;
 
 			 string_append(&finalPath, directoryPathLevels);
 			 string_append(&finalPath, "/");
 			 string_append(&finalPath, direntp->d_name);
 
+			 sprintf(buffer, "%d", level_number);
+
+			 string_append(&levelString, buffer);
+			 string_append(&schedulerString, buffer);
+
 			 configFile = config_create(finalPath);
 
-			 level->nombre = config_get_string_value(configFile, NOMBRE);
-			 level->path = finalPath;
-			 level->portScheduler = bufferScheduler;
-			 level->portLevel = bufferLevel;
+			 level->nivel = config_get_string_value(configFile, levelString);
+			 level->planificador = config_get_string_value(configFile, schedulerString);
 
-			 dictionary_put(level_addresses, level->nombre, level);
-
-			 PORTLEVEL = PORTLEVEL + NEXTPORT;
-			 PORTSCHEDULER = PORTSCHEDULER + NEXTPORT;
-			 free(finalPath);
-			 free(level);
+			 dictionary_put(level_addresses, levelString, level);
+			 level_number++;
 		 }
-
+		 free(finalPath);
+		 free(level);
+		 free(buffer);
 	 }
 
 	 /* Cerramos el directorio */
@@ -150,12 +156,12 @@ t_list* getLevelsInfo(){
 	 exit(2);
 	 }
 
+	 char *finalPath = (char*) malloc(MAXSIZE);
+
 	 /* Leemos las entradas del directorio */
 	 while ((direntp = readdir(dirp)) != NULL) {
 
 		 if (strlen(direntp->d_name) >= EXTENSIONLENGTH && strcmp(direntp->d_name + strlen(direntp->d_name) - EXTENSIONLENGTH, fileExtension) == 0) {
-
-			 char *finalPath = (char*) malloc(MAXSIZE);
 
 			 string_append(&finalPath, directoryPathLevels);
 			 string_append(&finalPath, "/");
@@ -164,8 +170,8 @@ t_list* getLevelsInfo(){
 			 configFile = config_create(finalPath);
 
 			 list_add(level_info, config_get_string_value(configFile, NOMBRE));
-			 free(finalPath);
 		 }
+		 free(finalPath);
 	 }
 
 	 /* Cerramos el directorio */

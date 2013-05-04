@@ -17,9 +17,8 @@
 #define RECOVERY "Recovery"
 #define SIMBOLO "simbolo"
 #define PLANDENIVELES "planDeNiveles"
-#define OBJ1 "obj1"
-#define OBJ2 "obj2"
-#define OBJ3 "obj3"
+#define OBJ "obj"
+
 #define VIDAS "vidas"
 
 typedef struct {
@@ -33,19 +32,16 @@ typedef struct {
 } level;
 
 typedef struct{
-	char *nombre;
-	char *portScheduler;
-	char *portLevel;
-	char *path;
+	char *nivel;
+	char *planificador;
+
 }level_address;
 
 typedef struct{
 	char *nombre;
 	char *simbolo;
-	char *planDeNiveles;
-	char *obj1;
-	char *obj2;
-	char *obj3;
+	char **planDeNiveles;
+	t_dictionary *obj;
 	char *vidas;
 	char *orquestador;
 } character;
