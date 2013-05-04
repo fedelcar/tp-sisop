@@ -5,7 +5,7 @@ src/planificador.d: ../src/planificador.c \
  /home/lucas/workspace/commons/commons/SocketsBasic.h \
  /home/lucas/workspace/commons/commons/collections/queue.h \
  /home/lucas/workspace/commons/commons/SocketsServer.h \
- ../src/planificador.h
+ ../src/planificador.h /home/lucas/workspace/commons/commons/string.h
 
 /home/lucas/workspace/commons/commons/collections/queue.h:
 
@@ -20,3 +20,5 @@ src/planificador.d: ../src/planificador.c \
 /home/lucas/workspace/commons/commons/SocketsServer.h:
 
 ../src/planificador.h:
+
+/home/lucas/workspace/commons/commons/string.h:

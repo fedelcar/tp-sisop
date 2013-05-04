@@ -12,6 +12,7 @@
 #include "commons/SocketsBasic.h"
 #include "commons/SocketsServer.h"
 #include "planificador.h"
+#include "commons/string.h"
 
 //TODO CHANGE SIGNALS VALUES AND RESPONSE LENGTH
 #define SIGNAL_OK "OK"
@@ -19,30 +20,24 @@
 #define MAXDATASIZE 1024
 
 void socket_listener(char* socket, queue_n_locks *queue);
-void acceptNewClient(int *new_fd);
 void analize_response(char *response, t_queue *character_queue, int *fd);
 
 void planificador(struct scheduler_struct *schedulerStruct) {
 
-	//pthread_mutex_t *readLock = (pthread_mutex_t*) malloc(sizeof(pthread_mutex_t));
-	//pthread_mutex_t *writeLock = (pthread_mutex_t*) malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_t *readLock = (pthread_mutex_t*) malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_t *writeLock = (pthread_mutex_t*) malloc(sizeof(pthread_mutex_t));
 
-	pthread_mutex_t readLock;
-	pthread_mutex_t writeLock;
+	queue_n_locks *queue = (queue_n_locks*) malloc(sizeof(queue_n_locks));
 
-	//queue_n_locks *queue = (queue_n_locks*) malloc(sizeof(queue_n_locks));
+	pthread_mutex_init(readLock, NULL);
 
-	pthread_mutex_init(&readLock, NULL);
+	pthread_mutex_init(writeLock, NULL);
 
-	pthread_mutex_init(&writeLock, NULL);
+	queue->character_queue = queue_create();
+	queue->readLock = readLock;
+	queue->writeLock = writeLock;
 
-	t_queue *character_queue = queue_create();
-
-	//queue->queue = character_queue;
-	//queue->readLock = readLock;
-	//queue->writeLock = writeLock;
-
-	//socket_listener(schedulerStruct->port, queue);
+	socket_listener(schedulerStruct->port, queue);
 
 	char *response = (char *) malloc(MAXDATASIZE); //CHECK LENGTH
 
@@ -52,19 +47,19 @@ void planificador(struct scheduler_struct *schedulerStruct) {
 
 		printf("Entro al while\n");
 
-		if (queue_size(character_queue) == 0) {
-			pthread_mutex_lock(&readLock);
+		if (queue_size(queue->character_queue) == 0) {
+			pthread_mutex_lock(readLock);
 		}
 
 		printf("Paso el lock\n");
 
-		pthread_mutex_lock(&readLock);
+		pthread_mutex_lock(readLock);
 
-		fd = (int *) queue_pop(&character_queue);
+		fd = (int *) queue_pop(queue->character_queue);
 
 		printf("Realizo el pop\n");
 
-		pthread_mutex_unlock(&readLock);
+		pthread_mutex_unlock(readLock);
 
 		sendMessage(fd, "Paso por el planificador\n");
 
@@ -72,13 +67,13 @@ void planificador(struct scheduler_struct *schedulerStruct) {
 
 		response = recieveMessage(fd);
 
-		pthread_mutex_lock(&writeLock);
+		pthread_mutex_lock(writeLock);
 
 		printf("Respondio mensaje\n");
 
-		analize_response(response, character_queue, fd);
+		analize_response(response, queue->character_queue, fd);
 
-		pthread_mutex_unlock(&writeLock);
+		pthread_mutex_unlock(writeLock);
 
 		sleep(schedulerStruct->timeToWait);
 
@@ -89,35 +84,19 @@ void planificador(struct scheduler_struct *schedulerStruct) {
 void socket_listener(char* socket, queue_n_locks *queue) {
 
 	pthread_t t;
-	void (*funct) (int *);
 
-	funct = &acceptNewClient;
-
-	pthread_create(&t, NULL, (int *) openSocketServer,(void *) funct);
+	pthread_create(&t, NULL, (int *) openSocketServer,(queue_n_locks *)queue);
 
 }
 
 void analize_response(char *response, t_queue *character_queue, int *fd) {
 
-	if (response == SIGNAL_OK) {
+	if (string_equals_ignore_case(response, SIGNAL_OK)) {
 		queue_push(character_queue, fd);
-	} else if (response == SIGNAL_BLOCKED) {
-		close(*fd); //TODO NOT FINISHED PROBABLY
+	} else if (string_equals_ignore_case(response, SIGNAL_BLOCKED)) {
+		close(*fd); //TODO PUSH FD TO THE OTHER QUEUE
 	}
 	else {
 		printf("No se loco.\n");
 	}
-}
-
-void acceptNewClient(int *new_fd){
-
-	//pthread_mutex_lock(&writeLock);
-
-	//queue_push(character_queue, new_fd);
-
-	//pthread_mutex_unlock(&writeLock);
-
-	//pthread_mutex_unlock(&readLock);
-
-
 }
