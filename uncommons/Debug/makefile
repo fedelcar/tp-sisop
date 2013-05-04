@@ -8,7 +8,7 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include src/subdir.mk
+-include uncommons/subdir.mk
 -include subdir.mk
 -include objects.mk
 
@@ -23,28 +23,26 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: Server
+all: libuncommons.so
 
 dependents:
 	-cd /home/lucas/workspace/commons/Debug && $(MAKE) all
-	-cd /home/lucas/workspace/uncommons/Debug && $(MAKE) all
 
 # Tool invocations
-Server: $(OBJS) $(USER_OBJS) /home/lucas/workspace/commons/Debug/libcommons.so /home/lucas/workspace/uncommons/Debug/libuncommons.so
+libuncommons.so: $(OBJS) $(USER_OBJS) /home/lucas/workspace/commons/Debug/libcommons.so
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc -L"/home/lucas/workspace/uncommons/Debug" -L"/home/lucas/workspace/commons/Debug" -o "Server" $(OBJS) $(USER_OBJS) $(LIBS)
+	gcc -L"/home/lucas/workspace/commons/Debug" -shared -o "libuncommons.so" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(OBJS)$(C_DEPS)$(EXECUTABLES) Server
+	-$(RM) $(OBJS)$(C_DEPS)$(LIBRARIES) libuncommons.so
 	-@echo ' '
 
 .PHONY: all clean dependents
 .SECONDARY:
 /home/lucas/workspace/commons/Debug/libcommons.so:
-/home/lucas/workspace/uncommons/Debug/libuncommons.so:
 
 -include ../makefile.targets
