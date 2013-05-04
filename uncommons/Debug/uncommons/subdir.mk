@@ -6,17 +6,20 @@
 C_SRCS += \
 ../uncommons/SocketsBasic.c \
 ../uncommons/SocketsCliente.c \
-../uncommons/SocketsServer.c 
+../uncommons/SocketsServer.c \
+../uncommons/fileStructures.c 
 
 OBJS += \
 ./uncommons/SocketsBasic.o \
 ./uncommons/SocketsCliente.o \
-./uncommons/SocketsServer.o 
+./uncommons/SocketsServer.o \
+./uncommons/fileStructures.o 
 
 C_DEPS += \
 ./uncommons/SocketsBasic.d \
 ./uncommons/SocketsCliente.d \
-./uncommons/SocketsServer.d 
+./uncommons/SocketsServer.d \
+./uncommons/fileStructures.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
