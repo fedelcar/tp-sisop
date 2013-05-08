@@ -26,13 +26,13 @@ endif
 all: libuncommons.so
 
 dependents:
-	-cd /home/lucas/workspace/commons/Debug && $(MAKE) all
+	-cd /home/federico/workspace3/commons/Debug && $(MAKE) all
 
 # Tool invocations
-libuncommons.so: $(OBJS) $(USER_OBJS) /home/lucas/workspace/commons/Debug/libcommons.so
+libuncommons.so: $(OBJS) $(USER_OBJS) /home/federico/workspace3/commons/Debug/libcommons.so
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc -L"/home/lucas/workspace/commons/Debug" -shared -o "libuncommons.so" $(OBJS) $(USER_OBJS) $(LIBS)
+	gcc -L"/home/federico/workspace3/commons/Debug" -shared -o "libuncommons.so" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -43,6 +43,6 @@ clean:
 
 .PHONY: all clean dependents
 .SECONDARY:
-/home/lucas/workspace/commons/Debug/libcommons.so:
+/home/federico/workspace3/commons/Debug/libcommons.so:
 
 -include ../makefile.targets
