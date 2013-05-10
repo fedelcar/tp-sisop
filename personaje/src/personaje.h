@@ -7,6 +7,8 @@
 
 #ifndef PRUEBA_H_
 #define PRUEBA_H_
+#include <commons/collections/list.h>
+
 
 	struct caja{
 		char *tipo;

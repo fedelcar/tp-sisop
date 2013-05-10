@@ -26,14 +26,14 @@ endif
 all: Server
 
 dependents:
-	-cd /home/federico/workspace3/commons/Debug && $(MAKE) all
+	-cd /home/federico/git/tp-20131c-tp-so-1c2013/commons/Debug && $(MAKE) all
 	-cd /home/federico/git/tp-20131c-tp-so-1c2013/uncommons/Debug && $(MAKE) all
 
 # Tool invocations
-Server: $(OBJS) $(USER_OBJS) /home/federico/workspace3/commons/Debug/libcommons.so /home/federico/git/tp-20131c-tp-so-1c2013/uncommons/Debug/libuncommons.so
+Server: $(OBJS) $(USER_OBJS) /home/federico/git/tp-20131c-tp-so-1c2013/commons/Debug/libcommons.so /home/federico/git/tp-20131c-tp-so-1c2013/uncommons/Debug/libuncommons.so
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc -L"/home/federico/git/tp-20131c-tp-so-1c2013/uncommons/Debug" -L"/home/federico/workspace3/commons/Debug" -o "Server" $(OBJS) $(USER_OBJS) $(LIBS)
+	gcc -L"/home/federico/git/tp-20131c-tp-so-1c2013/uncommons/Debug" -L"/home/federico/git/tp-20131c-tp-so-1c2013/commons/Debug" -o "Server" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -44,7 +44,7 @@ clean:
 
 .PHONY: all clean dependents
 .SECONDARY:
-/home/federico/workspace3/commons/Debug/libcommons.so:
+/home/federico/git/tp-20131c-tp-so-1c2013/commons/Debug/libcommons.so:
 /home/federico/git/tp-20131c-tp-so-1c2013/uncommons/Debug/libuncommons.so:
 
 -include ../makefile.targets

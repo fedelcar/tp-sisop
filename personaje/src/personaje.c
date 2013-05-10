@@ -1,7 +1,7 @@
 /*
  ============================================================================
  Name        : prueba.c
- Author      : 
+ Author      :
  Version     :
  Copyright   : Your copyright notice
  Description : Hello World in C, Ansi-style
@@ -15,6 +15,8 @@
 #include "personaje.h"
 #include <commons/log.h>
 #include <commons/string.h>
+#include <commons/collections/list.h>
+
 
 
 t_log *initiate_log (int Level)
@@ -45,6 +47,8 @@ int main (void){
 		i++;
 	} while (niveles_Personaje[i] != NULL);
 	log_debug(logDebug,"%d",cantNiveles);
+
+	t_list *lista_Objetivos = list_create();
 
 	for (i = 0; i < cantNiveles; i++) {
 
