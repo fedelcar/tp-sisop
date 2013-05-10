@@ -26,7 +26,7 @@ endif
 all: libuncommons.so
 
 dependents:
-	-cd /home/federico/git/tp-20131c-tp-so-1c2013/commons/Debug && $(MAKE) all
+	-cd /home/federico/git/tp-20131c-tp-so-1c2013/commons/Debug && $(MAKE) clean all
 
 # Tool invocations
 libuncommons.so: $(OBJS) $(USER_OBJS) /home/federico/git/tp-20131c-tp-so-1c2013/commons/Debug/libcommons.so

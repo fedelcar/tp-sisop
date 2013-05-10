@@ -8,14 +8,15 @@
  ============================================================================
  */
 
+#include "personaje.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <commons/temporal.h>
 #include <commons/config.h>
-#include "personaje.h"
 #include <commons/log.h>
 #include <commons/string.h>
 #include <commons/collections/list.h>
+#include <commons/collections/node.h>
 
 
 
@@ -51,7 +52,11 @@ int main (void){
 	t_list *lista_Objetivos = list_create();
 
 	for (i = 0; i < cantNiveles; i++) {
-
+		printf("obj[%s]\n",niveles_Personaje[i]);
+	//char* nivel = ("obj[%s]",niveles_Personaje[i]);
+	//log_debug(logDebug,nivel);
+	//char** objetivos_nivel = config_get_array_value(config_Personaje,nivel);
+	//list_add(lista_Objetivos, objetivos_nivel);
 	}
 
 
