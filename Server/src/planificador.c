@@ -13,16 +13,17 @@
 #include "uncommons/SocketsServer.h"
 #include "planificador.h"
 #include "commons/string.h"
+#include "uncommons/fileStructures.h"
 
 //TODO CHANGE SIGNALS VALUES AND RESPONSE LENGTH
 #define SIGNAL_OK "OK"
 #define SIGNAL_BLOCKED "BLOCKED"
 #define MAXDATASIZE 1024
 
-void socket_listener(char* socket, queue_n_locks *queue);
+void socket_listener(queue_n_locks *queue);
 void analize_response(char *response, t_queue *character_queue, int *fd);
 
-void planificador(struct scheduler_struct *schedulerStruct) {
+void planificador(char* port) {
 
 	pthread_mutex_t *readLock = (pthread_mutex_t*) malloc(sizeof(pthread_mutex_t));
 	pthread_mutex_t *writeLock = (pthread_mutex_t*) malloc(sizeof(pthread_mutex_t));
@@ -36,12 +37,17 @@ void planificador(struct scheduler_struct *schedulerStruct) {
 	queue->character_queue = queue_create();
 	queue->readLock = readLock;
 	queue->writeLock = writeLock;
+	queue->portNumber = port;
 
-	socket_listener(schedulerStruct->port, queue);
+	socket_listener(queue);
 
 	char *response = (char *) malloc(MAXDATASIZE); //CHECK LENGTH
 
 	int *fd; //CHECK
+
+	level_attributes *level = (level_attributes*) malloc(sizeof(level_attributes));
+
+	int turno = 0;
 
 	while (1) {
 
@@ -75,13 +81,13 @@ void planificador(struct scheduler_struct *schedulerStruct) {
 
 		pthread_mutex_unlock(writeLock);
 
-		sleep(schedulerStruct->timeToWait);
+		sleep(1);
 
 	}
 
 }
 
-void socket_listener(char* socket, queue_n_locks *queue) {
+void socket_listener(queue_n_locks *queue) {
 
 	pthread_t t;
 

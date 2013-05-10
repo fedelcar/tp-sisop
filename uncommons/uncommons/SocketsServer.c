@@ -13,7 +13,6 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-#define MYPORT "9930" // the port users will be connecting to
 #define BACKLOG 10 // how many pending connections queue will hold
 void sigchld_handler(int s) {
 	while (waitpid(-1, NULL, 1) > 0);
@@ -33,7 +32,7 @@ int *openSocketServer(queue_n_locks *queue) {
 		hints.ai_family = AF_UNSPEC;
 		hints.ai_socktype = SOCK_STREAM;
 		hints.ai_flags = AI_PASSIVE; // use my IP
-		if ((rv = getaddrinfo(NULL, "9930", &hints, &servinfo)) != 0) {
+		if ((rv = getaddrinfo(NULL, queue->portNumber, &hints, &servinfo)) != 0) {
 			fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
 			return 1;
 		}

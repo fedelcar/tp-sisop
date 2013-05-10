@@ -14,7 +14,7 @@ struct scheduler_struct{
 
 };
 
-void planificador(struct scheduler_struct *schedulerStruct);
+void planificador(char* port);
 
 
 

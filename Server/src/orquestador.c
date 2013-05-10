@@ -12,16 +12,28 @@
 #include "uncommons/fileStructures.h"
 #include <commons/collections/dictionary.h>
 #include <commons/collections/list.h>
+#include "planificador.h"
+#include <pthread.h>
+#include "uncommons/SocketsBasic.h"
+#include "uncommons/SocketsServer.h"
+#include "uncommons/SocketsCliente.h"
+#include "commons/string.h"
+#include <unistd.h>
 
-
+#define DOSPUNTOS ":"
 #define MAXSIZE 1024
+#define PORT "9930"
+#define LEVEL "LVL"
 
+void executeResponse(char* response, t_dictionary *levelsMap, int *fd);
 
-void orquestador(){
+void main(){
 
 	t_queue *blocked_characters = queue_create();
 
-	t_list *levelsList = list_create();
+	t_queue *request = queue_create();
+
+	char *levelsList = getLevelsList();
 
 	char *levelName = (char *) malloc(MAXSIZE);
 
@@ -31,19 +43,86 @@ void orquestador(){
 
 	levelsMap = getLevelsMap();
 
+	char** port = (char*) malloc(MAXSIZE);
+
 	int i;
 
 	for( i = 0 ; i < list_size(levelsList) ; i++){
+
+		pthread_t *t = (pthread_t*) malloc(sizeof(pthread_t));
 
 		levelName = (char *) list_get(levelsList,i);
 
 		addresses = (level_address*) dictionary_get(levelsMap, levelName);
 
-		//TODO THREAD LEVEL SCHEDULER
+		port = string_split(addresses->planificador, DOSPUNTOS);
+
+		pthread_create(t, NULL, (void *) planificador, port[1]);
 
 	}
 
 	free(levelName);
 	free(addresses);
 	free(levelsList);
+
+	pthread_mutex_t *readLock = (pthread_mutex_t*) malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_t *writeLock = (pthread_mutex_t*) malloc(sizeof(pthread_mutex_t));
+
+	queue_n_locks *queue = (queue_n_locks*) malloc(sizeof(queue_n_locks));
+
+	pthread_mutex_init(readLock, NULL);
+
+	pthread_mutex_init(writeLock, NULL);
+
+	queue->character_queue = queue_create();
+	queue->readLock = readLock;
+	queue->writeLock = writeLock;
+	queue->portNumber = PORT;
+
+	pthread_t t;
+
+	pthread_create(&t, NULL, (int *) openSocketServer,(queue_n_locks *)queue);
+
+	char *response = (char *) malloc(MAXSIZE); //CHECK LENGTH
+	int *fd;
+
+	while(1){
+
+		printf("Entro al while\n");
+
+		if (queue_size(queue->character_queue) == 0) {
+			pthread_mutex_lock(readLock);
+		}
+
+		printf("Paso el lock\n");
+
+		pthread_mutex_lock(readLock);
+
+		fd = (int *) queue_pop(queue->character_queue);
+
+		printf("Realizo el pop\n");
+
+		pthread_mutex_unlock(readLock);
+
+		response = recieveMessage(fd);
+
+		executeResponse(response, levelsMap, fd);
+
+	}
+
+}
+
+
+void executeResponse(char* response, t_dictionary *levelsMap, int *fd){
+
+if(string_starts_with(response, LEVEL)){
+	response = string_substring_from(response, sizeof(LEVEL+1));
+	sendMessage(fd, dictionary_get(levelsMap, response));
+	close(*fd);
+}
+else{
+	//TODO OTHER ACTIONS
+}
+
+
 }

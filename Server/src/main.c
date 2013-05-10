@@ -18,7 +18,7 @@
 #include "uncommons/fileStructures.h"
 
 
-int main(){
+int mainn(){
 
 	pthread_t t;
 	void *status;

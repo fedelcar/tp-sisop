@@ -4,9 +4,6 @@
  *  Created on: Apr 26, 2013
  *      Author: lucas
  */
-#ifndef SOCKETSBASIC_H_
-#define SOCKETSBASIC_H_
-
 
 #include "commons/collections/queue.h"
 #include <sys/socket.h>
@@ -16,6 +13,7 @@ typedef struct {
 	t_queue *character_queue;
 	pthread_mutex_t *readLock;
 	pthread_mutex_t *writeLock;
+	char *portNumber;
 } queue_n_locks;
 /*
  * Sends a message given a socket.
@@ -39,4 +37,3 @@ char* recieveMessage(int *sockfd);
  */
 void *get_in_addr(struct sockaddr *sa);
 
-#endif SOCKETSBASIC_H_

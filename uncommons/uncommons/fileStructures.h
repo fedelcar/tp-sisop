@@ -40,11 +40,17 @@ typedef struct{
 typedef struct{
 	char *nombre;
 	char *simbolo;
-	char **planDeNiveles;
+	t_list *planDeNiveles;
 	t_dictionary *obj;
 	char *vidas;
 	char *orquestador;
 } character;
+
+typedef struct{
+	char *turnos;
+	char *sleep;
+}level_attributes;
+
 
 t_dictionary* getCharacters();
 
@@ -53,3 +59,5 @@ t_dictionary* getLevelsMap();
 t_list* getLevelsInfo();
 
 level* getLevel(char *finalPath);
+
+t_list *getLevelsList();

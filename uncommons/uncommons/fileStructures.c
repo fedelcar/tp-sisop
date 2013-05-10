@@ -16,8 +16,10 @@
 #include <commons/string.h>
 #include "fileStructures.h"
 
-#define NIVEL "nivel"
-#define PLANIFICADOR "planificador"
+#define NIVELES "niveles"
+#define COMA ","
+#define OPENBRACKET "obj["
+#define CLOSEBRACKET "]"
 #define EXTENSIONLENGTH 7
 #define NEXTPORT 2
 #define MAXSIZE 1024
@@ -26,7 +28,13 @@
 #define STARTINGPORT 9931
 #define fileExtension ".config"
 #define directoryPathLevels "/home/lucas/config/niveles"
-#define directoryPathCharacters "/home/lucas/Characters"
+#define directoryPathCharacters "/home/lucas/config/personajes"
+#define directoryPathConfig "/home/lucas/config/orquestador"
+#define ORQUESTADOR "orquestador.config"
+#define TURNOS "turnos"
+#define SLEEP "sleep"
+
+char* getFullKey(char *nivel, char *key);
 
 t_dictionary* getCharacters(){
 
@@ -44,15 +52,16 @@ t_dictionary* getCharacters(){
 	 exit(2);
 	 }
 
-
+	 int nivel = 0;
 	 char *finalPath = (char*) malloc(MAXSIZE);
-	 character *character_struct = (character *) malloc(sizeof(character));
+	 char *key = (char*) malloc(MAXSIZE);
 
 	 /* Leemos las entradas del directorio */
 	 while ((direntp = readdir(dirp)) != NULL) {
 
 		 if (strlen(direntp->d_name) >= EXTENSIONLENGTH && strcmp(direntp->d_name + strlen(direntp->d_name) - EXTENSIONLENGTH, fileExtension) == 0) {
 
+			 character *character_struct = (character *) malloc(sizeof(character));
 			 string_append(&finalPath, directoryPathCharacters);
 			 string_append(&finalPath, "/");
 			 string_append(&finalPath, direntp->d_name);
@@ -61,22 +70,25 @@ t_dictionary* getCharacters(){
 
 			 character_struct->nombre = config_get_string_value(configFile, NOMBRE);
 			 character_struct->simbolo = config_get_string_value(configFile, SIMBOLO);
-			 character_struct->planDeNiveles = config_get_array_value(configFile, PLANDENIVELES);
+			 char **planDeNiveles = config_get_array_value(configFile, PLANDENIVELES);
 			 character_struct->vidas = config_get_string_value(configFile, VIDAS);
 			 character_struct->orquestador = config_get_string_value(configFile, ORQUESTADOR);
 
-			 //TODO GET DICTIONARY OF OBJECTIVES
+			 while(planDeNiveles[nivel] != NULL){
+				 list_add(character_struct->planDeNiveles, planDeNiveles[nivel]);
+				 nivel++;
+			 }
 
-			 //character_struct->obj1 = config_get_string_value(configFile, OBJ1);
-
+			 for(nivel = 0; nivel<list_size(character_struct->planDeNiveles) ; nivel++){
+				 dictionary_put(character_struct->obj, list_get(character_struct->planDeNiveles, nivel), config_get_string_value(configFile, getFullKey(list_get(character_struct->planDeNiveles, nivel), key)));
+			 }
 
 			 dictionary_put(character_dictionary, character_struct->nombre, character_struct);
 
 		 }
-		 free(finalPath);
-		 free(character_struct);
 	 }
-
+	 free(key);
+	 free(finalPath);
 	 /* Cerramos el directorio */
 	 closedir(dirp);
 	 return character_dictionary;
@@ -87,56 +99,36 @@ t_dictionary* getLevelsMap(){
 	t_dictionary *level_addresses = dictionary_create();
 	t_config *configFile;
 
-
-	 /* Variables */
-	 DIR *dirp;
-	 struct dirent *direntp;
-
-	 /* Abrimos el directorio */
-	 dirp = opendir(directoryPathLevels);
-	 if (dirp == NULL){
-	 printf("Error: No se puede abrir el directorio\n");
-	 exit(2);
-	 }
-
-	 char *schedulerString = (char*) malloc(MAXSIZE);
-	 char *levelString = (char*) malloc(MAXSIZE);
+	 char **levelString = (char*) malloc(MAXSIZE);
 	 char *finalPath = (char*) malloc(MAXSIZE);
-	 level_address *level = (level_address *) malloc(sizeof(level_address));
-	 int level_number = 1;
-	 char *buffer = (char*) malloc(MAXSIZE);
+	 int niveles = 0;
+	 char **listaNiveles;
+	 char *levelName = (char*) malloc(MAXSIZE);
 
-	 /* Leemos las entradas del directorio */
-	 while ((direntp = readdir(dirp)) != NULL) {
 
-		 if (strlen(direntp->d_name) >= EXTENSIONLENGTH && strcmp(direntp->d_name + strlen(direntp->d_name) - EXTENSIONLENGTH, fileExtension) == 0) {
-			 levelString = NIVEL;
-			 schedulerString = PLANIFICADOR;
-
-			 string_append(&finalPath, directoryPathLevels);
+			 string_append(&finalPath, directoryPathConfig);
 			 string_append(&finalPath, "/");
-			 string_append(&finalPath, direntp->d_name);
-
-			 sprintf(buffer, "%d", level_number);
-
-			 string_append(&levelString, buffer);
-			 string_append(&schedulerString, buffer);
+			 string_append(&finalPath, ORQUESTADOR);
 
 			 configFile = config_create(finalPath);
 
-			 level->nivel = config_get_string_value(configFile, levelString);
-			 level->planificador = config_get_string_value(configFile, schedulerString);
+			 listaNiveles = config_get_array_value(configFile, NIVELES);
 
-			 dictionary_put(level_addresses, levelString, level);
-			 level_number++;
-		 }
-		 free(finalPath);
-		 free(level);
-		 free(buffer);
-	 }
+			  while(listaNiveles[niveles] != NULL){
+				  level_address *level = (level_address *) malloc(sizeof(level_address));
+				  levelName = listaNiveles[niveles];
+				  levelString = string_split(config_get_string_value(configFile, levelName),COMA);
 
-	 /* Cerramos el directorio */
-	 closedir(dirp);
+				 level->nivel = levelString[0];
+				 level->planificador = levelString[1];
+
+				 dictionary_put(level_addresses, levelName, (void*) level);
+				 niveles++;
+			 }
+
+	 free(levelName);
+	 free(finalPath);
+
 	 return level_addresses;
 }
 
@@ -171,9 +163,9 @@ t_list* getLevelsInfo(){
 
 			 list_add(level_info, config_get_string_value(configFile, NOMBRE));
 		 }
-		 free(finalPath);
 	 }
 
+	 free(finalPath);
 	 /* Cerramos el directorio */
 	 closedir(dirp);
 	 return level_info;
@@ -198,3 +190,61 @@ level* getLevel(char *finalPath){
 return level_struct;
 }
 
+
+char* getFullKey(char *nivel, char *key){
+
+	string_append(&key, OPENBRACKET);
+	string_append(&key, nivel);
+	string_append(&key, CLOSEBRACKET);
+
+	return key;
+}
+
+t_list *getLevelsList(){
+
+	t_config *configFile;
+	int nivel = 0;
+	char **planDeNiveles;
+	t_list *levelList = list_create();
+
+	 char *finalPath = (char*) malloc(MAXSIZE);
+
+			 string_append(&finalPath, directoryPathConfig);
+			 string_append(&finalPath, "/");
+			 string_append(&finalPath, ORQUESTADOR);
+
+			 configFile = config_create(finalPath);
+
+			 planDeNiveles = config_get_array_value(configFile, NIVELES);
+
+			 while(planDeNiveles[nivel] != NULL){
+				 list_add(levelList, planDeNiveles[nivel]);
+				 nivel++;
+			 }
+
+			 free(finalPath);
+
+	 return levelList;
+}
+
+level_attributes *getLevelAttributes(){
+
+	t_config *configFile;
+
+	level_attributes *level = (level_attributes*) malloc(sizeof(level_attributes));
+
+	 char *finalPath = (char*) malloc(MAXSIZE);
+
+			 string_append(&finalPath, directoryPathConfig);
+			 string_append(&finalPath, "/");
+			 string_append(&finalPath, ORQUESTADOR);
+
+			 configFile = config_create(finalPath);
+
+			 level->sleep = config_get_string_value(configFile, TURNOS);
+			 level->turnos = config_get_string_value(configFile, SLEEP);
+
+			 free(finalPath);
+
+	 return level;
+}
