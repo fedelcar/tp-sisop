@@ -23,30 +23,23 @@
 
 
 
-t_log *initiate_log (int Level)
-{
-	t_log *logTemp;
-	logTemp = log_create("/home/federico/workspace3/logs/logInfo.txt","personaje.c",1,Level);
-	return logTemp;
-}
+
 
 int main (void){
-	t_log *logInfo = initiate_log(LOG_LEVEL_INFO);
-	t_log *logWarning = initiate_log(LOG_LEVEL_WARNING);
-	t_log *logDebug = initiate_log(LOG_LEVEL_DEBUG);
-	t_log *logError = initiate_log(LOG_LEVEL_ERROR);
+		t_log *log;
+		log = log_create("/home/tp/log.txt","personaje.c",1,LOG_LEVEL_DEBUG);
 
-	log_debug(logDebug,"Prueba de log de Debug");
+	log_debug(log,"Prueba de log de Debug");
 
 	t_dictionary *personaje = getCharacters();
 
 
 
-	t_config *config_Personaje = config_create("/home/federico/workspace3/configs/mario.txt");
+	t_config *config_Personaje = config_create("/home/tp/config/mario.txt");
 	char *nombre_Personaje = config_get_string_value(config_Personaje, "Nombre");
 	char *simbolo_Personaje = config_get_string_value(config_Personaje, "Simbolo");
 	char **niveles_Personaje = config_get_array_value(config_Personaje,"planDeNiveles");
-	log_debug(logDebug,"%s",niveles_Personaje[0]);
+	log_debug(log,"%s",niveles_Personaje[0]);
 
 	int i =0;
 	int cantNiveles = 0;
@@ -54,7 +47,7 @@ int main (void){
 		cantNiveles ++;
 		i++;
 	} while (niveles_Personaje[i] != NULL);
-	log_debug(logDebug,"%d",cantNiveles);
+	log_debug(log,"%d",cantNiveles);
 
 	t_list *lista_Objetivos = list_create();
 
@@ -67,6 +60,15 @@ int main (void){
 	}
 
 
-	log_debug(logDebug, "Se finalizo el programa");
+	log_debug(log, "Se finalizo el programa");
 	return EXIT_SUCCESS;
 }
+
+
+//t_log *initiate_log (int Level)
+//{
+//	t_log *logTemp;
+//	//logTemp = log_create("uncommons/log.txt","personaje.c",1,Level);
+//	logTemp = log_create("/home/tp/log.txt","personaje.c",1,Level);
+//	return logTemp;
+//}

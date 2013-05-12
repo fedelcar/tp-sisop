@@ -39,10 +39,10 @@ typedef struct{
 
 typedef struct{
 	char *nombre;
-	char *simbolo;
+	char simbolo;
 	t_list *planDeNiveles;
 	t_dictionary *obj;
-	char *vidas;
+	int vidas;
 	char *orquestador;
 	int posX;
 	int posY;

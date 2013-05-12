@@ -27,9 +27,9 @@
 #define IP "127.0.0.1"
 #define STARTINGPORT 9931
 #define fileExtension ".config"
-#define directoryPathLevels "/home/lucas/config/niveles"
-#define directoryPathCharacters "/home/lucas/config/personajes"
-#define directoryPathConfig "/home/lucas/config/orquestador"
+#define directoryPathLevels "/home/tp/config/niveles"
+#define directoryPathCharacters "/home/tp/config/personajes"
+#define directoryPathConfig "/home/tp/config/orquestador"
 #define ORQUESTADOR "orquestador.config"
 #define TURNOS "turnos"
 #define SLEEP "sleep"
