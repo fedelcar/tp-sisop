@@ -8,7 +8,7 @@
 #include <commons/collections/list.h>
 #include <commons/collections/dictionary.h>
 
-#define NOMBRE "Nombre"
+#define NOMBRE "nombre"
 #define CAJA1 "Caja1"
 #define CAJA2 "Caja2"
 #define CAJA3 "Caja3"
@@ -61,3 +61,5 @@ t_list* getLevelsInfo();
 level* getLevel(char *finalPath);
 
 t_list *getLevelsList();
+
+level_attributes *getLevelAttributes();

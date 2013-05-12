@@ -52,8 +52,8 @@ t_dictionary* getCharacters(){
 	 exit(2);
 	 }
 
-	 int nivel = 0;
 	 char *finalPath = (char*) malloc(MAXSIZE);
+	 int nivel = 0;
 	 char *key = (char*) malloc(MAXSIZE);
 
 	 /* Leemos las entradas del directorio */
@@ -62,6 +62,9 @@ t_dictionary* getCharacters(){
 		 if (strlen(direntp->d_name) >= EXTENSIONLENGTH && strcmp(direntp->d_name + strlen(direntp->d_name) - EXTENSIONLENGTH, fileExtension) == 0) {
 
 			 character *character_struct = (character *) malloc(sizeof(character));
+			 character_struct->planDeNiveles = list_create();
+			 character_struct->obj = dictionary_create();
+
 			 string_append(&finalPath, directoryPathCharacters);
 			 string_append(&finalPath, "/");
 			 string_append(&finalPath, direntp->d_name);
@@ -80,15 +83,30 @@ t_dictionary* getCharacters(){
 			 }
 
 			 for(nivel = 0; nivel<list_size(character_struct->planDeNiveles) ; nivel++){
-				 dictionary_put(character_struct->obj, list_get(character_struct->planDeNiveles, nivel), config_get_string_value(configFile, getFullKey(list_get(character_struct->planDeNiveles, nivel), key)));
+				 char *nombre = (char*) malloc(MAXSIZE);
+				 char **array = (char*) malloc(MAXSIZE);
+				 t_list *anotherList = list_create();
+				 int elemento = 0;
+
+				 nombre = list_get(character_struct->planDeNiveles, nivel);
+				 array = config_get_array_value(configFile, getFullKey(list_get(character_struct->planDeNiveles, nivel), key));
+
+				 while(array[elemento] != NULL){
+					 list_add(anotherList, array[elemento]);
+					 elemento++;
+				 }
+
+				 dictionary_put(character_struct->obj, nombre, anotherList);
+				 memset(key, 0, sizeof(key));
 			 }
 
 			 dictionary_put(character_dictionary, character_struct->nombre, character_struct);
-
+			 nivel = 0;
+			 memset(finalPath, 0, sizeof(finalPath));
 		 }
 	 }
-	 free(key);
 	 free(finalPath);
+	 free(key);
 	 /* Cerramos el directorio */
 	 closedir(dirp);
 	 return character_dictionary;
@@ -101,6 +119,7 @@ t_dictionary* getLevelsMap(){
 
 	 char **levelString = (char*) malloc(MAXSIZE);
 	 char *finalPath = (char*) malloc(MAXSIZE);
+	 memset(finalPath, 0, sizeof(finalPath));
 	 int niveles = 0;
 	 char **listaNiveles;
 	 char *levelName = (char*) malloc(MAXSIZE);
@@ -149,6 +168,7 @@ t_list* getLevelsInfo(){
 	 }
 
 	 char *finalPath = (char*) malloc(MAXSIZE);
+	 memset(finalPath, 0, sizeof(finalPath));
 
 	 /* Leemos las entradas del directorio */
 	 while ((direntp = readdir(dirp)) != NULL) {
@@ -208,6 +228,7 @@ t_list *getLevelsList(){
 	t_list *levelList = list_create();
 
 	 char *finalPath = (char*) malloc(MAXSIZE);
+	 memset(finalPath, 0, sizeof(finalPath));
 
 			 string_append(&finalPath, directoryPathConfig);
 			 string_append(&finalPath, "/");
@@ -234,6 +255,7 @@ level_attributes *getLevelAttributes(){
 	level_attributes *level = (level_attributes*) malloc(sizeof(level_attributes));
 
 	 char *finalPath = (char*) malloc(MAXSIZE);
+	 memset(finalPath, 0, sizeof(finalPath));
 
 			 string_append(&finalPath, directoryPathConfig);
 			 string_append(&finalPath, "/");
