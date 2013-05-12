@@ -53,7 +53,11 @@ void planificador(char* port) {
 
 		level = getLevelAttributes();
 
-		for(turno = 0 ; turno < level->turnos ; turno++){
+		int turnoActual = atoi(level->turnos);
+
+		int sleepTime = atoi(level->sleep);
+
+		for(turno = 0 ; turno < turnoActual; turno++){
 
 		printf("Entro al while\n");
 
@@ -85,7 +89,7 @@ void planificador(char* port) {
 
 		pthread_mutex_unlock(writeLock);
 
-		sleep(level->sleep);
+		sleep(sleepTime);
 
 		}
 
