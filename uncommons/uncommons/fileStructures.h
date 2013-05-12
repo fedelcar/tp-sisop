@@ -44,6 +44,8 @@ typedef struct{
 	t_dictionary *obj;
 	char *vidas;
 	char *orquestador;
+	int posX;
+	int posY;
 } character;
 
 typedef struct{

@@ -1,28 +1,28 @@
 uncommons/fileStructures.d: ../uncommons/fileStructures.c \
- /home/lucas/workspace/commons/commons/collections/queue.h \
- /home/lucas/workspace/commons/commons/collections/list.h \
- /home/lucas/workspace/commons/commons/collections/node.h \
- /home/lucas/workspace/commons/commons/collections/dictionary.h \
- /home/lucas/workspace/commons/commons/config.h \
- /home/lucas/workspace/commons/commons/collections/dictionary.h \
- /home/lucas/workspace/commons/commons/string.h \
+ /home/federico/git/tp-20131c-tp-so-1c2013/commons/commons/collections/queue.h \
+ /home/federico/git/tp-20131c-tp-so-1c2013/commons/commons/collections/list.h \
+ /home/federico/git/tp-20131c-tp-so-1c2013/commons/commons/collections/node.h \
+ /home/federico/git/tp-20131c-tp-so-1c2013/commons/commons/collections/dictionary.h \
+ /home/federico/git/tp-20131c-tp-so-1c2013/commons/commons/config.h \
+ /home/federico/git/tp-20131c-tp-so-1c2013/commons/commons/collections/dictionary.h \
+ /home/federico/git/tp-20131c-tp-so-1c2013/commons/commons/string.h \
  ../uncommons/fileStructures.h \
- /home/lucas/workspace/commons/commons/collections/list.h
+ /home/federico/git/tp-20131c-tp-so-1c2013/commons/commons/collections/list.h
 
-/home/lucas/workspace/commons/commons/collections/queue.h:
+/home/federico/git/tp-20131c-tp-so-1c2013/commons/commons/collections/queue.h:
 
-/home/lucas/workspace/commons/commons/collections/list.h:
+/home/federico/git/tp-20131c-tp-so-1c2013/commons/commons/collections/list.h:
 
-/home/lucas/workspace/commons/commons/collections/node.h:
+/home/federico/git/tp-20131c-tp-so-1c2013/commons/commons/collections/node.h:
 
-/home/lucas/workspace/commons/commons/collections/dictionary.h:
+/home/federico/git/tp-20131c-tp-so-1c2013/commons/commons/collections/dictionary.h:
 
-/home/lucas/workspace/commons/commons/config.h:
+/home/federico/git/tp-20131c-tp-so-1c2013/commons/commons/config.h:
 
-/home/lucas/workspace/commons/commons/collections/dictionary.h:
+/home/federico/git/tp-20131c-tp-so-1c2013/commons/commons/collections/dictionary.h:
 
-/home/lucas/workspace/commons/commons/string.h:
+/home/federico/git/tp-20131c-tp-so-1c2013/commons/commons/string.h:
 
 ../uncommons/fileStructures.h:
 
-/home/lucas/workspace/commons/commons/collections/list.h:
+/home/federico/git/tp-20131c-tp-so-1c2013/commons/commons/collections/list.h:
