@@ -37,6 +37,12 @@ typedef struct{
 
 }level_address;
 
+
+typedef struct{
+	int posX;
+	int posY;
+}t_posicion;
+
 typedef struct{
 	char *nombre;
 	char simbolo;
@@ -44,14 +50,14 @@ typedef struct{
 	t_dictionary *obj;
 	int vidas;
 	char *orquestador;
-	int posX;
-	int posY;
+	t_posicion posicion;
 } character;
 
 typedef struct{
 	char *turnos;
 	char *sleep;
 }level_attributes;
+
 
 
 t_dictionary* getCharacters();
