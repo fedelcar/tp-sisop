@@ -45,11 +45,15 @@ void planificador(char* port) {
 
 	int *fd; //CHECK
 
-	level_attributes *level = (level_attributes*) malloc(sizeof(level_attributes));
+	level_attributes *level;
 
 	int turno = 0;
 
 	while (1) {
+
+		level = getLevelAttributes();
+
+		for(turno = 0 ; turno < level->turnos ; turno++){
 
 		printf("Entro al while\n");
 
@@ -81,7 +85,9 @@ void planificador(char* port) {
 
 		pthread_mutex_unlock(writeLock);
 
-		sleep(1);
+		sleep(level->sleep);
+
+		}
 
 	}
 

@@ -29,6 +29,8 @@ void executeResponse(char* response, t_dictionary *levelsMap, int *fd);
 
 void main(){
 
+	t_dictionary *personajes = getCharacters();
+
 	t_queue *blocked_characters = queue_create();
 
 	t_queue *request = queue_create();
