@@ -39,7 +39,7 @@ void main(){
 
 	char *levelName = (char *) malloc(MAXSIZE);
 
-	level_address *addresses = (level_address *) malloc(sizeof(level_address));
+	t_level_address *addresses = (t_level_address *) malloc(sizeof(t_level_address));
 
 	t_dictionary *levelsMap = dictionary_create();
 
@@ -55,7 +55,7 @@ void main(){
 
 		levelName = (char *) list_get(levelsList,i);
 
-		addresses = (level_address*) dictionary_get(levelsMap, levelName);
+		addresses = (t_level_address*) dictionary_get(levelsMap, levelName);
 
 		port = string_split(addresses->planificador, DOSPUNTOS);
 

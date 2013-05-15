@@ -45,7 +45,7 @@ void planificador(char* port) {
 
 	int *fd; //CHECK
 
-	level_attributes *level;
+	t_level_attributes *level;
 
 	int turno = 0;
 
