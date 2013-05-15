@@ -23,19 +23,17 @@
 
 typedef struct {
 	char *nombre;
-	char *caja1;
-	char *caja2;
-	char *caja3;
+	t_dictionary *cajas;
 	char *orquestador;
 	char *tiempoChequeoDeadlock;
 	char *recovery;
-} level;
+} t_level;
 
 typedef struct{
 	char *nivel;
 	char *planificador;
 
-}level_address;
+}t_level_address;
 
 typedef struct{
 	char *nombre;
@@ -44,12 +42,12 @@ typedef struct{
 	t_dictionary *obj;
 	char *vidas;
 	char *orquestador;
-} character;
+} t_character;
 
 typedef struct{
 	char *turnos;
 	char *sleep;
-}level_attributes;
+}t_level_attributes;
 
 
 t_dictionary* getCharacters();
@@ -58,8 +56,8 @@ t_dictionary* getLevelsMap();
 
 t_list* getLevelsInfo();
 
-level* getLevel(char *finalPath);
+t_level* getLevel(char *finalPath);
 
 t_list *getLevelsList();
 
-level_attributes *getLevelAttributes();
+t_level_attributes *getLevelAttributes();
