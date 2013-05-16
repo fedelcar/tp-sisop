@@ -36,8 +36,8 @@
 								<option id="gnu.c.compiler.option.include.paths.423248772" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/commons}&quot;"/>
 								</option>
-								<option id="gnu.c.compiler.option.misc.ansi.196677036" superClass="gnu.c.compiler.option.misc.ansi" value="false" valueType="boolean"/>
-								<option id="gnu.c.compiler.option.misc.pic.262415622" superClass="gnu.c.compiler.option.misc.pic" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.misc.ansi.196677036" name="Support ANSI programs (-ansi)" superClass="gnu.c.compiler.option.misc.ansi" value="false" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.misc.pic.262415622" name="Position Independent Code (-fPIC)" superClass="gnu.c.compiler.option.misc.pic" value="true" valueType="boolean"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.885191539" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.so.debug.1501075700" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.so.debug">

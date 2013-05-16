@@ -9,9 +9,7 @@
 #include <commons/collections/dictionary.h>
 
 #define NOMBRE "nombre"
-#define CAJA1 "Caja1"
-#define CAJA2 "Caja2"
-#define CAJA3 "Caja3"
+#define CAJA "Caja"
 #define ORQUESTADOR "orquestador"
 #define TIEMPOCHEQUEODEADLOCK "TiempoChequeoDeadlock"
 #define RECOVERY "Recovery"
@@ -23,13 +21,11 @@
 
 typedef struct {
 	char *nombre;
-	char *caja1;
-	char *caja2;
-	char *caja3;
+	t_dictionary *cajas;
 	char *orquestador;
 	char *tiempoChequeoDeadlock;
 	char *recovery;
-} t_level;
+} t_level_config;
 
 typedef struct{
 	char *nivel;
@@ -58,16 +54,24 @@ typedef struct{
 	char *sleep;
 }t_level_attributes;
 
-
+typedef struct{
+	char *nombre;
+	char *simbolo;
+	int *instancias;
+	int *posX;
+	int *posY;
+}t_caja;
 
 t_dictionary* getCharacters();
 
 t_dictionary* getLevelsMap();
 
-t_list* getLevelsInfo();
+t_dictionary* getLevels();
 
-t_level* getLevel(char *finalPath);
+t_list* getLevelsInfo();
 
 t_list *getLevelsList();
 
 t_level_attributes *getLevelAttributes();
+
+
