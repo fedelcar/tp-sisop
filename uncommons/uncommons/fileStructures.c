@@ -27,15 +27,14 @@
 #define IP "127.0.0.1"
 #define STARTINGPORT 9931
 #define fileExtension ".config"
-#define directoryPathLevels "/home/lucas/config/niveles"
-#define directoryPathCharacters "/home/lucas/config/personajes"
-#define directoryPathConfig "/home/lucas/config/orquestador"
+#define directoryPathLevels "/home/tp/config/niveles"
+#define directoryPathCharacters "/home/tp/config/personajes"
+#define directoryPathConfig "/home/tp/config/orquestador"
 #define ORQUESTADOR "orquestador.config"
 #define TURNOS "turnos"
 #define SLEEP "sleep"
 
 char* getFullKey(char *nivel, char *key);
-t_dictionary* getBoxes(t_config *configFile);
 
 t_dictionary* getCharacters(){
 
@@ -193,23 +192,23 @@ t_list* getLevelsInfo(){
 }
 
 
-//level* getLevel(char *finalPath){
+t_level* getLevel(char *finalPath){
 
-//	level *level_struct = (level*) malloc(sizeof(level));
-//	t_config *configFile;
+	t_level *level_struct = (t_level*) malloc(sizeof(t_level));
+	t_config *configFile;
 
-//	configFile = config_create(finalPath);
+	configFile = config_create(finalPath);
 
-//	level_struct->caja1 = config_get_string_value(configFile, CAJA1);
-//	level_struct->caja2 = config_get_string_value(configFile, CAJA2);
-//	level_struct->caja3 = config_get_string_value(configFile, CAJA3);
-//	level_struct->nombre = config_get_string_value(configFile, NOMBRE);
-//	level_struct->orquestador = config_get_string_value(configFile, ORQUESTADOR);
-//	level_struct->recovery = config_get_string_value(configFile, RECOVERY);
-//	level_struct->tiempoChequeoDeadlock = config_get_string_value(configFile, TIEMPOCHEQUEODEADLOCK);
+	level_struct->caja1 = config_get_string_value(configFile, CAJA1);
+	level_struct->caja2 = config_get_string_value(configFile, CAJA2);
+	level_struct->caja3 = config_get_string_value(configFile, CAJA3);
+	level_struct->nombre = config_get_string_value(configFile, NOMBRE);
+	level_struct->orquestador = config_get_string_value(configFile, ORQUESTADOR);
+	level_struct->recovery = config_get_string_value(configFile, RECOVERY);
+	level_struct->tiempoChequeoDeadlock = config_get_string_value(configFile, TIEMPOCHEQUEODEADLOCK);
 
-//return level_struct;
-//}
+return level_struct;
+}
 
 
 char* getFullKey(char *nivel, char *key){
@@ -271,60 +270,3 @@ t_level_attributes *getLevelAttributes(){
 
 	 return level;
 }
-
-t_dictionary* getLevels(){
-
-	t_dictionary *level_dictionary = dictionary_create();
-	t_config *configFile;
-
-	 /* Variables */
-	 DIR *dirp;
-	 struct dirent *direntp;
-
-	 /* Abrimos el directorio */
-	 dirp = opendir(directoryPathCharacters);
-	 if (dirp == NULL){
-	 printf("Error: No se puede abrir el directorio\n");
-	 exit(2);
-	 }
-
-	 char *finalPath = (char*) malloc(MAXSIZE);
-	 char *box = (char*) malloc(MAXSIZE);
-
-	 /* Leemos las entradas del directorio */
-	 while ((direntp = readdir(dirp)) != NULL) {
-
-		 if (strlen(direntp->d_name) >= EXTENSIONLENGTH && strcmp(direntp->d_name + strlen(direntp->d_name) - EXTENSIONLENGTH, fileExtension) == 0) {
-
-			 t_level *level_struct = (t_level *) malloc(sizeof(t_level));
-
-			 string_append(&finalPath, directoryPathLevels);
-			 string_append(&finalPath, "/");
-			 string_append(&finalPath, direntp->d_name);
-
-			 configFile = config_create(finalPath);
-
-			 level_struct->nombre = config_get_string_value(configFile, NOMBRE);
-			 level_struct->orquestador = config_get_string_value(configFile, ORQUESTADOR);
-			 level_struct->recovery = config_get_string_value(configFile, RECOVERY);
-			 level_struct->tiempoChequeoDeadlock = config_get_string_value(configFile, TIEMPOCHEQUEODEADLOCK);
-
-			 level_struct->cajas = getBoxes(configFile);
-
-			 dictionary_put(level_dictionary, level_struct->nombre, level_struct);
-		 }
-	 }
-	 free(finalPath);
-	 /* Cerramos el directorio */
-	 closedir(dirp);
-	 return level_dictionary;
-}
-
-	t_dictionary* getBoxes(t_config *configFile){
-
-		t_dictionary *boxes = dictionary_create();
-
-
-
-		return NULL;
-	}

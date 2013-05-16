@@ -18,7 +18,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/stat.h>
-#include "log.h"
+
 #include "config.h"
 #include "string.h"
 #include "collections/dictionary.h"
@@ -83,42 +83,6 @@ char *config_get_string_value(t_config *self, char *key) {
 	return dictionary_get(self->properties, key);
 }
 
-
-// Devuelve la caja del archivo de configuracion
-//
-//t_caja *config_get_caja(t_config *self, char *key){
-//	t_log *log = log_create("/home/federico/workspace3/log.txt","prueba.c",1,LOG_LEVEL_DEBUG);
-//
-//
-//	char *caja_en_string = dictionary_get(self->properties, key);
-//	char ar = ',';
-//	char *jose = string_split(caja_en_string, &ar);
-//
-//
-////	printf("%s",caja_en_string);
-////	log_info(log,caja_en_string);
-//
-//	log_info(log,jose[0]);
-//	log_info(log,*(jose+1));
-////	log_info(log,*(jose+2));
-////	log_info(log,*(jose+3));
-////	log_info(log,*(jose+4));
-////	log_info(log,*(jose+5));
-//
-//
-//	t_caja *pedro = malloc(sizeof(t_caja));
-////
-////	pedro->tipo=*(jose);
-////	pedro->simbolo=*(jose+1);
-////	pedro->instancias=*(jose+2);
-////	pedro->posX=*(jose+3);
-////	pedro->posY=*(jose+4);
-//	log_info(log,"asdasd");
-//	return pedro;
-//
-//
-//
-//}
 /*
  * @NAME: config_get_int_value
  * @DESC:Retorna un int con el valor asociado a key.

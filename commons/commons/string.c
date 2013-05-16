@@ -269,31 +269,6 @@ char **string_split(char *text, char *separator) {
 	return substrings;
 }
 
-
-char **string_split_bis(char *text, char *separator) {
-	char **substrings = NULL;
-
-	int size = 0;
-
-	char *text_to_iterate = string_duplicate(text);
-	char *token = NULL, *next = NULL;
-	token = strtok_r(text_to_iterate, separator, &next);
-
-	while (token != NULL) {
-		size++;
-		substrings = realloc(substrings, sizeof(char*) * size);
-		substrings[size - 1] = string_duplicate(token);
-		token = strtok_r(NULL, separator, &next);
-	}
-
-	size++;
-	substrings = realloc(substrings, sizeof(char*) * size);
-	substrings[size - 1] = NULL;
-
-	free(text_to_iterate);
-	return substrings;
-}
-
 /**
  * @NAME: string_get_string_as_array
  * @DESC: Retorna una array separando los elementos 

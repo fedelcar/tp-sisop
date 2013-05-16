@@ -19,24 +19,12 @@
 
 	#include "collections/dictionary.h"
 
-//	struct caja{
-//		char *tipo;
-//		char simbolo;
-//		int instancias;
-//		int posX;
-//		int posY;
-//	};
-//	typedef struct caja t_caja;
-
-
 	typedef struct {
 		char *path;
 		t_dictionary *properties;
-	}t_config;
-
+	} t_config;
 
 	t_config *config_create(char *path);
-//	t_caja	 *config_get_caja(t_config*,char *caja);
 	bool 	  config_has_property(t_config*, char* key);
 	char 	 *config_get_string_value(t_config*, char *key);
 	int 	  config_get_int_value(t_config*, char *key);

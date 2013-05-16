@@ -41,7 +41,6 @@
 	bool	string_ends_with(char* text, char* end);
 	bool 	string_equals_ignore_case(char * actual, char * expected);
 	char**  string_split(char * text, char * separator);
-	char**  string_split_bis(char * text, char * separator);
 	char*   string_substring(char* text, int start, int length);
 	char*   string_substring_from(char *text, int start);
 	char*   string_substring_until(char *text, int length);
