@@ -37,7 +37,7 @@
 #define CAJASMAXIMAS 3
 
 char* getFullKey(char *nivel, char *key);
-t_caja* getBox(t_config *configFile, char *boxNumber);
+t_caja* getBox(t_config *configFile, int *boxNumber);
 
 t_dictionary* getCharacters() {
 
@@ -285,7 +285,7 @@ t_dictionary* getLevels(){
 	struct dirent *direntp;
 
 	/* Abrimos el directorio */
-	dirp = opendir(directoryPathCharacters);
+	dirp = opendir(directoryPathLevels);
 	if (dirp == NULL ) {
 		printf("Error: No se puede abrir el directorio\n");
 		exit(2);
@@ -307,21 +307,23 @@ t_dictionary* getLevels(){
 			t_level_config *level_config = (t_level_config *) malloc(
 					sizeof(t_level_config));
 
-			string_append(&finalPath, directoryPathCharacters);
+			level_config->cajas = dictionary_create();
+
+			string_append(&finalPath, directoryPathLevels);
 			string_append(&finalPath, "/");
 			string_append(&finalPath, direntp->d_name);
 
 			configFile = config_create(finalPath);
 
-			level_config->nombre = config_get_string_value(configFile, NOMBRE);
+			level_config->nombre = config_get_string_value(configFile, "Nombre");
 			level_config->orquestador = config_get_string_value(configFile,
-					ORQUESTADOR);
+					"orquestador");
 			level_config->recovery = config_get_string_value(configFile,
 					RECOVERY);
 			level_config->tiempoChequeoDeadlock = config_get_string_value(
 					configFile, TIEMPOCHEQUEODEADLOCK);
 
-			for(box = 0 ; box < CAJASMAXIMAS ; box++){
+			for(box = 1 ; box <= CAJASMAXIMAS ; box++){
 				t_caja *caja = getBox(configFile, box);
 				dictionary_put(level_config->cajas, caja->nombre, caja);
 			}
@@ -339,26 +341,28 @@ t_dictionary* getLevels(){
 	return level_dictionary;
 }
 
-t_caja* getBox(t_config *configFile, char *boxNumber){
+t_caja* getBox(t_config *configFile, int *boxNumber){
 
-	char **elements;
+	char *msg = (char*) malloc(MAXSIZE);
+	sprintf(msg, "%d", boxNumber);
+
+	char **elementos = (char*) malloc(MAXSIZE);
 	char *oneBox = (char*) malloc(MAXSIZE);
 
-	string_append(&oneBox, boxNumber);
+	string_append(&oneBox, CAJA);
+	string_append(&oneBox, msg);
 
-	elements = config_get_array_value(configFile, oneBox);
-
-	elements = string_split(elements, COMA);
+	elementos = string_split( config_get_string_value(configFile, oneBox), COMA);
 
 	t_caja *caja = (t_caja*) malloc(sizeof(t_caja));
 
-	caja->nombre = elements[0];
-	caja->simbolo = elements[1];
-	caja->instancias = atoi(elements[2]);
-	caja->posX = atoi(elements[3]);
-	caja->posY = atoi(elements[4]);
+	caja->nombre = elementos[0];
+	caja->simbolo = elementos[1];
+	caja->instancias = atoi(elementos[2]);
+	caja->posX = atoi(elementos[3]);
+	caja->posY = atoi(elementos[4]);
 
-	free(elements);
+	free(elementos);
 	free(oneBox);
 
 	return caja;
