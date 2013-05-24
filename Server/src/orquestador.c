@@ -29,18 +29,39 @@ void executeResponse(char* response, t_dictionary *levelsMap, int *fd);
 
 void main(){
 
-	t_dictionary *personajes = getCharacters();
-
+	/*
+	 * Lista de personajes bloqueados
+	 */
 	t_queue *blocked_characters = queue_create();
+
+	/**
+	 * No me acuerdo que es request, TODO investigar
+	 */
 
 	t_queue *request = queue_create();
 
-	char *levelsList = getLevelsList();
+	/**
+	 * Lista de niveles
+	 */
+
+	t_list *levelsList = getLevelsList();
+
+	/**
+	 * Usado para retener nombres de niveles
+	 */
 
 	char *levelName = (char *) malloc(MAXSIZE);
 
+	/**
+	 *Usado para retener addresses
+	 */
+
 	t_level_address *addresses = (t_level_address *) malloc(sizeof(t_level_address));
 
+
+	/**
+	 * Mapa de niveles
+	 */
 	t_dictionary *levelsMap = dictionary_create();
 
 	levelsMap = getLevelsMap();
