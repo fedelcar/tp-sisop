@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include <commons/collections/dictionary.h>
 #include <commons/string.h>
-#include <uncommons/fileStructures.h>
 #include <pthread.h>
 #include <uncommons/SocketsServer.h>
 #include <uncommons/SocketsBasic.h>
