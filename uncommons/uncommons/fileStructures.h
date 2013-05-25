@@ -46,7 +46,6 @@ typedef struct{
 	t_dictionary *obj;
 	int vidas;
 	char *orquestador;
-	t_posicion posicion;
 } t_character;
 
 typedef struct{
