@@ -20,11 +20,11 @@
 #include <uncommons/fileStructures.h>
 #include <uncommons/SocketsCliente.h>
 #include <uncommons/SocketsBasic.h>
-#include <x86_64-linux-gnu/sys/types.h>
-#include <x86_64-linux-gnu/sys/socket.h>
+#include <sys/types.h>
+#include <sys/socket.h>
 
 
-#define PATHPERSONAJE "home/.."
+#define MAXSIZE 1024
 #define COMA ","
 
 char* extraerIpPlanificador(char* mensaje);
@@ -37,46 +37,69 @@ t_posicion* stringToPosicion(char* buffer);
 t_posicion* calcularMovimiento(t_posicion* miPos, t_posicion* posRec);
 int termineNivel(char** recursosNivel, int cantRecAcum);
 char* posicionToString (t_posicion* miPos);
+t_posicion* setPosicion(int x, int y);
 
 int main(char* character) {
 
-	t_character *personaje;
+	//---------- Inicializar Punteros ------------
+	char* nivelActual = (char*) malloc(MAXSIZE);
+	char** recursosNivel = (char**) malloc(MAXSIZE);
+	t_posicion* miPos = (t_posicion*) malloc(sizeof(t_posicion));
+	t_posicion* posRec = (t_posicion*) malloc(sizeof(t_posicion));
+	char* recursoActual = (char*) malloc(MAXSIZE);
+	char* buff = (char*) malloc(MAXSIZE);
+	char* msjPedirNivel = (char*) malloc(MAXSIZE);
+	char* ipPlanificador = (char*) malloc(MAXSIZE);
+	char* ipNivel = (char*) malloc(MAXSIZE);
+	char* puertoPlanificador = (char*) malloc(MAXSIZE);
+	char* puertoNivel = (char*) malloc(MAXSIZE);
+	char* msjPedirRecurso = (char*) malloc(MAXSIZE);
+	char* msjMovimiento = (char*) malloc(MAXSIZE);
+	t_character *personaje = (t_character *) malloc(sizeof(t_character));
+	char* ipOrquestador = (char*) malloc(MAXSIZE);
+	char* puertoOrquestador = (char*) malloc(MAXSIZE);
+	t_link_element* pNivelActual = (t_link_element*) malloc(sizeof(t_link_element));;
+	//-----------------------------------------------
+
 	personaje = getCharacters(character);
 
-	char* ipOrquestador = extraerIp(personaje->orquestador);
-	char* puertoOrquestador = extraerPuerto(personaje->orquestador);
-	t_link_element * pNivelActual = ((personaje->planDeNiveles)->head);
+	ipOrquestador = extraerIp(personaje->orquestador);
+	puertoOrquestador = extraerPuerto(personaje->orquestador);
+	pNivelActual = ((personaje->planDeNiveles)->head);
 
 
-do {
 
-	char* nivelActual = (char*)pNivelActual->data;
+do { //Nivel
+
+	//Inicializar Nivel
+	nivelActual = (char*)pNivelActual->data;
+	recursosNivel = (char**) dictionary_get(personaje->obj, nivelActual);
+	int cantRecAcum = 0;
+	miPos = setPosicion(0,0);
+	posRec = setPosicion(-1,-1);
+	recursoActual = *recursosNivel;
+
+
 	int sockfdOrquestador = openSocketClient(puertoOrquestador, ipOrquestador);
-	char* buff;
-	char** recursosNivel = (char**) dictionary_get(personaje->obj, nivelActual);
+
 	//Pedir direccion de planificador y nivel
-	char* msjPedirNivel = string_from_format("LBL,%s", nivelActual);
+	msjPedirNivel = string_from_format("LBL,%s", nivelActual);
 	sendMessage(&sockfdOrquestador, msjPedirNivel);
 	buff = recieveMessage(&sockfdOrquestador);
 
 	close (sockfdOrquestador);
 
 	//Conectarse al planificador y nivel
-	char* ipPlanificador = extraerIpPlanificador(buff);
-	char* ipNivel = extraerIpNivel(buff);
-	char* puertoPlanificador = extraerPuertoPlanificador(buff);
-	char* puertoNivel = extraerPuertoNivel(buff);
+	ipPlanificador = extraerIpPlanificador(buff);
+	ipNivel = extraerIpNivel(buff);
+	puertoPlanificador = extraerPuertoPlanificador(buff);
+	puertoNivel = extraerPuertoNivel(buff);
 
 	int sockfdNivel = openSocketClient(puertoNivel, ipNivel);
 	int sockfdPlanif = openSocketClient(puertoPlanificador, ipPlanificador);
 
-	int cantRecAcum;
-	t_posicion* miPos;
-	t_posicion* posRec;
-	char* recursoActual = *recursosNivel;
-	//inicializarVariables (&miPos, &posRec, &recAcum);
 
-do {
+do {//Recurso
 
 	//Quedar a la espera del turno
 	buff = recieveMessage(&sockfdPlanif);
@@ -86,8 +109,8 @@ do {
 	}
 
 	//si no se donde esta mi prox recurso se le pregunto al nivel
-	if (posRec == NULL) {
-		char* msjPedirRecurso = string_from_format("Posicion del recurso: %s", recursoActual);
+	if (posRec->posX == -1) {
+		msjPedirRecurso = string_from_format("Posicion del recurso: %s", recursoActual);
 		sendMessage(&sockfdNivel, msjPedirRecurso);
 		buff = recieveMessage(&sockfdNivel);
 		posRec = stringToPosicion(buff);
@@ -95,7 +118,7 @@ do {
 
 	//moverme hacia el recurso
 	miPos = calcularMovimiento (miPos, posRec);
-	char* msjMovimiento = string_from_format("Me muevo: %d",miPos);
+	msjMovimiento = string_from_format("Me muevo: %d",miPos);
 	sendMessage(&sockfdNivel, msjMovimiento);
 	buff = recieveMessage(&sockfdNivel);
 	//Analizar respuesta
@@ -107,7 +130,7 @@ do {
 	if (miPos == posRec) {
 		//Pedir recurso al nivel
 		sendMessage(&sockfdNivel, "Dame recurso");
-		posRec = NULL;
+		posRec = setPosicion(-1,-1);
 		cantRecAcum = cantRecAcum + 1;
 		recursoActual = *(recursosNivel+cantRecAcum);
 		buff = recieveMessage(&sockfdNivel);
@@ -130,19 +153,47 @@ do {
 	//Informo al planificador que termine mi turno
 	sendMessage(&sockfdPlanif, "Ok");
 
-}while (1);
-//termina recursos
+}while (1); //termina recursos
 
 if ((pNivelActual->next) == NULL) {
+	int sockfdOrquestador = openSocketClient(puertoOrquestador, ipOrquestador);
 	sendMessage(&sockfdOrquestador, "Termine todo");
+	close (sockfdOrquestador);
 	break;
 }
 
 pNivelActual = (pNivelActual->next);
 
-} while (1);
-//termina nivel
+} while (1); //termina nivel
+
+//Libero Punteros
+free(nivelActual);
+free(recursosNivel);
+free(miPos);
+free(posRec);
+free(recursoActual);
+free(buff);
+free(msjPedirNivel);
+free(ipPlanificador);
+free(ipNivel);
+free(puertoPlanificador);
+free(puertoNivel);
+free(msjPedirRecurso);
+free(msjMovimiento);
+free(personaje);
+free(ipOrquestador);
+free(puertoOrquestador);
+free(pNivelActual);
+
+
 return 0;
+}
+
+t_posicion* setPosicion(int x, int y) {
+	t_posicion* posicionAux;
+	posicionAux->posX = x;
+	posicionAux->posY = y;
+	return posicionAux;
 }
 
 char* extraerIpPlanificador(char* mensaje) {
@@ -204,8 +255,8 @@ return temp;
 }
 
 t_posicion* stringToPosicion(char* buffer){ //Recibe el buffer en formato string y lo devuelve en t_posicion
-char* temp;
-temp= string_split(buffer,COMA);
+char** temp;
+temp= string_split(buffer,",");
 int X = atoi(temp[0]);
 int Y = atoi(temp[1]);
 t_posicion* temp2;
@@ -224,61 +275,15 @@ return cantRecAcum == 0;
 }
 
 char* posicionToString (t_posicion* miPos){ //Recibe un t_posicion y devuelve un string con el formato "X,Y"
-int x,y;
+int x;
+int y;
 x = miPos->posX;
 y = miPos->posY;
-char* sX,sY;
-sprintf(sX,"% i", x);
-sprintf(sY,"% d", y);
-string_append(sX,",");
-string_append(sX,sY);
-return sX;
+char* mensj = string_from_format("%i,%i",x,y);
+//char* sX,sY;
+//sprintf(sX,"% i", x);
+//sprintf(sY,"% d", y);
+//string_append(sX,",");
+//string_append(sX,sY);
+return mensj;
 }
-/*
- t_log *log;
- log = log_create("/home/tp/log.txt","personaje.c",1,LOG_LEVEL_DEBUG);
-
- log_debug(log,"Prueba de log de Debug");
-
- t_dictionary *personaje = getCharacters();
-
-
-
- t_config *config_Personaje = config_create("/home/tp/config/mario.txt");
- char *nombre_Personaje = config_get_string_value(config_Personaje, "Nombre");
- char *simbolo_Personaje = config_get_string_value(config_Personaje, "Simbolo");
- char **niveles_Personaje = config_get_array_value(config_Personaje,"planDeNiveles");
- log_debug(log,"%s",niveles_Personaje[0]);
-
- int i =0;
- int cantNiveles = 0;
- do {
- cantNiveles ++;
- i++;
- } while (niveles_Personaje[i] != NULL);
- log_debug(log,"%d",cantNiveles);
-
- t_list *lista_Objetivos = list_create();
-
- for (i = 0; i < cantNiveles; i++) {
- printf("obj[%s]\n",niveles_Personaje[i]);
- //char* nivel = ("obj[%s]",niveles_Personaje[i]);
- //log_debug(logDebug,nivel);
- //char** objetivos_nivel = config_get_array_value(config_Personaje,nivel);
- //list_add(lista_Objetivos, objetivos_nivel);
- }
-
-
- log_debug(log, "Se finalizo el programa");
- return EXIT_SUCCESS;
- }
-
-
- //t_log *initiate_log (int Level)
- //{
- //	t_log *logTemp;
- //	//logTemp = log_create("uncommons/log.txt","personaje.c",1,Level);
- //	logTemp = log_create("/home/tp/log.txt","personaje.c",1,Level);
- //	return logTemp;
- //}
- /*/
