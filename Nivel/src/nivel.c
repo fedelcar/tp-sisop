@@ -23,7 +23,7 @@ void something(resource_struct *resourceStruct) {
 resource_struct *getLevelStructure(t_level_config *level_config, int *fd,
 		pthread_mutex_t *resourcesReadLock, pthread_mutex_t *resourcesWriteLock);
 
-int main(char *argv) {
+int main(int argc, char **argv) {
 
 	t_dictionary *niveles = getLevels();
 
