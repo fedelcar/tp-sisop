@@ -26,14 +26,15 @@ endif
 all: Nivel
 
 dependents:
-	-cd /home/lucas/git/tp-20131c-tp-so-1c2013/commons/Debug && $(MAKE) all
-	-cd /home/lucas/git/tp-20131c-tp-so-1c2013/uncommons/Debug && $(MAKE) all
+	-cd /home/lucas/git/tp-20131c-tp-so-1c2013/commons/Debug && $(MAKE) clean all
+	-cd /home/lucas/git/tp-20131c-tp-so-1c2013/uncommons/Debug && $(MAKE) clean all
+	-cd /home/lucas/workspace/Libreria-nivel/Debug && $(MAKE) clean all
 
 # Tool invocations
-Nivel: $(OBJS) $(USER_OBJS) /home/lucas/git/tp-20131c-tp-so-1c2013/commons/Debug/libcommons.so /home/lucas/git/tp-20131c-tp-so-1c2013/uncommons/Debug/libuncommons.so
+Nivel: $(OBJS) $(USER_OBJS) /home/lucas/git/tp-20131c-tp-so-1c2013/commons/Debug/libcommons.so /home/lucas/git/tp-20131c-tp-so-1c2013/uncommons/Debug/libuncommons.so /home/lucas/workspace/Libreria-nivel/Debug/libLibreria-nivel.so
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc -L"/home/lucas/git/tp-20131c-tp-so-1c2013/uncommons/Debug" -L"/home/lucas/git/tp-20131c-tp-so-1c2013/commons/Debug" -o "Nivel" $(OBJS) $(USER_OBJS) $(LIBS)
+	gcc -L"/home/lucas/workspace/Libreria-nivel/Debug" -L"/home/lucas/git/tp-20131c-tp-so-1c2013/uncommons/Debug" -L"/home/lucas/git/tp-20131c-tp-so-1c2013/commons/Debug" -o "Nivel" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -46,5 +47,6 @@ clean:
 .SECONDARY:
 /home/lucas/git/tp-20131c-tp-so-1c2013/commons/Debug/libcommons.so:
 /home/lucas/git/tp-20131c-tp-so-1c2013/uncommons/Debug/libuncommons.so:
+/home/lucas/workspace/Libreria-nivel/Debug/libLibreria-nivel.so:
 
 -include ../makefile.targets

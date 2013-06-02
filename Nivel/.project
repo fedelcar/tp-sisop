@@ -5,6 +5,7 @@
 	<projects>
 		<project>commons</project>
 		<project>uncommons</project>
+		<project>Libreria-nivel</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
