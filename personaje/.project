@@ -4,7 +4,6 @@
 	<comment></comment>
 	<projects>
 		<project>commons</project>
-		<project>uncommons</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
