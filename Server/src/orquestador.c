@@ -27,7 +27,7 @@
 
 void executeResponse(char* response, t_dictionary *levelsMap, int *fd);
 
-void main(){
+void main() {
 
 	/*
 	 * Lista de personajes bloqueados
@@ -56,8 +56,8 @@ void main(){
 	 *Usado para retener addresses
 	 */
 
-	t_level_address *addresses = (t_level_address *) malloc(sizeof(t_level_address));
-
+	t_level_address *addresses = (t_level_address *) malloc(
+			sizeof(t_level_address));
 
 	/**
 	 * Mapa de niveles
@@ -70,11 +70,11 @@ void main(){
 
 	int i;
 
-	for( i = 0 ; i < list_size(levelsList) ; i++){
+	for (i = 0; i < list_size(levelsList); i++) {
 
 		pthread_t *t = (pthread_t*) malloc(sizeof(pthread_t));
 
-		levelName = (char *) list_get(levelsList,i);
+		levelName = (char *) list_get(levelsList, i);
 
 		addresses = (t_level_address*) dictionary_get(levelsMap, levelName);
 
@@ -88,14 +88,16 @@ void main(){
 	free(addresses);
 	free(levelsList);
 
-	pthread_mutex_t *readLock = (pthread_mutex_t*) malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_t *writeLock = (pthread_mutex_t*) malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_t *readLock = (pthread_mutex_t*) malloc(
+			sizeof(pthread_mutex_t));
+	pthread_mutex_t *writeLock = (pthread_mutex_t*) malloc(
+			sizeof(pthread_mutex_t));
 
 	queue_n_locks *queue = (queue_n_locks*) malloc(sizeof(queue_n_locks));
 
-	pthread_mutex_init(readLock, NULL);
+	pthread_mutex_init(readLock, NULL );
 
-	pthread_mutex_init(writeLock, NULL);
+	pthread_mutex_init(writeLock, NULL );
 
 	queue->character_queue = queue_create();
 	queue->readLock = readLock;
@@ -104,12 +106,12 @@ void main(){
 
 	pthread_t t;
 
-	pthread_create(&t, NULL, (int *) openSocketServer,(queue_n_locks *)queue);
+	pthread_create(&t, NULL, (int *) openSocketServer, (queue_n_locks *) queue);
 
 	char *response = (char *) malloc(MAXSIZE); //CHECK LENGTH
 	int *fd;
 
-	while(1){
+	while (1) {
 
 		printf("Entro al while\n");
 
@@ -135,17 +137,20 @@ void main(){
 
 }
 
+void executeResponse(char* response, t_dictionary *levelsMap, int *fd) {
 
-void executeResponse(char* response, t_dictionary *levelsMap, int *fd){
-
-if(string_starts_with(response, LEVEL)){
-	response = string_substring_from(response, sizeof(LEVEL+1));
-	sendMessage(fd, dictionary_get(levelsMap, response));
-	close(*fd);
-}
-else{
-	//TODO OTHER ACTIONS
-}
-
+	if (string_starts_with(response, LEVEL)) {
+		response = string_substring_from(response, sizeof(LEVEL));
+		t_level_address *level = (t_level_address *) malloc(
+				sizeof(t_level_address));
+		level = dictionary_get(levelsMap, response);
+		string_append(&level->nivel, ",");
+		string_append(&level->nivel, level->planificador);
+		sendMessage(fd, level->nivel);
+		free(level);
+		close(fd);
+	} else {
+		//TODO OTHER ACTIONS
+	}
 
 }
