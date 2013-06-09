@@ -44,7 +44,7 @@ int openSocketClient(char *port, char *ip) {
 		return 2;
 	}
 
-	freeaddrinfo(servinfo); // all done with this structure
-	return 0;
+	//freeaddrinfo(sockfd); // all done with this structure
+	return sockfd;
 }
 
