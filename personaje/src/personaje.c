@@ -44,7 +44,7 @@ bool sonPosicionesIguales(t_posicion* pos1, t_posicion* pos2);
 
 int main(char* character) {
 
-	t_log* log = log_create("/home/federico/workspace4/log.txt", "Personaje", 1,
+	t_log* log = log_create("/home/lucas/log.txt", "Personaje", 1,
 			LOG_LEVEL_DEBUG);
 	//---------- Inicializar Punteros ------------
 	char* nivelActual = (char*) malloc(MAXSIZE);
@@ -76,7 +76,6 @@ int main(char* character) {
 	personajesTodos = getCharacters();
 
 	personaje = (t_character*) dictionary_get(personajesTodos, "Mario");
-	personaje->orquestador = "192.168.1.100:10022";
 	ipOrquestador = extraerIp(personaje->orquestador);
 	puertoOrquestador = extraerPuerto(personaje->orquestador);
 	pNivelActual = ((personaje->planDeNiveles)->head);
@@ -97,9 +96,9 @@ int main(char* character) {
 	int sockfdOrquestador = openSocketClient(puertoOrquestador, ipOrquestador);
 
 		//Pedir direccion de planificador y nivel
-		msjPedirNivel = string_from_format("LBL,%s", nivelActual);
-	sendMessage(&sockfdOrquestador, msjPedirNivel);
-	buff = recieveMessage(&sockfdOrquestador);
+		msjPedirNivel = string_from_format("LVL,%s", nivelActual);
+	sendMessage(sockfdOrquestador, msjPedirNivel);
+	buff = recieveMessage(sockfdOrquestador);
 
 		log_debug(log, msjPedirNivel);
 	//	buff = "1234567:890,098765:432";
