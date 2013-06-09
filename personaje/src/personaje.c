@@ -17,12 +17,13 @@
 #include <commons/string.h>
 #include <commons/collections/list.h>
 #include <commons/collections/node.h>
-#include <commons/fileStructures.h>
-//#include <commons/SocketsCliente.h>
-//#include <commons/SocketsBasic.h>
-//#include <sys/types.h>
-//#include <sys/socket.h>
-//#include <sysdeps.h>
+#include <uncommons/fileStructures.h>
+#include <uncommons/SocketsCliente.h>
+#include <uncommons/SocketsBasic.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+//#include "sisdeps.h"
+#include <unistd.h>
 
 #define MAXSIZE 1024
 #define COMA ","
@@ -92,18 +93,18 @@ int main(char* character) {
 		pRecursoActual=recursosNivel->head;
 
 
-
-//	int sockfdOrquestador = openSocketClient(puertoOrquestador, ipOrquestador);
+	log_debug(log,"Esperando conexión");
+	int sockfdOrquestador = openSocketClient(puertoOrquestador, ipOrquestador);
 
 		//Pedir direccion de planificador y nivel
 		msjPedirNivel = string_from_format("LBL,%s", nivelActual);
-//	sendMessage(&sockfdOrquestador, msjPedirNivel);
-//	buff = recieveMessage(&sockfdOrquestador);
+	sendMessage(&sockfdOrquestador, msjPedirNivel);
+	buff = recieveMessage(&sockfdOrquestador);
 
 		log_debug(log, msjPedirNivel);
-		buff = "1234567:890,098765:432";
+	//	buff = "1234567:890,098765:432";
 
-//	close (sockfdOrquestador);
+	close (sockfdOrquestador);
 
 		//Conectarse al planificador y nivel
 		ipPlanificador = extraerIpPlanificador(buff);
@@ -111,19 +112,19 @@ int main(char* character) {
 		puertoPlanificador = extraerPuertoPlanificador(buff);
 		puertoNivel = extraerPuertoNivel(buff);
 
-//	int sockfdNivel = openSocketClient(puertoNivel, ipNivel);
-//	int sockfdPlanif = openSocketClient(puertoPlanificador, ipPlanificador);
+	int sockfdNivel = openSocketClient(puertoNivel, ipNivel);
+	int sockfdPlanif = openSocketClient(puertoPlanificador, ipPlanificador);
 
 		do { //Recurso
 		recursoActual = string_from_format("%s",pRecursoActual->data);
 
 			//Quedar a la espera del turno
-//	buff = recieveMessage(&sockfdPlanif);
+buff = recieveMessage(&sockfdPlanif);
 
-			buff = "Tu turno";
+//			buff = "Tu turno";
 
-//	if (string_equals_ignore_case(buff,buff)) {
-			if (0) {
+	if (string_equals_ignore_case(buff,"Tu Turno")) {
+//			if (0) {
 				//Que pasa si no es mi turno???
 				log_debug(log, "No es mi turno :(");
 			}
@@ -131,11 +132,11 @@ int main(char* character) {
 			//si no se donde esta mi prox recurso se le pregunto al nivel
 			if (posRec->posX == -1) {
 				msjPedirRecurso = string_from_format("Posicion del recurso: %s", recursoActual);
-//		sendMessage(&sockfdNivel, msjPedirRecurso);
-//		buff = recieveMessage(&sockfdNivel);
+		sendMessage(&sockfdNivel, msjPedirRecurso);
+		buff = recieveMessage(&sockfdNivel);
 
 				log_debug(log, msjPedirRecurso);
-				buff = "4,5";
+//				buff = "4,5";
 
 				*posRec = stringToPosicion(buff);
 			}
@@ -144,11 +145,11 @@ int main(char* character) {
 			*miPos = calcularMovimiento(miPos, posRec);
 			msjMovimiento = string_from_format("Me muevo: %d,%d", miPos->posX,
 					miPos->posY);
-//	sendMessage(&sockfdNivel, msjMovimiento);
-//	buff = recieveMessage(&sockfdNivel);
+	sendMessage(&sockfdNivel, msjMovimiento);
+	buff = recieveMessage(&sockfdNivel);
 
 			log_debug(log, msjMovimiento);
-			buff = "ok";
+//			buff = "ok";
 
 			//Analizar respuesta
 			if ((string_equals_ignore_case(buff, "ok")) == 0) {
@@ -158,28 +159,28 @@ int main(char* character) {
 			//Analizar si llegue al recurso
 			if (sonPosicionesIguales(miPos,posRec)) {
 				//Pedir recurso al nivel
-//		sendMessage(&sockfdNivel, "Dame recurso");
+		sendMessage(&sockfdNivel, "Dame recurso");
 
 				log_debug(log, "Dame recurso");
 
 				*posRec = setPosicion(-1, -1);
 				cantRecAcum = cantRecAcum + 1;
 				pRecursoActual=pRecursoActual->next;
-//		buff = recieveMessage(&sockfdNivel);
+		buff = recieveMessage(&sockfdNivel);
 
-				buff = "ok";
+//				buff = "ok";
 
-//		if (string_equals_ignore_case(buff,"Error")) {
-//			sendMessage(&sockfdPlanif, "Me bloquearon");
-//			buff = recieveMessage(&sockfdPlanif);
-//
-//		}
+		if (string_equals_ignore_case(buff,"Error")) {
+			sendMessage(&sockfdPlanif, "Me bloquearon");
+			buff = recieveMessage(&sockfdPlanif);
+
+		}
 				//Analizar si termine el nivel
 				if (pRecursoActual == NULL) {
-//			sendMessage(&sockfdNivel, "Termine nivel");
-//			sendMessage(&sockfdPlanif, "Termine nivel");
-//			close (sockfdNivel);
-//			close (sockfdPlanif);
+			sendMessage(&sockfdNivel, "Termine nivel");
+			sendMessage(&sockfdPlanif, "Termine nivel");
+			close (sockfdNivel);
+			close (sockfdPlanif);
 
 					log_debug(log, "Termine nivel");
 
@@ -189,16 +190,16 @@ int main(char* character) {
 			}
 
 			//Informo al planificador que termine mi turno
-//	sendMessage(&sockfdPlanif, "Ok");
+	sendMessage(&sockfdPlanif, "Ok");
 
 			log_debug(log, "ok");
 
 		} while (1); //termina recursos
 
 		if ((pNivelActual->next) == NULL ) {
-//	int sockfdOrquestador = openSocketClient(puertoOrquestador, ipOrquestador);
-//	sendMessage(&sockfdOrquestador, "Termine todo");
-//	close (sockfdOrquestador);
+	int sockfdOrquestador = openSocketClient(puertoOrquestador, ipOrquestador);
+	sendMessage(&sockfdOrquestador, "Termine todo");
+	close (sockfdOrquestador);
 
 			log_debug(log, "Termine todo");
 
@@ -214,7 +215,7 @@ int main(char* character) {
 	free(recursosNivel);
 	free(miPos);
 	free(posRec);
-//free(recursoActual);
+free(recursoActual);
 	free(buff);
 	free(msjPedirNivel);
 	free(ipPlanificador);
@@ -303,8 +304,8 @@ t_posicion calcularMovimiento(t_posicion* miPos, t_posicion* posRec) { //Recibe 
 t_posicion stringToPosicion(char* buffer) { //Recibe el buffer en formato string y lo devuelve en t_posicion
 	char** temp;
 	temp = string_split(buffer, ",");
-//int X = atoi(asd);
-//int Y = atoi(*(temp+1));
+int X = atoi(*temp);
+int Y = atoi(*(temp+1));
 	t_posicion temp2;
 	temp2.posX = 4;
 	temp2.posY = 5;
