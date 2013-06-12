@@ -24,6 +24,7 @@
 #define MAXSIZE 1024
 #define PORT "9930"
 #define LEVEL "LVL"
+static const char* COMA = ",";
 
 void executeResponse(char* response, t_dictionary *levelsMap, int *fd);
 
@@ -144,9 +145,9 @@ void executeResponse(char* response, t_dictionary *levelsMap, int *fd) {
 		t_level_address *level = (t_level_address *) malloc(
 				sizeof(t_level_address));
 		level = dictionary_get(levelsMap, response);
-		string_append(&level->nivel, ",");
-		string_append(&level->nivel, level->planificador);
-		sendMessage(fd, level->nivel);
+		string_append(&level->planificador, COMA);
+		string_append(&level->planificador, level->nivel);
+		sendMessage(fd, level->planificador);
 		free(level);
 		close(fd);
 	} else {
