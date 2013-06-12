@@ -118,7 +118,7 @@ int main(char* character) {
 		recursoActual = string_from_format("%s",pRecursoActual->data);
 
 			//Quedar a la espera del turno
-buff = recieveMessage(&sockfdPlanif);
+buff = recieveMessage(sockfdPlanif);
 
 //			buff = "Tu turno";
 
@@ -131,8 +131,8 @@ buff = recieveMessage(&sockfdPlanif);
 			//si no se donde esta mi prox recurso se le pregunto al nivel
 			if (posRec->posX == -1) {
 				msjPedirRecurso = string_from_format("Posicion del recurso: %s", recursoActual);
-		sendMessage(&sockfdNivel, msjPedirRecurso);
-		buff = recieveMessage(&sockfdNivel);
+		sendMessage(sockfdNivel, msjPedirRecurso);
+		buff = recieveMessage(sockfdNivel);
 
 				log_debug(log, msjPedirRecurso);
 //				buff = "4,5";
@@ -144,8 +144,8 @@ buff = recieveMessage(&sockfdPlanif);
 			*miPos = calcularMovimiento(miPos, posRec);
 			msjMovimiento = string_from_format("Me muevo: %d,%d", miPos->posX,
 					miPos->posY);
-	sendMessage(&sockfdNivel, msjMovimiento);
-	buff = recieveMessage(&sockfdNivel);
+	sendMessage(sockfdNivel, msjMovimiento);
+	buff = recieveMessage(sockfdNivel);
 
 			log_debug(log, msjMovimiento);
 //			buff = "ok";
@@ -158,26 +158,26 @@ buff = recieveMessage(&sockfdPlanif);
 			//Analizar si llegue al recurso
 			if (sonPosicionesIguales(miPos,posRec)) {
 				//Pedir recurso al nivel
-		sendMessage(&sockfdNivel, "Dame recurso");
+		sendMessage(sockfdNivel, "Dame recurso");
 
 				log_debug(log, "Dame recurso");
 
 				*posRec = setPosicion(-1, -1);
 				cantRecAcum = cantRecAcum + 1;
 				pRecursoActual=pRecursoActual->next;
-		buff = recieveMessage(&sockfdNivel);
+		buff = recieveMessage(sockfdNivel);
 
 //				buff = "ok";
 
 		if (string_equals_ignore_case(buff,"Error")) {
-			sendMessage(&sockfdPlanif, "Me bloquearon");
-			buff = recieveMessage(&sockfdPlanif);
+			sendMessage(sockfdPlanif, "Me bloquearon");
+			buff = recieveMessage(sockfdPlanif);
 
 		}
 				//Analizar si termine el nivel
 				if (pRecursoActual == NULL) {
-			sendMessage(&sockfdNivel, "Termine nivel");
-			sendMessage(&sockfdPlanif, "Termine nivel");
+			sendMessage(sockfdNivel, "Termine nivel");
+			sendMessage(sockfdPlanif, "Termine nivel");
 			close (sockfdNivel);
 			close (sockfdPlanif);
 
@@ -189,7 +189,7 @@ buff = recieveMessage(&sockfdPlanif);
 			}
 
 			//Informo al planificador que termine mi turno
-	sendMessage(&sockfdPlanif, "Ok");
+	sendMessage(sockfdPlanif, "Ok");
 
 			log_debug(log, "ok");
 
@@ -197,7 +197,7 @@ buff = recieveMessage(&sockfdPlanif);
 
 		if ((pNivelActual->next) == NULL ) {
 	int sockfdOrquestador = openSocketClient(puertoOrquestador, ipOrquestador);
-	sendMessage(&sockfdOrquestador, "Termine todo");
+	sendMessage(sockfdOrquestador, "Termine todo");
 	close (sockfdOrquestador);
 
 			log_debug(log, "Termine todo");
@@ -214,7 +214,7 @@ buff = recieveMessage(&sockfdPlanif);
 	free(recursosNivel);
 	free(miPos);
 	free(posRec);
-free(recursoActual);
+	free(recursoActual);
 	free(buff);
 	free(msjPedirNivel);
 	free(ipPlanificador);
