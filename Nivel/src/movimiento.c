@@ -129,8 +129,7 @@ void movimientoPersonaje(resource_struct* resources) {
 //	nivel_gui_get_area_nivel(rows, cols);
 
 	char * mensaje = (char*) malloc(MAXSIZE);
-	int *sockfd = (int*) malloc(sizeof(int));
-	sockfd = (int*) 47;
+	int *sockfd = resources->fd;
 
 	while (1) {
 		/*Voy a escuchar*/
