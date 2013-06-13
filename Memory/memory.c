@@ -6,10 +6,12 @@
  */
 #include "memory.h"
 
+t_memoria* memoria;
+
 t_memoria crear_memoria(int tamanio){
 //Crea el segmento de memoria a particionar
 
-	t_memoria memoria = malloc(tamanio);
+	memoria = malloc(tamanio);
 	return memoria;
 }
 
@@ -20,6 +22,14 @@ int almacenar_particion(t_memoria segmento, char id, int tamanio, t_memoria cont
   la particion mayor que el tamano total del segemento, id duplicado, etc), 1 en caso de
   exito y 0 en caso de no encontrar una particion libre lo suficientemente grande
   para almacenar la particion */
+	particion* particionAGrabar;
+	particionAGrabar->id=id;
+	particionAGrabar->tamanio=tamanio;
+	particionAGrabar->dato=contenido;
+	particionAGrabar->libre=0;
+	
+			
+	
 }
 
 
