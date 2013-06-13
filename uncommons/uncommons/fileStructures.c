@@ -88,7 +88,7 @@ t_dictionary* getCharacters() {
 			character_struct->vidas = atoi(config_get_string_value(configFile,
 					VIDAS));
 			character_struct->orquestador = config_get_string_value(configFile,
-					ORQUESTADOR);
+					ORQUESTADORBASE);
 
 			while (planDeNiveles[nivel] != NULL ) {
 				list_add(character_struct->planDeNiveles, planDeNiveles[nivel]);
