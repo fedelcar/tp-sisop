@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <commons/string.h>
-#include <nivel-gui/tad_items.h>
 #include <curses.h>
 #include <commons/collections/dictionary.h>
-#include<uncommons/SocketsBasic.h>
-#include<uncommons/fileStructures.h>
+#include <uncommons/SocketsBasic.h>
+#include "nivelBase.h"
+
 #define DOSPUNTOS ":"
 #define COMA ","
 #define MAXSIZE 1024
@@ -15,16 +15,11 @@
 #define RECURSO "Dame recurso"
 #define CONFIRMACION "Confirmacion"
 #define RECHAZO "Rechazo"
-
-typedef struct mensaje {
-	char *nombre;
-	char caracter;
-	t_posicion * pos;
-} mensaje_t;
+#define EMPTYSTRING "EMPTY"
 
 mensaje_t* interpretarMensaje(char* mensaje) {
 
-	mensaje_t* mensj = (mensaje_t*)malloc(sizeof(mensaje_t));
+	mensaje_t* mensj = (mensaje_t*) malloc(sizeof(mensaje_t));
 	mensj->pos = (t_posicion*) malloc(sizeof(t_posicion));
 	char** temp;
 	temp = string_split(mensaje, DOSPUNTOS);
@@ -45,13 +40,12 @@ mensaje_t* interpretarMensaje(char* mensaje) {
 
 void mandarPosRecurso(char recurso, ITEM_NIVEL* temp, int* sockfd) {
 
-
 	while (temp != NULL && temp->id != recurso) {
 		temp = temp->next;
 	}
 
 	char *mensaje = string_from_format("%d,%d", temp->posx, temp->posy);
-	sendMessage(&sockfd, mensaje);
+	sendMessage(sockfd, mensaje);
 }
 
 int validarPos(t_posicion * Npos, t_posicion * Apos, int rows, int cols,
@@ -70,72 +64,73 @@ int validarPos(t_posicion * Npos, t_posicion * Apos, int rows, int cols,
 	return 0;
 }
 
-int evaluarPosicion(t_posicion* posicion, ITEM_NIVEL * item) {
+int evaluarPosicion(t_posicion* posicion, ITEM_NIVEL *item) {
 
 	if (item->posx == posicion->posX && item->posy == posicion->posY) {
 		return 1;
-	} else
-	{
+	} else {
 		return 0;
 	}
 }
 
-void restarRecursos(t_posicion* posicion, ITEM_NIVEL* ListaItems, int* sockfd) {
+void restarRecursos(t_posicion* posicion, ITEM_NIVEL* listaItems, int* sockfd) {
 
-	ITEM_NIVEL* temp = ListaItems;
 	char* msjMovimiento = (char*) malloc(MAXSIZE);
-	msjMovimiento = "";
-	while (temp != NULL && temp->item_type == RECURSO_ITEM_TYPE) {
-		if (evaluarPosicion) {
-			if (temp->quantity > 0) {
-				restarRecurso(ListaItems, &temp->id);
-				msjMovimiento= string_from_format("%s",CONFIRMACION);
+	msjMovimiento = EMPTYSTRING;
+	while (listaItems != NULL && listaItems->item_type == RECURSO_ITEM_TYPE) {
+		if (evaluarPosicion(posicion, listaItems) == 1) {
+			if (listaItems->quantity > 0) {
+				restarRecurso(listaItems, listaItems->id);
+				msjMovimiento = string_from_format("%s", CONFIRMACION);
 
 			} else {
-				msjMovimiento= string_from_format("%s",RECHAZO);
+				msjMovimiento = string_from_format("%s", RECHAZO);
 
 			}
 		}
-		temp = temp->next;
-		}
+		listaItems = listaItems->next;
+	}
 
-
-	if (msjMovimiento == "") {
+	if (string_equals_ignore_case(msjMovimiento, "EMPTY")) {
 
 		msjMovimiento = string_from_format("%d,%d", posicion->posX,
-						posicion->posY);
-		}
+				posicion->posY);
+	}
 
-		sendMessage(&sockfd, msjMovimiento);
-		free(msjMovimiento);
+	sendMessage(sockfd, msjMovimiento);
+	free(msjMovimiento);
 }
 
 //Funcion Principal
-void movimientoPersonaje(ITEM_NIVEL* ListaItems) {
+void movimientoPersonaje(resource_struct* resources) {
 //void main(){
 
-	//char* mensaje= "Me muevo:20,30";
+//char* mensaje= "Me muevo:20,30";
 
-	//ITEM_NIVEL* ListaItems = (ITEM_NIVEL*) malloc(sizeof(ITEM_NIVEL));
+	ITEM_NIVEL* listaItems = (ITEM_NIVEL*) malloc(sizeof(ITEM_NIVEL));
 
-	//CrearCaja(&ListaItems, 'H', 20, 40, 5);
-	//CrearCaja(&ListaItems, 'M', 15, 8, 3);
-	//CrearCaja(&ListaItems, 'F', 9, 19, 2);
-	//CrearPersonaje(&ListaItems, '#', 1, 1);
+	listaItems = resources->listaItems;
 
-	int rows = 0;
-	int cols = 0;
+//CrearCaja(&ListaItems, 'H', 20, 40, 5);
+//CrearCaja(&ListaItems, 'M', 15, 8, 3);
+//CrearCaja(&ListaItems, 'F', 9, 19, 2);
+//CrearPersonaje(&ListaItems, '#', 1, 1);
+
+	int *rows = (int*) malloc(sizeof(int));
+	int *cols = (int*) malloc(sizeof(int));
+	rows = (int*) 0;
+	cols = (int*) 0;
 	char simbolo;
 
-	t_posicion* posicion=(t_posicion*)malloc(sizeof(t_posicion));
+	t_posicion* posicion = (t_posicion*) malloc(sizeof(t_posicion));
 	posicion->posX = 1;
 	posicion->posY = 1;
-	nivel_gui_inicializar();
 
-	nivel_gui_get_area_nivel(&rows, &cols);
+//	nivel_gui_get_area_nivel(rows, cols);
 
-	char * mensaje;
-	int * sockfd = 47;
+	char * mensaje = (char*) malloc(MAXSIZE);
+	int *sockfd = (int*) malloc(sizeof(int));
+	sockfd = (int*) 47;
 
 	while (1) {
 		/*Voy a escuchar*/
@@ -143,37 +138,38 @@ void movimientoPersonaje(ITEM_NIVEL* ListaItems) {
 		mensaje_t * mens = interpretarMensaje(mensaje);
 
 		if (string_equals_ignore_case(mens->nombre, POSRECURSO)) {
-			mandarPosRecurso(mens->caracter, ListaItems, sockfd);
+			mandarPosRecurso(mens->caracter, listaItems, sockfd);
 		}
 		if (string_equals_ignore_case(mens->nombre, MOVER)) {
-			int valor = validarPos(mens->pos, posicion, rows, cols, ListaItems,
+			simbolo = mens->caracter;
+			int valor = validarPos(mens->pos, posicion, rows, cols, listaItems,
 					simbolo);
 			char* msjMovimiento = (char*) malloc(MAXSIZE);
 
-			if (valor) {
+			if (valor == 1) {
 
 				msjMovimiento = string_from_format(CONFIRMACION);
-				sendMessage(&sockfd, msjMovimiento);
+				sendMessage(sockfd, msjMovimiento);
 				free(msjMovimiento);
 			} else {
 
 				msjMovimiento = string_from_format("%d,%d", posicion->posX,
 						posicion->posY);
-				sendMessage(&sockfd, msjMovimiento);
+				sendMessage(sockfd, msjMovimiento);
 				free(msjMovimiento);
 			}
 		}
 
 		if (string_equals_ignore_case(mens->nombre, SIMBOLO)) {
 			simbolo = mens->caracter;
-			CrearPersonaje(&ListaItems, simbolo, 1, 1);
+			CrearPersonaje(&listaItems, simbolo, 1, 1);
 			posicion->posX = 1;
 			posicion->posY = 1;
 		}
 		if (string_equals_ignore_case(mens->nombre, RECURSO)) {
-			restarRecursos(posicion, ListaItems, sockfd);
+			restarRecursos(posicion, listaItems, sockfd);
 		}
-		nivel_gui_dibujar(ListaItems);
+//		nivel_gui_dibujar(listaItems);
 	}
-	nivel_gui_terminar();
+
 }

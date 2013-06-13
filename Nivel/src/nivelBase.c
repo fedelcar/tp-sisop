@@ -12,24 +12,32 @@
 #include <pthread.h>
 #include <uncommons/SocketsServer.h>
 #include <uncommons/SocketsBasic.h>
-#include "nivel.h"
+#include "nivelBase.h"
+#include "movimiento.h"
 #define MAXSIZE 1024
 #define DOSPUNTOS ":"
+#define HONGO "Hongos"
+#define FLOR "Flores"
+#define MONEDA "Monedas"
 
 void openListener(char* argv, queue_n_locks *queue);
 
-void something(resource_struct *resourceStruct) {
-}
 resource_struct *getLevelStructure(t_level_config *level_config, int *fd,
 		pthread_mutex_t *resourcesReadLock, pthread_mutex_t *resourcesWriteLock);
+
+ITEM_NIVEL* cambiarEstructura(t_level_config* levelConfig);
 
 int main(int argc, char **argv) {
 
 	t_dictionary *niveles = getLevels();
 
+	char*mensaje = "nivel1";
+
 	t_level_config *nivel = (t_level_config*) malloc(sizeof(t_level_config));
 
-	nivel = dictionary_get(niveles, argv);
+	nivel = dictionary_get(niveles, mensaje);
+
+	ITEM_NIVEL *listaItems = cambiarEstructura(nivel);
 
 	pthread_mutex_t *readLock = (pthread_mutex_t*) malloc(
 			sizeof(pthread_mutex_t));
@@ -48,7 +56,7 @@ int main(int argc, char **argv) {
 
 	int *fd;
 
-	openListener(argv, queue);
+	openListener(mensaje, queue);
 
 	pthread_mutex_t *resourcesReadLock = (pthread_mutex_t*) malloc(
 			sizeof(pthread_mutex_t));
@@ -58,6 +66,8 @@ int main(int argc, char **argv) {
 	pthread_mutex_init(resourcesReadLock, NULL );
 
 	pthread_mutex_init(resourcesWriteLock, NULL );
+
+//	nivel_gui_inicializar();
 
 	while (1) {
 
@@ -74,16 +84,18 @@ int main(int argc, char **argv) {
 		resource_struct *resourceStruct = getLevelStructure(nivel, fd,
 				resourcesReadLock, resourcesWriteLock);
 
+		resourceStruct->listaItems = listaItems;
+
 		pthread_t *t = (pthread_t*) malloc(sizeof(pthread_t));
 
-		pthread_create(t, NULL, (void*) something,
+		pthread_create(t, NULL, (void*) movimientoPersonaje,
 				(resource_struct*) resourceStruct);
 
 	}
 
 }
 
-void openListener(char* argv, queue_n_locks *queue) {
+void openListener(char* mensaje, queue_n_locks *queue) {
 
 	t_dictionary *levelsMap = dictionary_create();
 
@@ -92,7 +104,7 @@ void openListener(char* argv, queue_n_locks *queue) {
 	t_level_address *addresses = (t_level_address *) malloc(
 			sizeof(t_level_address));
 
-	addresses = (t_level_address*) dictionary_get(levelsMap, argv);
+	addresses = (t_level_address*) dictionary_get(levelsMap, mensaje);
 
 	char **port = string_split(addresses->nivel, DOSPUNTOS);
 
@@ -119,4 +131,33 @@ resource_struct *getLevelStructure(t_level_config *level_config, int *fd,
 	resources->fd = fd;
 
 	return resources;
+}
+
+ITEM_NIVEL* cambiarEstructura(t_level_config* levelConfig) {
+
+	char simbolo;
+	ITEM_NIVEL* listaItems = (ITEM_NIVEL*) malloc(sizeof(ITEM_NIVEL));
+
+	if (dictionary_has_key(levelConfig->cajas, FLOR)) {
+		t_caja *caja = dictionary_get(levelConfig->cajas, FLOR);
+		simbolo = 'F';
+		CrearCaja(&listaItems, simbolo, (int) caja->posX, (int) caja->posY,
+				(int) caja->instancias);
+	}
+
+	if (dictionary_has_key(levelConfig->cajas, MONEDA)) {
+		t_caja *caja = dictionary_get(levelConfig->cajas, MONEDA);
+		simbolo = 'M';
+		CrearCaja(&listaItems, simbolo, (int) caja->posX, (int) caja->posY,
+				(int) caja->instancias);
+	}
+
+	if (dictionary_has_key(levelConfig->cajas, HONGO)) {
+		t_caja *caja = dictionary_get(levelConfig->cajas, HONGO);
+		simbolo = 'H';
+		CrearCaja(&listaItems, simbolo, (int) caja->posX, (int) caja->posY,
+				(int) caja->instancias);
+	}
+
+	return listaItems;
 }
