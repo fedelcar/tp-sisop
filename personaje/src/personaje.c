@@ -131,8 +131,9 @@ comienzoNivel:
 		sockfdPlanif = openSocketClient(puertoPlanificador, ipPlanificador);
 
 		//Envio mi simbolo al nivel
-		msjSimbolo = string_from_format("Simbolo:%c",personaje->simbolo);
+		msjSimbolo = string_from_format("Simbolo:%s",personaje->simbolo);
 		sendMessage(sockfdNivel, msjSimbolo);
+		log_debug(log, msjSimbolo);
 
 		do { //Recurso
 			recursoActual = string_from_format("%s", pRecursoActual->data);
@@ -149,21 +150,22 @@ comienzoNivel:
 			if (posRec->posX == -1) {
 				msjPedirRecurso = string_from_format("Posicion del recurso:%s",
 						recursoActual);
+				log_debug(log, msjPedirRecurso);
+
 				sendMessage(sockfdNivel, msjPedirRecurso);
 				buff = recieveMessage(sockfdNivel);
 				*posRec = stringToPosicion(buff);
 
-				log_debug(log, msjPedirRecurso);
 			}
 
 			//moverme hacia el recurso
 			*miPos = calcularMovimiento(miPos, posRec);
 			msjMovimiento = string_from_format("Me muevo:%d,%d", miPos->posX,
 					miPos->posY);
+			log_debug(log, msjMovimiento);
+
 			sendMessage(sockfdNivel, msjMovimiento);
 			buff = recieveMessage(sockfdNivel);
-
-			log_debug(log, msjMovimiento);
 
 			//Analizar respuesta
 			if ((string_equals_ignore_case(buff, "ok")) == 0) {
@@ -174,7 +176,9 @@ comienzoNivel:
 			//Analizar si llegue al recurso
 			if (sonPosicionesIguales(miPos, posRec)) {
 				//Pedir recurso al nivel
-				sendMessage(sockfdNivel, "Dame recurso");
+				msjPedirRecurso = string_from_format("Dame recurso:%s",
+										recursoActual);
+				sendMessage(sockfdNivel, msjPedirRecurso);
 				log_debug(log, "Dame recurso");
 
 				*posRec = setPosicion(-1, -1);

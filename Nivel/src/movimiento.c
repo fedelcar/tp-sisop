@@ -140,7 +140,7 @@ void movimientoPersonaje(resource_struct* resources) {
 			mandarPosRecurso(mens->caracter, listaItems, sockfd);
 		}
 		if (string_equals_ignore_case(mens->nombre, MOVER)) {
-			simbolo = mens->caracter;
+
 			int valor = validarPos(mens->pos, posicion, rows, cols, listaItems,
 					simbolo);
 			char* msjMovimiento = (char*) malloc(MAXSIZE);
