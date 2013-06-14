@@ -82,14 +82,14 @@ int main(char* character) {
 
 	personajesTodos = getCharacters();
 
-	personaje = (t_character*) dictionary_get(personajesTodos, character);
+	personaje = (t_character*) dictionary_get(personajesTodos, "Mario");
 	ipOrquestador = extraerIp(personaje->orquestador);
 	puertoOrquestador = extraerPuerto(personaje->orquestador);
 
 	// Señales ------------------------------------
 	struct sigaction action;
 	memset(&action, 0, sizeof(struct sigaction));
-	action.sa_handler = term;
+//	action.sa_handler = term;
 	sigaction(SIGTERM, &action, NULL);
 	//---------------------------------------------
 
@@ -354,17 +354,17 @@ bool sonPosicionesIguales(t_posicion* pos1, t_posicion* pos2) {
 }
 
 
-void term(int signum)
-{
-	sendMessage(sockfdNivel, "Mori");
-	log_debug(log, "Me mori por SIGTERM");
-	vidas--;
-	if (vidas < 0) {
-		goto comienzoPlanDeNiveles;
-
-	}else {
-		goto comienzoNivel;
-	}
-
-}
+//void term(int signum)
+//{
+//	sendMessage(sockfdNivel, "Mori");
+//	log_debug(log, "Me mori por SIGTERM");
+//	vidas--;
+//	if (vidas < 0) {
+//		goto comienzoPlanDeNiveles;
+//
+//	}else {
+//		goto comienzoNivel;
+//	}
+//
+//}
 
