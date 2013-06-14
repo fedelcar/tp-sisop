@@ -65,6 +65,7 @@ int main(char* character) {
 	char* puertoNivel = (char*) malloc(MAXSIZE);
 	char* msjPedirRecurso = (char*) malloc(MAXSIZE);
 	char* msjMovimiento = (char*) malloc(MAXSIZE);
+	char* msjSimbolo = (char*) malloc(MAXSIZE);
 	t_character *personaje = (t_character *) malloc(sizeof(t_character));
 	char* ipOrquestador = (char*) malloc(MAXSIZE);
 	char* puertoOrquestador = (char*) malloc(MAXSIZE);
@@ -128,6 +129,10 @@ comienzoNivel:
 
 		sockfdNivel = openSocketClient(puertoNivel, ipNivel);
 		sockfdPlanif = openSocketClient(puertoPlanificador, ipPlanificador);
+
+		//Envio mi simbolo al nivel
+		msjSimbolo = string_from_format("Simbolo:%c",personaje->simbolo);
+		sendMessage(sockfdNivel, msjSimbolo);
 
 		do { //Recurso
 			recursoActual = string_from_format("%s", pRecursoActual->data);
@@ -239,6 +244,7 @@ comienzoNivel:
 	free(sockfdOrquestador);
 	free(sockfdNivel);
 	free(sockfdPlanif);
+	free(msjSimbolo);
 
 	return 0;
 }
