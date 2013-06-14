@@ -24,7 +24,7 @@
 #include <sys/socket.h>
 //#include "sisdeps.h"
 #include <unistd.h>
-#include <signal.h>
+//#include <signal.h>
 
 #define MAXSIZE 1024
 //#define COMA ","
@@ -43,7 +43,7 @@ char* posicionToString(t_posicion* miPos);
 t_posicion setPosicion(int x, int y);
 bool sonPosicionesIguales(t_posicion* pos1, t_posicion* pos2);
 int vidas;
-void term(int signum);
+//void term(int signum);
 
 
 int main(char* character) {
@@ -87,10 +87,10 @@ int main(char* character) {
 	puertoOrquestador = extraerPuerto(personaje->orquestador);
 
 	// Señales ------------------------------------
-	struct sigaction action;
-	memset(&action, 0, sizeof(struct sigaction));
+//	struct sigaction action;
+//	memset(&action, 0, sizeof(struct sigaction));
 //	action.sa_handler = term;
-	sigaction(SIGTERM, &action, NULL);
+//	sigaction(SIGTERM, &action, NULL);
 	//---------------------------------------------
 
 comienzoPlanDeNiveles:
@@ -324,8 +324,8 @@ t_posicion stringToPosicion(char* buffer) { //Recibe el buffer en formato string
 	int X = atoi(*temp);
 	int Y = atoi(*(temp + 1));
 	t_posicion temp2;
-	temp2.posX = 4;
-	temp2.posY = 5;
+	temp2.posX = X;
+	temp2.posY = Y;
 	return temp2;
 }
 
