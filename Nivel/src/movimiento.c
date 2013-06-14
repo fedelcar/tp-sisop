@@ -118,15 +118,15 @@ void movimientoPersonaje(resource_struct* resources) {
 
 	int *rows = (int*) malloc(sizeof(int));
 	int *cols = (int*) malloc(sizeof(int));
-	rows = (int*) 0;
-	cols = (int*) 0;
+	rows = (int*) 1;
+	cols = (int*) 1;
 	char simbolo;
 
 	t_posicion* posicion = (t_posicion*) malloc(sizeof(t_posicion));
 	posicion->posX = 1;
 	posicion->posY = 1;
 
-//	nivel_gui_get_area_nivel(rows, cols);
+	nivel_gui_get_area_nivel(rows, cols);
 
 	char * mensaje = (char*) malloc(MAXSIZE);
 	int *sockfd = resources->fd;
@@ -168,7 +168,7 @@ void movimientoPersonaje(resource_struct* resources) {
 		if (string_equals_ignore_case(mens->nombre, RECURSO)) {
 			restarRecursos(posicion, listaItems, sockfd);
 		}
-//		nivel_gui_dibujar(listaItems);
+		nivel_gui_dibujar(listaItems);
 	}
 
 }

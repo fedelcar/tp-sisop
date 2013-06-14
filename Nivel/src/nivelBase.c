@@ -67,7 +67,7 @@ int main(int argc, char **argv) {
 
 	pthread_mutex_init(resourcesWriteLock, NULL );
 
-//	nivel_gui_inicializar();
+	nivel_gui_inicializar();
 
 	while (1) {
 
