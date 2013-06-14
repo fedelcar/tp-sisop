@@ -93,6 +93,8 @@ int main(int argc, char **argv) {
 
 	}
 
+	//TODO PENDIENTE BORRAR ITEMS
+
 }
 
 void openListener(char* mensaje, queue_n_locks *queue) {

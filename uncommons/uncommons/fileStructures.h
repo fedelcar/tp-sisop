@@ -10,7 +10,7 @@
 
 #define NOMBRE "nombre"
 #define CAJA "Caja"
-#define ORQUESTADOR "orquestador"
+#define ORQUESTADORBASE "orquestador"
 #define TIEMPOCHEQUEODEADLOCK "TiempoChequeoDeadlock"
 #define RECOVERY "Recovery"
 #define SIMBOLO "simbolo"
