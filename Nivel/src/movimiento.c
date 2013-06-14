@@ -123,10 +123,10 @@ void movimientoPersonaje(resource_struct* resources) {
 	char simbolo;
 
 	t_posicion* posicion = (t_posicion*) malloc(sizeof(t_posicion));
-	posicion->posX = 1;
-	posicion->posY = 1;
+	posicion->posX = 0;
+	posicion->posY = 0;
 
-	nivel_gui_get_area_nivel(rows, cols);
+	nivel_gui_get_area_nivel(&rows, &cols);
 
 	char * mensaje = (char*) malloc(MAXSIZE);
 	int *sockfd = resources->fd;
