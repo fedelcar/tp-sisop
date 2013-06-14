@@ -73,22 +73,24 @@ int evaluarPosicion(t_posicion* posicion, ITEM_NIVEL *item) {
 	}
 }
 
-void restarRecursos(t_posicion* posicion, ITEM_NIVEL* listaItems, int* sockfd) {
+void restarRecursos(t_posicion* posicion, ITEM_NIVEL* listaItems, int* sockfd,
+		char recurso) {
 
 	char* msjMovimiento = (char*) malloc(MAXSIZE);
 	msjMovimiento = EMPTYSTRING;
-	while (listaItems != NULL && listaItems->item_type == RECURSO_ITEM_TYPE) {
-		if (evaluarPosicion(posicion, listaItems) == 1) {
-			if (listaItems->quantity > 0) {
-				restarRecurso(listaItems, listaItems->id);
-				msjMovimiento = string_from_format("%s", CONFIRMACION);
-
-			} else {
-				msjMovimiento = string_from_format("%s", RECHAZO);
-
-			}
-		}
+	while (listaItems != NULL && recurso != listaItems->id) {
 		listaItems = listaItems->next;
+	}
+
+	if (evaluarPosicion(posicion, listaItems) == 1) {
+		if (listaItems->quantity > 0) {
+			restarRecurso(listaItems, listaItems->id);
+			msjMovimiento = string_from_format("%s", CONFIRMACION);
+
+		} else {
+			msjMovimiento = string_from_format("%s", RECHAZO);
+
+		}
 	}
 
 	if (string_equals_ignore_case(msjMovimiento, "EMPTY")) {
@@ -118,8 +120,8 @@ void movimientoPersonaje(resource_struct* resources) {
 
 	int *rows = (int*) malloc(sizeof(int));
 	int *cols = (int*) malloc(sizeof(int));
-	rows = (int*) 1;
-	cols = (int*) 1;
+	rows = (int*) 10;
+	cols = (int*) 10;
 	char simbolo;
 
 	t_posicion* posicion = (t_posicion*) malloc(sizeof(t_posicion));
@@ -166,9 +168,9 @@ void movimientoPersonaje(resource_struct* resources) {
 			posicion->posY = 1;
 		}
 		if (string_equals_ignore_case(mens->nombre, RECURSO)) {
-			restarRecursos(posicion, listaItems, sockfd);
+			restarRecursos(posicion, listaItems, sockfd, mens->caracter);
 		}
-		nivel_gui_dibujar(listaItems);
+			nivel_gui_dibujar(listaItems);
 	}
 
 }
