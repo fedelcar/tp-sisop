@@ -136,6 +136,11 @@ void movimientoPersonaje(resource_struct* resources) {
 	while (1) {
 		/*Voy a escuchar*/
 		mensaje = recieveMessage(sockfd);
+
+		if(string_equals_ignore_case(mensaje, "Termine nivel")){
+			break;
+		}
+
 		mensaje_t * mens = interpretarMensaje(mensaje);
 
 		if (string_equals_ignore_case(mens->nombre, POSRECURSO)) {
