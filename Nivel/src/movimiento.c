@@ -34,7 +34,6 @@ mensaje_t* interpretarMensaje(char* mensaje) {
 	} else {
 		mensj->caracter = P[0];
 	}
-
 	return mensj;
 }
 
@@ -73,8 +72,22 @@ int evaluarPosicion(t_posicion* posicion, ITEM_NIVEL *item) {
 	}
 }
 
+void pasarLista(recursos_otorgados*recursos, char recurso){
+	switch (recurso){
+	case 'H':
+		recursos->H++;
+		break;
+	case 'F':
+		recursos->F++;
+		break;
+	case 'M':
+		recursos->M++;
+		break;
+	}
+}
+
 void restarRecursos(t_posicion* posicion, ITEM_NIVEL* listaItems, int* sockfd,
-		char recurso) {
+		char recurso, recursos_otorgados* recursos) {
 
 	char* msjMovimiento = (char*) malloc(MAXSIZE);
 	msjMovimiento = EMPTYSTRING;
@@ -85,6 +98,7 @@ void restarRecursos(t_posicion* posicion, ITEM_NIVEL* listaItems, int* sockfd,
 	if (evaluarPosicion(posicion, listaItems) == 1) {
 		if (listaItems->quantity > 0) {
 			restarRecurso(listaItems, listaItems->id);
+			pasarLista(recursos, recurso);
 			msjMovimiento = string_from_format("%s", CONFIRMACION);
 
 		} else {
@@ -103,11 +117,38 @@ void restarRecursos(t_posicion* posicion, ITEM_NIVEL* listaItems, int* sockfd,
 	free(msjMovimiento);
 }
 
+ITEM_NIVEL* buscarRecurso(ITEM_NIVEL* listaItems, char recurso){
+	while (listaItems!=NULL && listaItems->id !=recurso){
+		listaItems =listaItems->next;
+	}
+	return listaItems;
+}
+
+void restaurarRecursos(recursos_otorgados* recursos, ITEM_NIVEL* listaItems){
+	ITEM_NIVEL* temp;
+
+	temp = buscarRecurso(listaItems, 'H');
+	temp->quantity= temp->quantity + recursos->H;
+
+	temp = buscarRecurso(listaItems, 'F');
+	temp->quantity= temp->quantity + recursos->F;
+
+	temp = buscarRecurso(listaItems, 'M');
+	temp->quantity= temp->quantity + recursos->M;
+
+}
+
+
 //Funcion Principal
 void movimientoPersonaje(resource_struct* resources) {
 //void main(){
 
 //char* mensaje= "Me muevo:20,30";
+
+	recursos_otorgados * recursosAt=(recursos_otorgados*)malloc(sizeof(recursos_otorgados));
+	recursosAt->F = 0;
+	recursosAt->H = 0;
+	recursosAt->M = 0;
 
 	ITEM_NIVEL* listaItems = (ITEM_NIVEL*) malloc(sizeof(ITEM_NIVEL));
 
@@ -128,7 +169,7 @@ void movimientoPersonaje(resource_struct* resources) {
 	posicion->posX = 0;
 	posicion->posY = 0;
 
-	nivel_gui_get_area_nivel(&rows, &cols);
+	//nivel_gui_get_area_nivel(&rows, &cols);
 
 	char * mensaje = (char*) malloc(MAXSIZE);
 	int *sockfd = resources->fd;
@@ -138,6 +179,7 @@ void movimientoPersonaje(resource_struct* resources) {
 		mensaje = recieveMessage(sockfd);
 
 		if(string_equals_ignore_case(mensaje, "Termine nivel")){
+			restaurarRecursos(recursosAt, listaItems);
 			break;
 		}
 
@@ -173,9 +215,10 @@ void movimientoPersonaje(resource_struct* resources) {
 			posicion->posY = 1;
 		}
 		if (string_equals_ignore_case(mens->nombre, RECURSO)) {
-			restarRecursos(posicion, listaItems, sockfd, mens->caracter);
+			restarRecursos(posicion, listaItems, sockfd, mens->caracter, recursosAt);
 		}
-			nivel_gui_dibujar(listaItems);
 	}
+
+	BorrarItem(&listaItems, simbolo);
 
 }

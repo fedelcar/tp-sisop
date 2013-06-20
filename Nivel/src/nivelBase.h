@@ -21,3 +21,9 @@ typedef struct mensaje {
 	char caracter;
 	t_posicion * pos;
 } mensaje_t;
+
+typedef struct {
+	int F ;
+	int H ;
+	int M ;
+	}recursos_otorgados;
