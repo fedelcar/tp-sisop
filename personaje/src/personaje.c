@@ -131,7 +131,7 @@ comienzoNivel:
 		sockfdPlanif = openSocketClient(puertoPlanificador, ipPlanificador);
 
 		//Envio mi simbolo al nivel
-		msjSimbolo = string_from_format("Simbolo:%c",personaje->simbolo);
+		msjSimbolo = string_from_format("Simbolo:%s",personaje->simbolo);
 		sendMessage(sockfdNivel, msjSimbolo);
 		log_debug(log, msjSimbolo);
 
