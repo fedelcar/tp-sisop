@@ -48,7 +48,7 @@ int vidas;
 
 int main(char* character) {
 
-	t_log* log = log_create("/home/lucas/log.txt", "Personaje", 1,
+	t_log* log = log_create("/home/utnso/log.txt", "Personaje", 1,
 			LOG_LEVEL_DEBUG);
 
 //---------- Inicializar Punteros ------------
@@ -131,7 +131,7 @@ comienzoNivel:
 		sockfdPlanif = openSocketClient(puertoPlanificador, ipPlanificador);
 
 		//Envio mi simbolo al nivel
-		msjSimbolo = string_from_format("Simbolo:%s",personaje->simbolo);
+		msjSimbolo = string_from_format("Simbolo:%c",personaje->simbolo);
 		sendMessage(sockfdNivel, msjSimbolo);
 		log_debug(log, msjSimbolo);
 
