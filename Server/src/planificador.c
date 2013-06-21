@@ -19,6 +19,7 @@
 #define SIGNAL_OK "OK"
 #define SIGNAL_BLOCKED "BLOCKED"
 #define MAXDATASIZE 1024
+static const char* TERMINE_NIVEL = "Termine nivel";
 
 void socket_listener(queue_n_locks *queue);
 void analize_response(char *response, t_queue *character_queue, int *fd);
@@ -110,9 +111,9 @@ void analize_response(char *response, t_queue *character_queue, int *fd) {
 	if (string_equals_ignore_case(response, SIGNAL_OK)) {
 		queue_push(character_queue, fd);
 	} else if (string_equals_ignore_case(response, SIGNAL_BLOCKED)) {
-		close(*fd); //TODO PUSH FD TO THE OTHER QUEUE
+		close(fd); //TODO PUSH FD TO THE OTHER QUEUE
 	}
-	else {
-		printf("No se loco.\n");
+	else if (string_equals_ignore_case(response, TERMINE_NIVEL)) {
+		close(fd);
 	}
 }

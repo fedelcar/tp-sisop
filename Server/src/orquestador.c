@@ -129,7 +129,7 @@ void main() {
 		printf("Realizo el pop\n");
 
 		pthread_mutex_unlock(readLock);
-
+		memset(response, 0, sizeof(response));
 		response = recieveMessage(fd);
 
 		executeResponse(response, levelsMap, fd);
@@ -144,10 +144,17 @@ void executeResponse(char* response, t_dictionary *levelsMap, int *fd) {
 		response = string_substring_from(response, sizeof(LEVEL));
 		t_level_address *level = (t_level_address *) malloc(
 				sizeof(t_level_address));
-		level = dictionary_get(levelsMap, response);
-		string_append(&level->planificador, COMA);
-		string_append(&level->planificador, level->nivel);
-		sendMessage(fd, level->planificador);
+		char *socketsToGo = (char*) malloc(MAXSIZE);
+		memset(socketsToGo, 0, sizeof(socketsToGo));
+//		memcpy(level->nivel, ((t_level_address*) (dictionary_get(levelsMap, (string_split(response, "|"))[0])))->nivel, sizeof(((t_level_address*) (dictionary_get(levelsMap, (string_split(response, "|"))[0])))->nivel));
+//		memcpy(level->planificador, ((t_level_address*) (dictionary_get(levelsMap, (string_split(response, "|"))[0])))->planificador, sizeof(((t_level_address*) (dictionary_get(levelsMap, (string_split(response, "|"))[0])))->planificador));
+//		level = dictionary_get(levelsMap, (string_split(response, "|"))[0]);
+		string_append(&socketsToGo, ((t_level_address*) (dictionary_get(levelsMap, (string_split(response, "|"))[0])))->planificador);
+		string_append(&socketsToGo, COMA);
+		string_append(&socketsToGo, ((t_level_address*) (dictionary_get(levelsMap, (string_split(response, "|"))[0])))->nivel);
+		sendMessage(fd, socketsToGo);
+		free(socketsToGo);
+		free(response);
 		free(level);
 		close(fd);
 	} else {
