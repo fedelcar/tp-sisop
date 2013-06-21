@@ -25,10 +25,12 @@
 //#include "sisdeps.h"
 #include <unistd.h>
 //#include <signal.h>
+#include <string.h>
 
 #define MAXSIZE 1024
 //#define COMA ","
 //#define TUTURNO "Tu turno"
+#define ENDSTRING "|\0"
 
 char* extraerIpPlanificador(char* mensaje);
 char* extraerIpNivel(char* mensaje);
@@ -48,7 +50,7 @@ int vidas;
 
 int main(char* character) {
 
-	t_log* log = log_create("/home/utnso/log.txt", "Personaje", 1,
+	t_log* log = log_create("/home/lucas/log.txt", "Personaje", 1,
 			LOG_LEVEL_DEBUG);
 
 //---------- Inicializar Punteros ------------
@@ -57,8 +59,6 @@ int main(char* character) {
 	t_posicion* miPos = (t_posicion*) malloc(sizeof(t_posicion));
 	t_posicion* posRec = (t_posicion*) malloc(sizeof(t_posicion));
 	char* recursoActual = (char*) malloc(MAXSIZE);
-	char* buff = (char*) malloc(MAXSIZE);
-	char* msjPedirNivel = (char*) malloc(MAXSIZE);
 	char* ipPlanificador = (char*) malloc(MAXSIZE);
 	char* ipNivel = (char*) malloc(MAXSIZE);
 	char* puertoPlanificador = (char*) malloc(MAXSIZE);
@@ -110,11 +110,17 @@ comienzoNivel:
 		*posRec = setPosicion(-1, -1);
 		pRecursoActual = recursosNivel->head;
 
+		char* buff = (char*) malloc(MAXSIZE);
+		char* msjPedirNivel = (char*) malloc(MAXSIZE);
+		memset(msjPedirNivel, 0, sizeof(msjPedirNivel));
+		memset(buff, 0, sizeof(buff));
+
 		log_debug(log, "Esperando conexión");
 		sockfdOrquestador = openSocketClient(puertoOrquestador, ipOrquestador);
 
 		//Pedir direccion de planificador y nivel
 		msjPedirNivel = string_from_format("LVL,%s", nivelActual);
+		string_append(&msjPedirNivel, ENDSTRING);
 		sendMessage(sockfdOrquestador, msjPedirNivel);
 		buff = recieveMessage(sockfdOrquestador);
 		log_debug(log, msjPedirNivel);
@@ -222,8 +228,12 @@ comienzoNivel:
 
 			break;
 		}
-
+		free(buff);
+		free(msjPedirNivel);
 		pNivelActual = (pNivelActual->next);
+		close(sockfdNivel);
+		close(sockfdOrquestador);
+		close(sockfdPlanif);
 
 	} while (1); //termina nivel
 
@@ -233,8 +243,6 @@ comienzoNivel:
 	free(miPos);
 	free(posRec);
 	free(recursoActual);
-	free(buff);
-	free(msjPedirNivel);
 	free(ipPlanificador);
 	free(ipNivel);
 	free(puertoPlanificador);
