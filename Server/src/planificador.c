@@ -7,13 +7,11 @@
 
 #include <stdlib.h>
 #include <pthread.h>
-#include <commons/collections/queue.h>
 #include <unistd.h>
 #include "uncommons/SocketsBasic.h"
 #include "uncommons/SocketsServer.h"
 #include "planificador.h"
 #include "commons/string.h"
-#include "uncommons/fileStructures.h"
 
 //TODO CHANGE SIGNALS VALUES AND RESPONSE LENGTH
 #define SIGNAL_OK "OK"
@@ -22,9 +20,9 @@
 static const char* TERMINE_NIVEL = "Termine nivel";
 
 void socket_listener(queue_n_locks *queue);
-void analize_response(char *response, t_queue *character_queue, int *fd);
+void analize_response(char *response, queue_n_locks *queue, int *fd);
 
-void planificador(char* port) {
+void planificador(t_scheduler_queue *scheduler_queue) {
 
 	pthread_mutex_t *readLock = (pthread_mutex_t*) malloc(sizeof(pthread_mutex_t));
 	pthread_mutex_t *writeLock = (pthread_mutex_t*) malloc(sizeof(pthread_mutex_t));
@@ -35,16 +33,17 @@ void planificador(char* port) {
 
 	pthread_mutex_init(writeLock, NULL);
 
-	queue->character_queue = queue_create();
+	queue->character_queue = scheduler_queue->character_queue;
+	queue->blocked_queue = scheduler_queue->blocked_queue;
 	queue->readLock = readLock;
 	queue->writeLock = writeLock;
-	queue->portNumber = port;
+	queue->portNumber = scheduler_queue->port;
 
 	socket_listener(queue);
 
 	char *response = (char *) malloc(MAXDATASIZE); //CHECK LENGTH
 
-	int *fd; //CHECK
+	int *fd;
 
 	t_level_attributes *level;
 
@@ -86,7 +85,7 @@ void planificador(char* port) {
 
 		printf("Respondio mensaje\n");
 
-		analize_response(response, queue->character_queue, fd);
+		analize_response(response, queue, fd);
 
 		pthread_mutex_unlock(writeLock);
 
@@ -106,12 +105,12 @@ void socket_listener(queue_n_locks *queue) {
 
 }
 
-void analize_response(char *response, t_queue *character_queue, int *fd) {
+void analize_response(char *response, queue_n_locks *queue, int *fd) {
 
 	if (string_equals_ignore_case(response, SIGNAL_OK)) {
-		queue_push(character_queue, fd);
+		queue_push(queue->character_queue, fd);
 	} else if (string_equals_ignore_case(response, SIGNAL_BLOCKED)) {
-		close(fd); //TODO PUSH FD TO THE OTHER QUEUE
+		queue_push(queue->blocked_queue, fd);
 	}
 	else if (string_equals_ignore_case(response, TERMINE_NIVEL)) {
 		close(fd);

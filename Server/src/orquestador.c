@@ -8,11 +8,10 @@
 #include <dirent.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <commons/collections/queue.h>
-#include "uncommons/fileStructures.h"
-#include <commons/collections/dictionary.h>
-#include <commons/collections/list.h>
 #include "planificador.h"
+#include <commons/collections/dictionary.h>
+#include <commons/collections/queue.h>
+#include <commons/collections/list.h>
 #include <pthread.h>
 #include "uncommons/SocketsBasic.h"
 #include "uncommons/SocketsServer.h"
@@ -29,17 +28,6 @@ static const char* COMA = ",";
 void executeResponse(char* response, t_dictionary *levelsMap, int *fd);
 
 void main() {
-
-	/*
-	 * Lista de personajes bloqueados
-	 */
-	t_queue *blocked_characters = queue_create();
-
-	/**
-	 * No me acuerdo que es request, TODO investigar
-	 */
-
-	t_queue *request = queue_create();
 
 	/**
 	 * Lista de niveles
@@ -81,7 +69,13 @@ void main() {
 
 		port = string_split(addresses->planificador, DOSPUNTOS);
 
-		pthread_create(t, NULL, (void *) planificador, port[1]);
+		t_scheduler_queue *scheduler_queue = (t_scheduler_queue*) malloc(sizeof(t_scheduler_queue));
+
+		scheduler_queue->blocked_queue = queue_create();
+		scheduler_queue->character_queue = queue_create();
+		scheduler_queue->port = port[1];
+
+		pthread_create(t, NULL, (void *) planificador, (t_scheduler_queue*) scheduler_queue);
 
 	}
 
@@ -146,9 +140,6 @@ void executeResponse(char* response, t_dictionary *levelsMap, int *fd) {
 				sizeof(t_level_address));
 		char *socketsToGo = (char*) malloc(MAXSIZE);
 		memset(socketsToGo, 0, sizeof(socketsToGo));
-//		memcpy(level->nivel, ((t_level_address*) (dictionary_get(levelsMap, (string_split(response, "|"))[0])))->nivel, sizeof(((t_level_address*) (dictionary_get(levelsMap, (string_split(response, "|"))[0])))->nivel));
-//		memcpy(level->planificador, ((t_level_address*) (dictionary_get(levelsMap, (string_split(response, "|"))[0])))->planificador, sizeof(((t_level_address*) (dictionary_get(levelsMap, (string_split(response, "|"))[0])))->planificador));
-//		level = dictionary_get(levelsMap, (string_split(response, "|"))[0]);
 		string_append(&socketsToGo, ((t_level_address*) (dictionary_get(levelsMap, (string_split(response, "|"))[0])))->planificador);
 		string_append(&socketsToGo, COMA);
 		string_append(&socketsToGo, ((t_level_address*) (dictionary_get(levelsMap, (string_split(response, "|"))[0])))->nivel);

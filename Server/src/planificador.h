@@ -5,7 +5,7 @@
  *      Author: lucas
  */
 
-#include "commons/collections/queue.h"
+#include <uncommons/fileStructures.h>
 
 struct scheduler_struct{
 
@@ -14,7 +14,7 @@ struct scheduler_struct{
 
 };
 
-void planificador(char* port);
+void planificador(t_scheduler_queue *scheduler_queue);
 
 
 
