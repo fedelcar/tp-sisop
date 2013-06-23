@@ -195,8 +195,8 @@ comienzoNivel:
 				pRecursoActual = pRecursoActual->next;
 				buff = recieveMessage(sockfdNivel);
 
-				if (string_equals_ignore_case(buff, "Error")) {
-					sendMessage(sockfdPlanif, "Me bloquearon");
+				if (string_equals_ignore_case(buff, "Rechazo")) {
+					sendMessage(sockfdPlanif, "BLOCKED");
 					buff = recieveMessage(sockfdPlanif);
 
 				}
