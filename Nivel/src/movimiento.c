@@ -103,7 +103,6 @@ void restarRecursos(t_posicion* posicion, ITEM_NIVEL* listaItems, int* sockfd,
 
 		} else {
 			msjMovimiento = string_from_format("%s", RECHAZO);
-
 		}
 	}
 
