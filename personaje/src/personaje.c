@@ -122,8 +122,10 @@ comienzoNivel:
 		msjPedirNivel = string_from_format("LVL,%s", nivelActual);
 		string_append(&msjPedirNivel, ENDSTRING);
 		sendMessage(sockfdOrquestador, msjPedirNivel);
-		buff = recieveMessage(sockfdOrquestador);
 		log_debug(log, msjPedirNivel);
+		buff = recieveMessage(sockfdOrquestador);
+		log_debug(log,buff);
+
 
 		close(sockfdOrquestador);
 
@@ -139,6 +141,7 @@ comienzoNivel:
 		//Envio mi simbolo al nivel
 		msjSimbolo = string_from_format("Simbolo:%s",personaje->simbolo);
 		sendMessage(sockfdNivel, msjSimbolo);
+		recieveMessage(sockfdNivel);
 		log_debug(log, msjSimbolo);
 
 		do { //Recurso
@@ -230,7 +233,8 @@ comienzoNivel:
 		}
 		free(buff);
 		free(msjPedirNivel);
-		pNivelActual = (pNivelActual->next);
+//		pNivelActual = (pNivelActual->next);
+		break;
 		close(sockfdNivel);
 		close(sockfdOrquestador);
 		close(sockfdPlanif);
