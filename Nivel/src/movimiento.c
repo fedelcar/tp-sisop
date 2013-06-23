@@ -214,6 +214,7 @@ void movimientoPersonaje(resource_struct* resources) {
 			CrearPersonaje(&listaItems, simbolo, 1, 1);
 			posicion->posX = 1;
 			posicion->posY = 1;
+			sendMessage(sockfd, "Ok");
 		}
 		if (string_equals_ignore_case(mens->nombre, RECURSO)) {
 			restarRecursos(posicion, listaItems, sockfd, mens->caracter, recursosAt);

@@ -91,6 +91,7 @@ int main(int argc, char **argv) {
 		pthread_create(t, NULL, (void*) movimientoPersonaje,
 				(resource_struct*) resourceStruct);
 
+		pthread_mutex_unlock(readLock);
 	}
 
 	//TODO PENDIENTE BORRAR ITEMS
