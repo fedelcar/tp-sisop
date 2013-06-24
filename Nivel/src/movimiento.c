@@ -6,6 +6,7 @@
 #include <commons/collections/dictionary.h>
 #include <uncommons/SocketsBasic.h>
 #include "nivelBase.h"
+#include <uncommons/SocketsCliente.h>
 
 #define DOSPUNTOS ":"
 #define COMA ","
@@ -16,6 +17,7 @@
 #define CONFIRMACION "Confirmacion"
 #define RECHAZO "Rechazo"
 #define EMPTYSTRING "EMPTY"
+static const char* OK = "ok";
 
 mensaje_t* interpretarMensaje(char* mensaje) {
 
@@ -87,7 +89,7 @@ void pasarLista(recursos_otorgados*recursos, char recurso){
 }
 
 void restarRecursos(t_posicion* posicion, ITEM_NIVEL* listaItems, int* sockfd,
-		char recurso, recursos_otorgados* recursos) {
+		char recurso, recursos_otorgados* recursos, resource_struct* resources) {
 
 	char* msjMovimiento = (char*) malloc(MAXSIZE);
 	msjMovimiento = EMPTYSTRING;
@@ -178,8 +180,17 @@ void movimientoPersonaje(resource_struct* resources) {
 		mensaje = recieveMessage(sockfd);
 
 		if(string_equals_ignore_case(mensaje, "Termine nivel")){
-			restaurarRecursos(recursosAt, listaItems);
-			nivel_gui_dibujar(listaItems);
+			int *fileDescriptor;
+			char** socket = (char*) malloc(MAXSIZE);
+			socket = string_split(resources->level_config->orquestador, DOSPUNTOS);
+			fileDescriptor = openSocketClient(socket[1], socket[0]);
+			char* mensaje = endingString(recursos_otorgados);
+			sendMessage(fileDescriptor, mensaje);
+			mensaje = recieveMessage(fileDescriptor);
+			if (OK) {
+				restaurarRecursos(recursosAt, listaItems);
+				nivel_gui_dibujar(listaItems);
+			}
 			break;
 		}
 
@@ -216,11 +227,21 @@ void movimientoPersonaje(resource_struct* resources) {
 			sendMessage(sockfd, "Ok");
 		}
 		if (string_equals_ignore_case(mens->nombre, RECURSO)) {
-			restarRecursos(posicion, listaItems, sockfd, mens->caracter, recursosAt);
+			restarRecursos(posicion, listaItems, sockfd, mens->caracter, recursosAt, resources);
 		}
 		nivel_gui_dibujar(listaItems);
 	}
 
 	BorrarItem(&listaItems, simbolo);
 
+}
+
+
+char* endingString(recursos_otorgados * recursosAt){
+
+	char* lastString = (char*) malloc(MAXSIZE);
+
+	lastString = string_from_format("FREERESC,F:%d,M:%d,H:%d", recursosAt->F, recursosAt->M, recursosAt->H);
+
+	return lastString;
 }
