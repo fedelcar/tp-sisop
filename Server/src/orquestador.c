@@ -28,6 +28,7 @@
 #define COMA ","
 #define OKEY "ok"
 #define DAR_RECURSO "DAR_RECURSO"
+#define NOTOK "NOTOK"
 
 void executeResponse(char* response, t_dictionary *levelsMap, int *fd, t_dictionary *levels_queues);
 void giveResource(t_scheduler_queue *queues, int recurso, blocked_character *blockedCharacter);
@@ -176,6 +177,9 @@ void executeResponse(char* response, t_dictionary *levelsMap, int *fd, t_diction
 			close(fd);
 		}
 		else{
+
+			sendMessage(fd, NOTOK);
+
 			int hongos = (int*) malloc(sizeof(int));
 			int monedas = (int*) malloc(sizeof(int));
 			int flores = (int*) malloc(sizeof(int));
@@ -184,18 +188,19 @@ void executeResponse(char* response, t_dictionary *levelsMap, int *fd, t_diction
 			monedas = atoi(data[2]);
 			hongos = atoi(data[3]);
 
-			blocked_character *blockedCharacter = queue_pop(queues->blocked_queue);
-
 			int i = 0;
 
 			for(i = 0 ; i < queue_size(queues->blocked_queue) ; i++){
-				if(string_equals_ignore_case(blockedCharacter->recurso, 'F')){
+
+				blocked_character *blockedCharacter = queue_pop(queues->blocked_queue);
+
+				if(blockedCharacter->recurso == 'F'){
 					giveResource(queues, flores, blockedCharacter);
 				}
-				else if (string_equals_ignore_case(blockedCharacter->recurso, 'H')){
+				else if (blockedCharacter->recurso == 'H'){
 					giveResource(queues, hongos, blockedCharacter);
 				}
-				else if(string_equals_ignore_case(blockedCharacter->recurso, 'M')){
+				else if(blockedCharacter->recurso == 'M'){
 					giveResource(queues, monedas, blockedCharacter);
 				}
 			}
@@ -209,6 +214,7 @@ void giveResource(t_scheduler_queue *queues, int recurso, blocked_character *blo
 	if(recurso > 0){
 		recurso--;
 		sendMessage(blockedCharacter->fd, DAR_RECURSO);
-		queue_push(queues->character_queue, blockedCharacter);
+		queue_push(queues->character_queue, blockedCharacter->fd);
+		pthread_mutex_unlock(blockedCharacter->readlock);
 	}
 }

@@ -20,7 +20,7 @@
 #define TERMINE_NIVEL "Termine nivel"
 
 void socket_listener(queue_n_locks *queue);
-void analize_response(char *response, queue_n_locks *queue, int *fd);
+void analize_response(char *response, queue_n_locks *queue, int *fd, pthread_mutex_t *readLock);
 
 void planificador(t_scheduler_queue *scheduler_queue) {
 
@@ -85,7 +85,7 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 
 		printf("Respondio mensaje\n");
 
-		analize_response(response, queue, fd);
+		analize_response(response, queue, fd, readLock);
 
 		pthread_mutex_unlock(writeLock);
 
@@ -105,7 +105,7 @@ void socket_listener(queue_n_locks *queue) {
 
 }
 
-void analize_response(char *response, queue_n_locks *queue, int *fd) {
+void analize_response(char *response, queue_n_locks *queue, int *fd, pthread_mutex_t *readLock) {
 
 	if (string_equals_ignore_case(response, SIGNAL_OK)) {
 		queue_push(queue->character_queue, fd);
@@ -114,6 +114,7 @@ void analize_response(char *response, queue_n_locks *queue, int *fd) {
 		blocked_character *blockedCharacter = (blocked_character*) malloc(sizeof(blocked_character));
 		blockedCharacter->fd = fd;
 		blockedCharacter->recurso = response[0];
+		blockedCharacter->readlock = readLock;
 		queue_push(queue->blocked_queue, blockedCharacter);
 	}
 	else if (string_equals_ignore_case(response, TERMINE_NIVEL)) {
