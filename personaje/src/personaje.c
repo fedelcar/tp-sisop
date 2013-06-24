@@ -26,6 +26,7 @@
 #include <unistd.h>
 //#include <signal.h>
 #include <string.h>
+#define START "START"
 
 #define MAXSIZE 1024
 //#define COMA ","
@@ -145,6 +146,7 @@ comienzoNivel:
 		puertoNivel = extraerPuertoNivel(buff);
 
 		sockfdNivel = openSocketClient(puertoNivel, ipNivel);
+		sendMessage(sockfdNivel, START);
 		sockfdPlanif = openSocketClient(puertoPlanificador, ipPlanificador);
 
 		//Envio mi simbolo al nivel
