@@ -203,9 +203,12 @@ comienzoNivel:
 				cantRecAcum = cantRecAcum + 1;
 				pRecursoActual = pRecursoActual->next;
 				buff = recieveMessage(sockfdNivel);
-
+				log_debug(log, buff);
 				if (string_equals_ignore_case(buff, RECHAZO)) {
-					sendMessage(sockfdPlanif, BLOCKED);
+					char* mensajeBloqueado = (char*) malloc(MAXSIZE);
+					mensajeBloqueado = string_from_format("BLOCKED,%s", recursoActual);
+					sendMessage(sockfdPlanif, mensajeBloqueado);
+					free(mensajeBloqueado);
 					recieveMessage(sockfdPlanif);
 				}
 				//Analizar si termine el nivel
@@ -223,8 +226,9 @@ comienzoNivel:
 			}
 
 			//Informo al planificador que termine mi turno
+			log_debug(log, "Le aviso al planificador en el siguiente mensaje");
 			sendMessage(sockfdPlanif, OK);
-			log_debug(log, OK);
+			log_debug(log, "Termine mi turno");
 
 		} while (1); //termina recursos
 
