@@ -156,10 +156,22 @@ comienzoNivel:
 		log_debug(log, msjSimbolo);
 
 		do { //Recurso
-			recursoActual = string_from_format("%s", pRecursoActual->data);
 
 			//Quedar a la espera del turno
 			buff = recieveMessage(sockfdPlanif);
+
+			if (pRecursoActual == NULL) {
+				sendMessage(sockfdNivel, TERMINE_NIVEL);
+				sendMessage(sockfdPlanif, TERMINE_NIVEL);
+				close(sockfdNivel);
+				close(sockfdPlanif);
+
+				log_debug(log, TERMINE_NIVEL);
+
+				break;
+			}
+
+			recursoActual = string_from_format("%s", pRecursoActual->data);
 
 			if (string_equals_ignore_case(buff, TU_TURNO)) {
 				//Que pasa si no es mi turno???
@@ -211,19 +223,18 @@ comienzoNivel:
 					mensajeBloqueado = string_from_format("BLOCKED,%s", recursoActual);
 					sendMessage(sockfdPlanif, mensajeBloqueado);
 					free(mensajeBloqueado);
-					recieveMessage(sockfdPlanif);
 				}
 				//Analizar si termine el nivel
-				if (pRecursoActual == NULL) {
-					sendMessage(sockfdNivel, TERMINE_NIVEL);
-					sendMessage(sockfdPlanif, TERMINE_NIVEL);
-					close(sockfdNivel);
-					close(sockfdPlanif);
-
-					log_debug(log, TERMINE_NIVEL);
-
-					break;
-				}
+//				if (pRecursoActual == NULL) {
+//					sendMessage(sockfdNivel, TERMINE_NIVEL);
+//					sendMessage(sockfdPlanif, TERMINE_NIVEL);
+//					close(sockfdNivel);
+//					close(sockfdPlanif);
+//
+//					log_debug(log, TERMINE_NIVEL);
+//
+//					break;
+//				}
 
 			}
 
