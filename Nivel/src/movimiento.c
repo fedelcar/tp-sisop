@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include <commons/string.h>
 #include <curses.h>
 #include <commons/collections/dictionary.h>
@@ -194,6 +195,8 @@ void movimientoPersonaje(resource_struct* resources) {
 				restaurarRecursos(recursosAt, listaItems);
 				nivel_gui_dibujar(listaItems);
 			}
+			free(mensaje);
+			close(fileDescriptor);
 			break;
 		}
 
@@ -252,7 +255,7 @@ char* endingString(recursos_otorgados *recursosAt, char* nivel){
 
 	string_append(&lastString, nivel);
 
-	string_append(&lastString, string_from_format(",F:%d,M:%d,H:%d", recursosAt->F, recursosAt->M, recursosAt->H));
+	string_append(&lastString, string_from_format(",%d,%d,%d", recursosAt->F, recursosAt->M, recursosAt->H));
 
 	return lastString;
 }
