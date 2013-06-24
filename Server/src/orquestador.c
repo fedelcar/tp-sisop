@@ -203,6 +203,16 @@ void executeResponse(char* response, t_dictionary *levelsMap, int *fd, t_diction
 				else if(blockedCharacter->recurso == 'M'){
 					giveResource(queues, monedas, blockedCharacter);
 				}
+
+				t_level_address *addresses = (t_level_address*) dictionary_get(levelsMap, data[0]);
+
+				char **levelSocket = string_split(addresses->nivel, DOSPUNTOS);
+
+				int fdNivel = openSocketClient(levelSocket[1], levelSocket[0]);
+
+				sendMessage(fdNivel, string_from_format("RSC,%d,%d,%d", flores, monedas, hongos));
+
+				free(data);
 			}
 
 		}
