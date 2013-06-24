@@ -44,13 +44,13 @@ t_posicion calcularMovimiento(t_posicion* miPos, t_posicion* posRec);
 char* posicionToString(t_posicion* miPos);
 t_posicion setPosicion(int x, int y);
 
-static const char* TERMINE_NIVEL = "Termine nivel";
-static const char* RECHAZO = "Rechazo";
-static const char* BLOCKED = "BLOCKED";
-static const char* OK = "ok";
-static const char* DAME_RECURSO = "Dame recurso";
-static const char* TERMINE_TODO = "Termine todo";
-static const char* TU_TURNO = "Tu Turno";
+#define TERMINE_NIVEL "Termine nivel"
+#define RECHAZO "Rechazo"
+#define BLOCKED "BLOCKED"
+#define OK "ok"
+#define DAME_RECURSO "Dame recurso"
+#define TERMINE_TODO "Termine todo"
+#define TU_TURNO "Tu Turno"
 
 bool sonPosicionesIguales(t_posicion* pos1, t_posicion* pos2);
 int vidas;
@@ -206,7 +206,7 @@ comienzoNivel:
 
 				if (string_equals_ignore_case(buff, RECHAZO)) {
 					sendMessage(sockfdPlanif, BLOCKED);
-					recieveMessage(sockfdNivel);
+					recieveMessage(sockfdPlanif);
 				}
 				//Analizar si termine el nivel
 				if (pRecursoActual == NULL) {
