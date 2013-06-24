@@ -19,8 +19,12 @@
 #define HONGO "Hongos"
 #define FLOR "Flores"
 #define MONEDA "Monedas"
+#define START "START"
+#define RESOURCES "RSC"
+#define COMA ","
 
 void openListener(char* argv, queue_n_locks *queue);
+void agregarRecursos(char* buffer, ITEM_NIVEL *listaItems);
 
 resource_struct *getLevelStructure(t_level_config *level_config, int *fd,
 		pthread_mutex_t *resourcesReadLock, pthread_mutex_t *resourcesWriteLock);
@@ -67,6 +71,8 @@ int main(int argc, char **argv) {
 
 	pthread_mutex_init(resourcesWriteLock, NULL );
 
+	char* bufferSocket = (char*) malloc(MAXSIZE);
+
 	nivel_gui_inicializar();
 
 	while (1) {
@@ -81,6 +87,10 @@ int main(int argc, char **argv) {
 
 		fd = (int *) queue_pop(queue->character_queue);
 
+		bufferSocket = recieveMessage(fd);
+
+		if(string_starts_with(bufferSocket, START)){
+
 		resource_struct *resourceStruct = getLevelStructure(nivel, fd,
 				resourcesReadLock, resourcesWriteLock);
 
@@ -91,11 +101,36 @@ int main(int argc, char **argv) {
 		pthread_create(t, NULL, (void*) movimientoPersonaje,
 				(resource_struct*) resourceStruct);
 
+		}
+		else if(string_starts_with(bufferSocket, RESOURCES)){
+			agregarRecursos(bufferSocket, listaItems);
+		}
+
 		pthread_mutex_unlock(readLock);
 	}
 
 	//TODO PENDIENTE BORRAR ITEMS
 
+}
+
+void agregarRecursos(char* buffer, ITEM_NIVEL *listaItems){
+
+	buffer = string_substring_from(buffer, sizeof(RESOURCES));
+
+	char** data = string_split(buffer, COMA);
+
+	ITEM_NIVEL* temp;
+
+	temp = buscarRecurso(listaItems, 'F');
+	temp->quantity= temp->quantity + atoi(data[0]);
+
+	temp = buscarRecurso(listaItems, 'M');
+	temp->quantity= temp->quantity + atoi(data[1]);
+
+	temp = buscarRecurso(listaItems, 'H');
+	temp->quantity= temp->quantity + atoi(data[2]);
+
+	free(data);
 }
 
 void openListener(char* mensaje, queue_n_locks *queue) {

@@ -146,9 +146,6 @@ void restaurarRecursos(recursos_otorgados* recursos, ITEM_NIVEL* listaItems){
 
 //Funcion Principal
 void movimientoPersonaje(resource_struct* resources) {
-//void main(){
-
-//char* mensaje= "Me muevo:20,30";
 
 	recursos_otorgados * recursosAt=(recursos_otorgados*)malloc(sizeof(recursos_otorgados));
 	recursosAt->F = 0;
@@ -158,11 +155,6 @@ void movimientoPersonaje(resource_struct* resources) {
 	ITEM_NIVEL* listaItems = (ITEM_NIVEL*) malloc(sizeof(ITEM_NIVEL));
 
 	listaItems = resources->listaItems;
-
-//CrearCaja(&ListaItems, 'H', 20, 40, 5);
-//CrearCaja(&ListaItems, 'M', 15, 8, 3);
-//CrearCaja(&ListaItems, 'F', 9, 19, 2);
-//CrearPersonaje(&ListaItems, '#', 1, 1);
 
 	int *rows = (int*) malloc(sizeof(int));
 	int *cols = (int*) malloc(sizeof(int));
@@ -253,7 +245,7 @@ char* endingString(recursos_otorgados *recursosAt, char* nivel){
 
 	string_append(&lastString, nivel);
 
-	string_append(&lastString, string_from_format(",%d,%d,%d", recursosAt->F, recursosAt->M, recursosAt->H));
+	string_append(&lastString, string_from_format(",%d,%d,%d,", recursosAt->F, recursosAt->M, recursosAt->H));
 
 	return lastString;
 }
