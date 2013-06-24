@@ -11,6 +11,7 @@
 
 typedef struct {
 	t_queue *character_queue;
+	t_queue *blocked_queue;
 	pthread_mutex_t *readLock;
 	pthread_mutex_t *writeLock;
 	char *portNumber;

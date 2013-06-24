@@ -73,10 +73,10 @@ int *openSocketServer(queue_n_locks *queue) {
 		}
 		printf("server: waiting for connections...\n");
 		while (1) { // main accept() loop
-			printf("Esperando conexion\n");
+//			printf("Esperando conexion\n");
 			sin_size = sizeof their_addr;
 			new_fd = accept(sockfd, (struct sockaddr *) &their_addr, &sin_size);
-			printf("Conexion aceptada\n");
+//			printf("Conexion aceptada\n");
 			if (new_fd == -1) {
 				perror("accept");
 				continue;
