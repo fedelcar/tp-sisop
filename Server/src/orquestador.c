@@ -23,9 +23,12 @@
 #define MAXSIZE 1024
 #define PORT "9930"
 #define LEVEL "LVL"
-static const char* COMA = ",";
+#define PIPE "|"
+#define FREERESC "FREERESC"
+#define COMA ","
+#define OKEY "ok"
 
-void executeResponse(char* response, t_dictionary *levelsMap, int *fd);
+void executeResponse(char* response, t_dictionary *levelsMap, int *fd, t_dictionary *levels_queues);
 
 void main() {
 
@@ -59,6 +62,8 @@ void main() {
 
 	int i;
 
+	t_dictionary *levels_queues = dictionary_create();
+
 	for (i = 0; i < list_size(levelsList); i++) {
 
 		pthread_t *t = (pthread_t*) malloc(sizeof(pthread_t));
@@ -74,6 +79,8 @@ void main() {
 		scheduler_queue->blocked_queue = queue_create();
 		scheduler_queue->character_queue = queue_create();
 		scheduler_queue->port = port[1];
+
+		dictionary_put(levels_queues, levelName, scheduler_queue);
 
 		pthread_create(t, NULL, (void *) planificador, (t_scheduler_queue*) scheduler_queue);
 
@@ -123,16 +130,16 @@ void main() {
 		printf("Realizo el pop\n");
 
 		pthread_mutex_unlock(readLock);
-		memset(response, 0, sizeof(response));
+
 		response = recieveMessage(fd);
 
-		executeResponse(response, levelsMap, fd);
+		executeResponse(response, levelsMap, fd, levels_queues);
 
 	}
 
 }
 
-void executeResponse(char* response, t_dictionary *levelsMap, int *fd) {
+void executeResponse(char* response, t_dictionary *levelsMap, int *fd, t_dictionary *levels_queues) {
 
 	if (string_starts_with(response, LEVEL)) {
 		response = string_substring_from(response, sizeof(LEVEL));
@@ -140,16 +147,31 @@ void executeResponse(char* response, t_dictionary *levelsMap, int *fd) {
 				sizeof(t_level_address));
 		char *socketsToGo = (char*) malloc(MAXSIZE);
 		memset(socketsToGo, 0, sizeof(socketsToGo));
-		string_append(&socketsToGo, ((t_level_address*) (dictionary_get(levelsMap, (string_split(response, "|"))[0])))->planificador);
+		string_append(&socketsToGo,
+				((t_level_address*) (dictionary_get(levelsMap,
+						(string_split(response, PIPE))[0])))->planificador);
 		string_append(&socketsToGo, COMA);
-		string_append(&socketsToGo, ((t_level_address*) (dictionary_get(levelsMap, (string_split(response, "|"))[0])))->nivel);
+		string_append(&socketsToGo,
+				((t_level_address*) (dictionary_get(levelsMap,
+						(string_split(response, PIPE))[0])))->nivel);
 		sendMessage(fd, socketsToGo);
 		free(socketsToGo);
 		free(response);
 		free(level);
 		close(fd);
-	} else {
-		//TODO OTHER ACTIONS
+	} else if (string_starts_with(response, FREERESC)) {
+
+		response = string_substring_from(response, sizeof(FREERESC));
+
+		char** data = (char*) malloc(MAXSIZE);
+
+		data = string_split(response, COMA);
+
+		t_scheduler_queue *queues = dictionary_get(levels_queues, data[0]);
+
+		if(queue_size(queues->blocked_queue) == 0){
+			sendMessage(fd, OKEY);
+		}
 	}
 
 }
