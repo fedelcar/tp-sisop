@@ -17,7 +17,7 @@
 #define SIGNAL_OK "OK"
 #define SIGNAL_BLOCKED "BLOCKED"
 #define MAXDATASIZE 1024
-static const char* TERMINE_NIVEL = "Termine nivel";
+#define TERMINE_NIVEL "Termine nivel"
 
 void socket_listener(queue_n_locks *queue);
 void analize_response(char *response, queue_n_locks *queue, int *fd);
@@ -109,8 +109,12 @@ void analize_response(char *response, queue_n_locks *queue, int *fd) {
 
 	if (string_equals_ignore_case(response, SIGNAL_OK)) {
 		queue_push(queue->character_queue, fd);
-	} else if (string_equals_ignore_case(response, SIGNAL_BLOCKED)) {
-		queue_push(queue->blocked_queue, fd);
+	} else if (string_starts_with(response, SIGNAL_BLOCKED)) {
+		response = string_substring_from(response, sizeof(SIGNAL_BLOCKED));
+		blocked_character *blockedCharacter = (blocked_character*) malloc(sizeof(blocked_character));
+		blockedCharacter->fd = fd;
+		blockedCharacter->recurso = response[0];
+		queue_push(queue->blocked_queue, blockedCharacter);
 	}
 	else if (string_equals_ignore_case(response, TERMINE_NIVEL)) {
 		close(fd);

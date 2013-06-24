@@ -14,6 +14,11 @@ struct scheduler_struct{
 
 };
 
+typedef struct{
+	int* fd;
+	char recurso;
+}blocked_character;
+
 void planificador(t_scheduler_queue *scheduler_queue);
 
 

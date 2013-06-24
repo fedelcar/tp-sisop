@@ -27,8 +27,10 @@
 #define FREERESC "FREERESC"
 #define COMA ","
 #define OKEY "ok"
+#define DAR_RECURSO "DAR_RECURSO"
 
 void executeResponse(char* response, t_dictionary *levelsMap, int *fd, t_dictionary *levels_queues);
+void giveResource(t_scheduler_queue *queues, int recurso, blocked_character *blockedCharacter);
 
 void main() {
 
@@ -171,7 +173,42 @@ void executeResponse(char* response, t_dictionary *levelsMap, int *fd, t_diction
 
 		if(queue_size(queues->blocked_queue) == 0){
 			sendMessage(fd, OKEY);
+			close(fd);
+		}
+		else{
+			int hongos = (int*) malloc(sizeof(int));
+			int monedas = (int*) malloc(sizeof(int));
+			int flores = (int*) malloc(sizeof(int));
+
+			flores = atoi(data[1]);
+			monedas = atoi(data[2]);
+			hongos = atoi(data[3]);
+
+			blocked_character *blockedCharacter = queue_pop(queues->blocked_queue);
+
+			int i = 0;
+
+			for(i = 0 ; i < queue_size(queues->blocked_queue) ; i++){
+				if(string_equals_ignore_case(blockedCharacter->recurso, 'F')){
+					giveResource(queues, flores, blockedCharacter);
+				}
+				else if (string_equals_ignore_case(blockedCharacter->recurso, 'H')){
+					giveResource(queues, hongos, blockedCharacter);
+				}
+				else if(string_equals_ignore_case(blockedCharacter->recurso, 'M')){
+					giveResource(queues, monedas, blockedCharacter);
+				}
+			}
+
 		}
 	}
 
+}
+
+void giveResource(t_scheduler_queue *queues, int recurso, blocked_character *blockedCharacter){
+	if(recurso > 0){
+		recurso--;
+		sendMessage(blockedCharacter->fd, DAR_RECURSO);
+		queue_push(queues->character_queue, blockedCharacter);
+	}
 }
