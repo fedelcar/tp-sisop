@@ -17,7 +17,8 @@
 #define CONFIRMACION "Confirmacion"
 #define RECHAZO "Rechazo"
 #define EMPTYSTRING "EMPTY"
-#define OK "ok"
+#define OKEY "ok"
+#define FREERESC "FREERESC,"
 
 char* endingString(recursos_otorgados * recursosAt, char* nivel);
 
@@ -189,7 +190,7 @@ void movimientoPersonaje(resource_struct* resources) {
 			char* mensaje = endingString(recursosAt, resources->level_config->nombre);
 			sendMessage(fileDescriptor, mensaje);
 			mensaje = recieveMessage(fileDescriptor);
-			if (OK) {
+			if (OKEY) {
 				restaurarRecursos(recursosAt, listaItems);
 				nivel_gui_dibujar(listaItems);
 			}
@@ -243,11 +244,15 @@ char* endingString(recursos_otorgados *recursosAt, char* nivel){
 
 	char* lastString = (char*) malloc(MAXSIZE);
 
+	char* nivelLocal = (char*) malloc(MAXSIZE);
 
+	strcpy(nivelLocal, nivel);
 
-	strcpy(lastString, nivel);
+	string_append(&lastString, FREERESC);
 
-	string_append(&lastString, string_from_format(",FREERESC,F:%d,M:%d,H:%d", recursosAt->F, recursosAt->M, recursosAt->H));
+	string_append(&lastString, nivel);
+
+	string_append(&lastString, string_from_format(",F:%d,M:%d,H:%d", recursosAt->F, recursosAt->M, recursosAt->H));
 
 	return lastString;
 }
