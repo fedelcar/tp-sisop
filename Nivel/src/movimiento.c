@@ -184,14 +184,14 @@ void movimientoPersonaje(resource_struct* resources) {
 		mensaje = recieveMessage(sockfd);
 
 		if(string_equals_ignore_case(mensaje, "Termine nivel")){
-			int *fileDescriptor;
+			int fileDescriptor;
 			char** socket = (char*) malloc(MAXSIZE);
 			socket = string_split(resources->level_config->orquestador, DOSPUNTOS);
 			fileDescriptor = openSocketClient(socket[1], socket[0]);
 			char* mensaje = endingString(recursosAt, resources->level_config->nombre);
 			sendMessage(fileDescriptor, mensaje);
 			mensaje = recieveMessage(fileDescriptor);
-			if (OKEY) {
+			if (string_equals_ignore_case(mensaje, OKEY)) {
 				restaurarRecursos(recursosAt, listaItems);
 				nivel_gui_dibujar(listaItems);
 			}
@@ -237,8 +237,6 @@ void movimientoPersonaje(resource_struct* resources) {
 		}
 		nivel_gui_dibujar(listaItems);
 	}
-
-	BorrarItem(&listaItems, simbolo);
 
 }
 

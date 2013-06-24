@@ -75,7 +75,7 @@ int main(int argc, char **argv) {
 			pthread_mutex_lock(readLock);
 		}
 
-		printf("Paso el lock\n");
+//		printf("Paso el lock\n");
 
 		pthread_mutex_lock(readLock);
 
