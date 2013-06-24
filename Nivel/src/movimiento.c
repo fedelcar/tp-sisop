@@ -17,7 +17,9 @@
 #define CONFIRMACION "Confirmacion"
 #define RECHAZO "Rechazo"
 #define EMPTYSTRING "EMPTY"
-static const char* OK = "ok";
+#define OK "ok"
+
+char* endingString(recursos_otorgados * recursosAt, char* nivel);
 
 mensaje_t* interpretarMensaje(char* mensaje) {
 
@@ -184,7 +186,7 @@ void movimientoPersonaje(resource_struct* resources) {
 			char** socket = (char*) malloc(MAXSIZE);
 			socket = string_split(resources->level_config->orquestador, DOSPUNTOS);
 			fileDescriptor = openSocketClient(socket[1], socket[0]);
-			char* mensaje = endingString(recursos_otorgados);
+			char* mensaje = endingString(recursosAt, resources->level_config->nombre);
 			sendMessage(fileDescriptor, mensaje);
 			mensaje = recieveMessage(fileDescriptor);
 			if (OK) {
@@ -237,11 +239,15 @@ void movimientoPersonaje(resource_struct* resources) {
 }
 
 
-char* endingString(recursos_otorgados * recursosAt){
+char* endingString(recursos_otorgados *recursosAt, char* nivel){
 
 	char* lastString = (char*) malloc(MAXSIZE);
 
-	lastString = string_from_format("FREERESC,F:%d,M:%d,H:%d", recursosAt->F, recursosAt->M, recursosAt->H);
+
+
+	strcpy(lastString, nivel);
+
+	string_append(&lastString, string_from_format(",FREERESC,F:%d,M:%d,H:%d", recursosAt->F, recursosAt->M, recursosAt->H));
 
 	return lastString;
 }
