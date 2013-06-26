@@ -13,6 +13,7 @@
 #include <uncommons/SocketsBasic.h>
 #include <uncommons/SocketsCliente.h>
 #include <string.h>
+#include <unistd.h>
 #include "nivelBase.h"
 #include "movimiento.h"
 #define MAXSIZE 1024
@@ -24,7 +25,7 @@
 #define START "START"
 #define RESOURCES "RSC"
 #define COMA ","
-#include <unistd.h>
+
 
 void openListener(char* argv, queue_n_locks *queue);
 void agregarRecursos(char* buffer, ITEM_NIVEL *listaItems);
@@ -248,19 +249,21 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 
 	while (1) {
 
-	sleep(1);//levantar de archivo de configuracion, inotify
+	sleep(5);//levantar de archivo de configuracion, inotify
 
 //	Lista que va a venir con los threads interbloqueados.
 		t_list *listaQueViene = list_create();
 
 		if (list_size(listaQueViene) > 1 && deadlockStruct->recovery == 1) {
 
-			deadlockMessage = string_from_format("%d,",
+			deadlockMessage = string_from_format("DEADLOCK,%d,",
 					list_size(listaQueViene));
+
+			datos_personaje *datos;
 
 			for (j = 0; j < list_size(listaQueViene); j++) {
 
-				datos_personaje *datos = (datos_personaje*) list_get(
+				datos = (datos_personaje*) list_get(
 						listaQueViene, j);
 
 				string_append(&deadlockMessage,
@@ -272,7 +275,19 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 			memset(deadlockMessage, 0, sizeof(deadlockMessage));
 			bufferDeadlock = recieveMessage(socketDeadlock);
 
-			//TODO KILL CHARACTER
+			char** response = string_split(bufferDeadlock, COMA);
+
+			for (j = 0; j < list_size(listaQueViene); j++) {
+
+				datos = (datos_personaje*) list_get(
+						listaQueViene, j);
+
+				//TODO mandarle mensaje de que murio al personaje, luego devolver los recursos al nivel y recien despues cancel
+				if(datos->id == atoi(response[0])){
+					pthread_cancel(datos->thread);
+				}
+
+			}
 
 		} else if (list_size(listaQueViene) > 1
 				&& deadlockStruct->recovery == 0) {
