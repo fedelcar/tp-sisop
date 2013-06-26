@@ -16,6 +16,7 @@
 #include <unistd.h>
 #include "nivelBase.h"
 #include "movimiento.h"
+#include "interbloqueo.h"
 #define MAXSIZE 1024
 #define DOSPUNTOS ":"
 #define EMPTY "EMPTY"
@@ -94,8 +95,8 @@ int main(int argc, char **argv) {
 	deadlockStruct->socket = nivel->orquestador;
 	deadlockStruct->recovery = nivel->recovery;
 
-//	pthread_create(&detectionThread, NULL, (void*) deteccionInterbloqueo,
-//			(deadlock_struct*) deadlockStruct);
+	pthread_create(&detectionThread, NULL, (void*) deteccionInterbloqueo,
+			(deadlock_struct*) deadlockStruct);
 
 	nivel_gui_inicializar();
 
@@ -251,8 +252,17 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 
 	sleep(5);//levantar de archivo de configuracion, inotify
 
+
+	ITEM_NIVEL* listaItems;
+	listaItems = deadlockStruct->items;
+
+	t_list* listaPersonajes;
+	listaPersonajes = deadlockStruct->list;
+
 //	Lista que va a venir con los threads interbloqueados.
-		t_list *listaQueViene = list_create();
+		t_list *listaQueViene;
+
+		listaQueViene = detectionAlgorithm(listaItems, listaPersonajes);
 
 		if (list_size(listaQueViene) > 1 && deadlockStruct->recovery == 1) {
 
