@@ -232,7 +232,7 @@ void executeResponse(char* response, t_dictionary *levelsMap, int *fd, t_diction
 			}
 		}
 
-		sendMessage(fd, string_from_format("%d",selected));
+		sendMessage(fd, string_from_format("%d,",selected));
 
 	}
 
