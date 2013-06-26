@@ -25,6 +25,7 @@
 #define LEVEL "LVL"
 #define PIPE "|"
 #define FREERESC "FREERESC"
+#define DEADLOCK "DEADLOCK"
 #define COMA ","
 #define OKEY "ok"
 #define DAR_RECURSO "DAR_RECURSO"
@@ -216,6 +217,23 @@ void executeResponse(char* response, t_dictionary *levelsMap, int *fd, t_diction
 			}
 
 		}
+	} else if (string_starts_with(response, DEADLOCK)) {
+
+		response = string_substring_from(response, sizeof(DEADLOCK));
+		char** deadlockPointer = string_split(response, COMA);
+
+		int i = 0;
+		int size = atoi(deadlockPointer[0]) + 1;
+		int selected = atoi(deadlockPointer[1]);
+
+		for(i = 2 ; i<size ; i++){
+			if(atoi(deadlockPointer[i]) < selected){
+				selected = atoi(deadlockPointer[i]);
+			}
+		}
+
+		sendMessage(fd, string_from_format("%d",selected));
+
 	}
 
 }
