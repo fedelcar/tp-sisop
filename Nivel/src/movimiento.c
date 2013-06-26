@@ -109,6 +109,7 @@ void restarRecursos(t_posicion* posicion, ITEM_NIVEL* listaItems, int* sockfd,
 
 		} else {
 			msjMovimiento = string_from_format("%s", RECHAZO);
+			resources->recursoBloqueado = recurso;
 		}
 	}
 
@@ -147,10 +148,7 @@ void restaurarRecursos(recursos_otorgados* recursos, ITEM_NIVEL* listaItems){
 //Funcion Principal
 void movimientoPersonaje(resource_struct* resources) {
 
-	recursos_otorgados * recursosAt=(recursos_otorgados*)malloc(sizeof(recursos_otorgados));
-	recursosAt->F = 0;
-	recursosAt->H = 0;
-	recursosAt->M = 0;
+	recursos_otorgados * recursosAt = resources->recursosAt;
 
 	ITEM_NIVEL* listaItems = (ITEM_NIVEL*) malloc(sizeof(ITEM_NIVEL));
 
@@ -174,6 +172,8 @@ void movimientoPersonaje(resource_struct* resources) {
 	while (1) {
 		/*Voy a escuchar*/
 		mensaje = recieveMessage(sockfd);
+
+		resources->recursoBloqueado = '0';
 
 		if(string_equals_ignore_case(mensaje, "Termine nivel")){
 			int fileDescriptor;
