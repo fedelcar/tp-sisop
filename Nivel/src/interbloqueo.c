@@ -42,19 +42,19 @@ int miPersonajeNesecita(datos_personaje* datos, int hf, int ff, int mf) {
     int bol2 = 0;
 
     if (hf == 0) {
-        if (datos->recurso == 'H') {
+        if (datos->recurso[0] == 'H') {
             bol2 = 1;
         }
     }
      if (ff == 0) {
-        if (datos->recurso == 'F') {
+        if (datos->recurso[0] == 'F') {
             bol2 = 1;
 
         }
      }
      if (mf==0){
 
-        if (datos->recurso == 'M') {
+        if (datos->recurso[0] == 'M') {
             bol2 = 1;
         }
     }
@@ -65,7 +65,7 @@ int miPersonajeNesecita(datos_personaje* datos, int hf, int ff, int mf) {
 int tieneRecurso(datos_personaje*pers2, datos_personaje*pers) {
     int bol3 = 0;
 
-    switch (pers->recurso) {
+    switch (pers->recurso[0]) {
     case 'H':
         if (pers2->H > 0) {
             bol3 = 1;
@@ -88,7 +88,7 @@ int tieneRecurso(datos_personaje*pers2, datos_personaje*pers) {
 
 int estaBloqueado(datos_personaje*perso) {
     int bol5 = 0;
-    if (perso->recurso != '0') {
+    if (perso->recurso[0] != '0') {
         bol5 = 1;
     }
     return bol5;
@@ -126,7 +126,7 @@ t_list* detectionAlgorithm(ITEM_NIVEL* listaItems,t_list* listaPersonajes){
     int m = 2;
     t_list * listaResultados = list_create();
 
-    if (algunRecursoVacio(listaItems, &h, &f, &m) == 1) {
+    if (list_size(listaPersonajes) > 0 && algunRecursoVacio(listaItems, &h, &f, &m) == 1) {
 
 
         int* valor = (int*)malloc(sizeof(int));

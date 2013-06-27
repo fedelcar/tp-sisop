@@ -125,7 +125,7 @@ int main(int argc, char **argv) {
 
 			resourceStruct->recursosAt = recursosAt;
 
-			resourceStruct->recursoBloqueado = '0';
+			resourceStruct->recursoBloqueado = "0";
 
 			resourceStruct->listaItems = listaItems;
 
@@ -248,33 +248,24 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 
 	char *deadlockMessage = (char*) malloc(MAXSIZE);
 
+	t_list *deadlockList;
 	while (1) {
 
-	sleep(5);//levantar de archivo de configuracion, inotify
+	sleep(3);//levantar de archivo de configuracion, inotify
 
+		deadlockList = detectionAlgorithm(deadlockStruct->items, deadlockStruct->list);
 
-	ITEM_NIVEL* listaItems;
-	listaItems = deadlockStruct->items;
-
-	t_list* listaPersonajes;
-	listaPersonajes = deadlockStruct->list;
-
-//	Lista que va a venir con los threads interbloqueados.
-		t_list *listaQueViene;
-
-		listaQueViene = detectionAlgorithm(listaItems, listaPersonajes);
-
-		if (list_size(listaQueViene) > 1 && deadlockStruct->recovery == 1) {
+		if (list_size(deadlockList) > 1 && atoi(deadlockStruct->recovery) == 1) {
 
 			deadlockMessage = string_from_format("DEADLOCK,%d,",
-					list_size(listaQueViene));
+					list_size(deadlockList));
 
 			datos_personaje *datos;
 
-			for (j = 0; j < list_size(listaQueViene); j++) {
+			for (j = 0; j < list_size(deadlockList); j++) {
 
 				datos = (datos_personaje*) list_get(
-						listaQueViene, j);
+						deadlockList, j);
 
 				string_append(&deadlockMessage,
 						string_from_format("%d,", datos->id));
@@ -287,10 +278,10 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 
 			char** response = string_split(bufferDeadlock, COMA);
 
-			for (j = 0; j < list_size(listaQueViene); j++) {
+			for (j = 0; j < list_size(deadlockList); j++) {
 
 				datos = (datos_personaje*) list_get(
-						listaQueViene, j);
+						deadlockList, j);
 
 				//TODO mandarle mensaje de que murio al personaje, luego devolver los recursos al nivel y recien despues cancel
 				if(datos->id == atoi(response[0])){
@@ -299,8 +290,13 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 
 			}
 
-		} else if (list_size(listaQueViene) > 1
-				&& deadlockStruct->recovery == 0) {
+		} else if (list_size(deadlockList) > 1
+				&& atoi(deadlockStruct->recovery) == 0) {
+			printf("DEADLOCK\n");
+			printf("DEADLOCK\n");
+			printf("DEADLOCK\n");
+			printf("DEADLOCK\n");
+			printf("DEADLOCK\n");
 			//TODO logear que hubo interbloqueo, pero como recovery == 0 no se hace nada
 		} else {
 			//TODO loguear que no hubo interbloqueo
@@ -319,11 +315,13 @@ void saveList(pthread_t *t, resource_struct *resourceStruct, t_list *threads,
 
 	datos_personaje *datos = (datos_personaje*) malloc(sizeof(datos_personaje));
 
-	datos->F = resourceStruct->recursosAt->F;
-	datos->H = resourceStruct->recursosAt->H;
-	datos->M = resourceStruct->recursosAt->M;
-	datos->thread = t;
-	datos->recurso = resourceStruct->recursoBloqueado;
-	datos->id = id;
+	datos->F = &(resourceStruct->recursosAt->F);
+	datos->H = &(resourceStruct->recursosAt->H);
+	datos->M = &(resourceStruct->recursosAt->M);
+	datos->thread = &t;
+	datos->recurso = &(resourceStruct->recursoBloqueado);
+	datos->id = &id;
+
+	list_add(threads, datos);
 
 }

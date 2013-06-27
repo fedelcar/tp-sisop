@@ -148,8 +148,6 @@ void restaurarRecursos(recursos_otorgados* recursos, ITEM_NIVEL* listaItems){
 //Funcion Principal
 void movimientoPersonaje(resource_struct* resources) {
 
-	recursos_otorgados * recursosAt = resources->recursosAt;
-
 	ITEM_NIVEL* listaItems = (ITEM_NIVEL*) malloc(sizeof(ITEM_NIVEL));
 
 	listaItems = resources->listaItems;
@@ -180,11 +178,11 @@ void movimientoPersonaje(resource_struct* resources) {
 			char** socket = (char*) malloc(MAXSIZE);
 			socket = string_split(resources->level_config->orquestador, DOSPUNTOS);
 			fileDescriptor = openSocketClient(socket[1], socket[0]);
-			char* mensaje = endingString(recursosAt, resources->level_config->nombre);
+			char* mensaje = endingString(resources->recursosAt, resources->level_config->nombre);
 			sendMessage(fileDescriptor, mensaje);
 			mensaje = recieveMessage(fileDescriptor);
 			if (string_equals_ignore_case(mensaje, OKEY)) {
-				restaurarRecursos(recursosAt, listaItems);
+				restaurarRecursos(resources->recursosAt, listaItems);
 				nivel_gui_dibujar(listaItems);
 			}
 			free(mensaje);
@@ -225,7 +223,7 @@ void movimientoPersonaje(resource_struct* resources) {
 			sendMessage(sockfd, "Ok");
 		}
 		if (string_equals_ignore_case(mens->nombre, RECURSO)) {
-			restarRecursos(posicion, listaItems, sockfd, mens->caracter, recursosAt, resources);
+			restarRecursos(posicion, listaItems, sockfd, mens->caracter, resources->recursosAt, resources);
 		}
 		nivel_gui_dibujar(listaItems);
 	}
