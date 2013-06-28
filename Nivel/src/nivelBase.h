@@ -40,6 +40,7 @@ typedef struct {
 	int *H;
 	int *M;
 	char *recurso;
+	int *fd;
 } datos_personaje;
 
 typedef struct {

@@ -26,6 +26,7 @@
 #define START "START"
 #define RESOURCES "RSC"
 #define COMA ","
+#define DEATH "DEATH"
 
 
 void openListener(char* argv, queue_n_locks *queue);
@@ -283,9 +284,8 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 				datos = (datos_personaje*) list_get(
 						deadlockList, j);
 
-				//TODO mandarle mensaje de que murio al personaje, luego devolver los recursos al nivel y recien despues cancel
 				if(datos->id == atoi(response[0])){
-					pthread_cancel(datos->thread);
+					sendMessage(datos->fd, DEATH);
 				}
 
 			}
@@ -321,6 +321,7 @@ void saveList(pthread_t *t, resource_struct *resourceStruct, t_list *threads,
 	datos->thread = &t;
 	datos->recurso = &(resourceStruct->recursoBloqueado);
 	datos->id = &id;
+	datos->fd = &resourceStruct->fd;
 
 	list_add(threads, datos);
 
