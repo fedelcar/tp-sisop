@@ -173,7 +173,7 @@ void movimientoPersonaje(resource_struct* resources) {
 
 		resources->recursoBloqueado = '0';
 
-		if(string_equals_ignore_case(mensaje, "Termine nivel")){
+		if(string_equals_ignore_case(mensaje, "Liberar recursos")){
 			int fileDescriptor;
 			char** socket = (char*) malloc(MAXSIZE);
 			socket = string_split(resources->level_config->orquestador, DOSPUNTOS);
