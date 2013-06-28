@@ -18,9 +18,12 @@
 #define SIGNAL_BLOCKED "BLOCKED"
 #define MAXDATASIZE 1024
 #define TERMINE_NIVEL "Termine nivel"
+#define PEDIR "PEDIRRECURSO"
+#define TRUE 1
+#define FALSE 0
 
 void socket_listener(queue_n_locks *queue);
-void analize_response(char *response, queue_n_locks *queue, int *fd, pthread_mutex_t *readLock);
+void analize_response(char *response, queue_n_locks *queue, int *fd, pthread_mutex_t *readLock, int *breakIt);
 
 void planificador(t_scheduler_queue *scheduler_queue) {
 
@@ -49,6 +52,10 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 
 	int turno = 0;
 
+	int *breakIt;
+
+	breakIt = FALSE;
+
 	while (1) {
 
 		level = getLevelAttributes();
@@ -57,7 +64,9 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 
 		int sleepTime = atoi(level->sleep);
 
-		for(turno = 0 ; turno < turnoActual; turno++){
+		turno = 0;
+
+		breakIt = FALSE;
 
 		printf("Entro al while\n");
 
@@ -70,6 +79,9 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 		pthread_mutex_lock(readLock);
 
 		fd = (int *) queue_pop(queue->character_queue);
+
+
+		while(turno < turnoActual && breakIt == FALSE){
 
 		printf("Realizo el pop\n");
 
@@ -85,12 +97,16 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 
 		printf("Respondio mensaje\n");
 
-		analize_response(response, queue, fd, readLock);
+		analize_response(response, queue, fd, readLock, &breakIt);
 
 		pthread_mutex_unlock(writeLock);
 
 		sleep(sleepTime);
 
+		turno++;
+		}
+		if(string_equals_ignore_case(response, SIGNAL_OK) && breakIt == 0){
+			queue_push(queue->character_queue, fd);
 		}
 
 	}
@@ -105,10 +121,10 @@ void socket_listener(queue_n_locks *queue) {
 
 }
 
-void analize_response(char *response, queue_n_locks *queue, int *fd, pthread_mutex_t *readLock) {
+void analize_response(char *response, queue_n_locks *queue, int *fd, pthread_mutex_t *readLock, int *breakIt) {
 
 	if (string_equals_ignore_case(response, SIGNAL_OK)) {
-		queue_push(queue->character_queue, fd);
+
 	} else if (string_starts_with(response, SIGNAL_BLOCKED)) {
 		response = string_substring_from(response, sizeof(SIGNAL_BLOCKED));
 		blocked_character *blockedCharacter = (blocked_character*) malloc(sizeof(blocked_character));
@@ -119,5 +135,9 @@ void analize_response(char *response, queue_n_locks *queue, int *fd, pthread_mut
 	}
 	else if (string_equals_ignore_case(response, TERMINE_NIVEL)) {
 		close(fd);
+	}
+	else if (string_equals_ignore_case(response, PEDIR)){
+		*breakIt = TRUE;
+		queue_push(queue->character_queue, fd);
 	}
 }
