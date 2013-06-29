@@ -99,7 +99,7 @@ int main(int argc, char **argv) {
 	pthread_create(&detectionThread, NULL, (void*) deteccionInterbloqueo,
 			(deadlock_struct*) deadlockStruct);
 
-//	nivel_gui_inicializar();
+	nivel_gui_inicializar();
 
 	while (1) {
 
