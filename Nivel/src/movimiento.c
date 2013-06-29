@@ -238,7 +238,7 @@ void movimientoPersonaje(resource_struct* resources) {
 		}
 		nivel_gui_dibujar(listaItems);
 	}
-
+	BorrarItem(&listaItems, simbolo);
 }
 
 
