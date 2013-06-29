@@ -163,7 +163,7 @@ int main(char* character) {
 		sockfdPlanif = openSocketClient(puertoPlanificador, ipPlanificador);
 
 		//Envio mi simbolo al nivel
-		mensaje2 = string_from_format("Simbolo:%s", personaje->simbolo);
+		mensaje2 = string_from_format("Simbolo:%s|", personaje->simbolo);
 		sendMessage(sockfdNivel, mensaje2);
 		log_debug(log, mensaje2);
 
@@ -192,7 +192,7 @@ int main(char* character) {
 			//si no se donde esta mi prox recurso se le pregunto al nivel
 			if (posRec->posX == -1) {
 				recursoActual = string_from_format("%s", pRecursoActual->data);
-				mensaje = string_from_format("Posicion del recurso:%s",
+				mensaje = string_from_format("Posicion del recurso:%s|",
 						recursoActual);
 
 				sendMessage(sockfdNivel, mensaje);
@@ -205,7 +205,7 @@ int main(char* character) {
 
 			//moverme hacia el recurso
 			*miPos = calcularMovimiento(miPos, posRec);
-			mensaje = string_from_format("Me muevo:%d,%d", miPos->posX,
+			mensaje = string_from_format("Me muevo:%d,%d|", miPos->posX,
 					miPos->posY);
 
 			sendMessage(sockfdNivel, mensaje);
@@ -222,7 +222,7 @@ int main(char* character) {
 			//Analizar si llegue al recurso
 			if (sonPosicionesIguales(miPos, posRec)) {
 				//Pedir recurso al nivel
-				mensaje = string_from_format("Dame recurso:%s", recursoActual);
+				mensaje = string_from_format("Dame recurso:%s|", recursoActual);
 				sendMessage(sockfdNivel, mensaje);
 
 				log_debug(log, DAME_RECURSO);
@@ -461,7 +461,7 @@ void conectarseAlNivelActual(int* sockfdOrquestador, char* nivelActual,
 	sockfdPlanif = openSocketClient(puertoPlanificador, ipPlanificador);
 
 	//Envio mi simbolo al nivel
-	mensaje2 = string_from_format("Simbolo:%s", personaje->simbolo);
+	mensaje2 = string_from_format("Simbolo:%s|", personaje->simbolo);
 	sendMessage(sockfdNivel, mensaje2);
 	log_debug(log, mensaje2);
 

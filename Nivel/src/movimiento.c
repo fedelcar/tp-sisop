@@ -9,6 +9,7 @@
 #include "nivelBase.h"
 #include <uncommons/SocketsCliente.h>
 
+#define BROKEN "BROKEN"
 #define DOSPUNTOS ":"
 #define COMA ","
 #define MAXSIZE 1024
@@ -20,6 +21,7 @@
 #define EMPTYSTRING "EMPTY"
 #define OKEY "ok"
 #define FREERESC "FREERESC,"
+#define PIPE "|"
 
 char* endingString(recursos_otorgados * recursosAt, char* nivel);
 
@@ -162,18 +164,27 @@ void movimientoPersonaje(resource_struct* resources) {
 	posicion->posX = 0;
 	posicion->posY = 0;
 
-	nivel_gui_get_area_nivel(&rows, &cols);
+//	nivel_gui_get_area_nivel(&rows, &cols);
 
 	char * mensaje = (char*) malloc(MAXSIZE);
 	int *sockfd = resources->fd;
 
+	char** splitMessage = (char*) malloc(MAXSIZE);
 	while (1) {
 		/*Voy a escuchar*/
 		mensaje = recieveMessage(sockfd);
 
+		if(string_starts_with(mensaje, BROKEN)){
+			break;
+		}
+
+		splitMessage = string_split(mensaje, PIPE);
+
+		mensaje = splitMessage[0];
+
 		resources->recursoBloqueado = '0';
 
-		if(string_equals_ignore_case(mensaje, "Liberar recursos")){
+		if(string_starts_with(mensaje, "Liberar recursos")){
 			int fileDescriptor;
 			char** socket = (char*) malloc(MAXSIZE);
 			socket = string_split(resources->level_config->orquestador, DOSPUNTOS);
@@ -225,7 +236,7 @@ void movimientoPersonaje(resource_struct* resources) {
 		if (string_equals_ignore_case(mens->nombre, RECURSO)) {
 			restarRecursos(posicion, listaItems, sockfd, mens->caracter, resources->recursosAt, resources);
 		}
-		nivel_gui_dibujar(listaItems);
+//		nivel_gui_dibujar(listaItems);
 	}
 
 }

@@ -267,8 +267,8 @@ t_level_attributes *getLevelAttributes() {
 
 	configFile = config_create(finalPath);
 
-	level->sleep = config_get_string_value(configFile, TURNOS);
-	level->turnos = config_get_string_value(configFile, SLEEP);
+	level->sleep = config_get_string_value(configFile, SLEEP);
+	level->turnos = config_get_string_value(configFile, TURNOS);
 
 	free(finalPath);
 

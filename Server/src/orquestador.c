@@ -30,6 +30,7 @@
 #define OKEY "ok"
 #define DAR_RECURSO "DAR_RECURSO"
 #define NOTOK "NOTOK"
+#define BROKEN "BROKEN"
 
 void executeResponse(char* response, t_dictionary *levelsMap, int *fd, t_dictionary *levels_queues);
 void giveResource(t_scheduler_queue *queues, int recurso, blocked_character *blockedCharacter);
@@ -136,6 +137,10 @@ void main() {
 		pthread_mutex_unlock(readLock);
 
 		response = recieveMessage(fd);
+
+		if(string_starts_with(response, BROKEN)){
+			break;
+		}
 
 		executeResponse(response, levelsMap, fd, levels_queues);
 
