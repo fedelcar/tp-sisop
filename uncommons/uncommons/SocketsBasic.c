@@ -2,16 +2,20 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-
+#define BROKEN "BROKEN"
 #define MAXDATASIZE 1024
+#define GREAT "GREAT"
 
-void sendMessage(int *sockfd,char *msg)
+char* sendMessage(int *sockfd,char *msg)
 {
 
 	int len;
 	len = strlen(msg);
 
-	send(sockfd, msg, len, 0);
+	if(send(sockfd, msg, len, 0) == 0){
+		return BROKEN;
+	}
+	return GREAT;
 }
 
 
@@ -20,7 +24,9 @@ char* recieveMessage(int *sockfd)
 
 	char *buffer = (char *) malloc(MAXDATASIZE);
 
-	recv(sockfd,(char *) buffer, MAXDATASIZE, 0);
+	if(recv(sockfd,(char *) buffer, MAXDATASIZE, 0) == 0){
+		return BROKEN;
+	}
 
 	return buffer;
 }
