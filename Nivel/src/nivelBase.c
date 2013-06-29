@@ -28,7 +28,6 @@
 #define COMA ","
 #define DEATH "DEATH"
 
-
 void openListener(char* argv, queue_n_locks *queue);
 void agregarRecursos(char* buffer, ITEM_NIVEL *listaItems);
 void saveList(pthread_t *t, resource_struct *resourceStruct, t_list *threads,
@@ -242,9 +241,6 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 
 	char *bufferDeadlock = (char*) malloc(MAXSIZE);
 
-	int socketDeadlock = openSocketClient(ipPuerto[1], ipPuerto[0]);
-	sendMessage(socketDeadlock, EMPTY);
-
 	int j = 0;
 
 	char *deadlockMessage = (char*) malloc(MAXSIZE);
@@ -272,10 +268,11 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 						string_from_format("%d,", datos->id));
 
 			}
-
+			int *socketDeadlock = openSocketClient(ipPuerto[1], ipPuerto[0]);
 			sendMessage(socketDeadlock, deadlockMessage);
 			memset(deadlockMessage, 0, sizeof(deadlockMessage));
 			bufferDeadlock = recieveMessage(socketDeadlock);
+			close(socketDeadlock);
 
 			char** response = string_split(bufferDeadlock, COMA);
 
@@ -307,7 +304,6 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 	free(ipPuerto);
 	free(bufferDeadlock);
 	free(deadlockMessage);
-	close(socketDeadlock);
 }
 
 void saveList(pthread_t *t, resource_struct *resourceStruct, t_list *threads,
@@ -320,7 +316,7 @@ void saveList(pthread_t *t, resource_struct *resourceStruct, t_list *threads,
 	datos->M = &(resourceStruct->recursosAt->M);
 	datos->thread = &t;
 	datos->recurso = &(resourceStruct->recursoBloqueado);
-	datos->id = &id;
+	datos->id = id;
 	datos->fd = &resourceStruct->fd;
 
 	list_add(threads, datos);
