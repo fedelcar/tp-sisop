@@ -21,6 +21,7 @@
 #define PEDIR "PEDIRRECURSO"
 #define TRUE 1
 #define FALSE 0
+#define BROKEN "BROKEN"
 
 void socket_listener(queue_n_locks *queue);
 void analize_response(char *response, queue_n_locks *queue, int *fd, pthread_mutex_t *readLock, int *breakIt);
@@ -92,6 +93,10 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 		printf("Mando mensaje\n");
 
 		response = recieveMessage(fd);
+
+		if(string_starts_with(response, BROKEN)){
+			break;
+		}
 
 		pthread_mutex_lock(writeLock);
 
