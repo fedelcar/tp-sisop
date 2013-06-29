@@ -20,6 +20,7 @@
 #define EMPTYSTRING "EMPTY"
 #define OKEY "ok"
 #define FREERESC "FREERESC,"
+#define PIPE "|"
 
 char* endingString(recursos_otorgados * recursosAt, char* nivel);
 
@@ -167,13 +168,18 @@ void movimientoPersonaje(resource_struct* resources) {
 	char * mensaje = (char*) malloc(MAXSIZE);
 	int *sockfd = resources->fd;
 
+	char** splitMessage = (char*) malloc(MAXSIZE);
 	while (1) {
 		/*Voy a escuchar*/
 		mensaje = recieveMessage(sockfd);
 
+		splitMessage = string_split(mensaje, PIPE);
+
+		mensaje = splitMessage[0];
+
 		resources->recursoBloqueado = '0';
 
-		if(string_equals_ignore_case(mensaje, "Liberar recursos")){
+		if(string_starts_with(mensaje, "Liberar recursos")){
 			int fileDescriptor;
 			char** socket = (char*) malloc(MAXSIZE);
 			socket = string_split(resources->level_config->orquestador, DOSPUNTOS);
