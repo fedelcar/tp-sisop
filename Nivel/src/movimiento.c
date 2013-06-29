@@ -9,6 +9,7 @@
 #include "nivelBase.h"
 #include <uncommons/SocketsCliente.h>
 
+#define BROKEN "BROKEN"
 #define DOSPUNTOS ":"
 #define COMA ","
 #define MAXSIZE 1024
@@ -163,7 +164,7 @@ void movimientoPersonaje(resource_struct* resources) {
 	posicion->posX = 0;
 	posicion->posY = 0;
 
-	nivel_gui_get_area_nivel(&rows, &cols);
+//	nivel_gui_get_area_nivel(&rows, &cols);
 
 	char * mensaje = (char*) malloc(MAXSIZE);
 	int *sockfd = resources->fd;
@@ -172,6 +173,10 @@ void movimientoPersonaje(resource_struct* resources) {
 	while (1) {
 		/*Voy a escuchar*/
 		mensaje = recieveMessage(sockfd);
+
+		if(string_starts_with(mensaje, BROKEN)){
+			break;
+		}
 
 		splitMessage = string_split(mensaje, PIPE);
 
@@ -231,7 +236,7 @@ void movimientoPersonaje(resource_struct* resources) {
 		if (string_equals_ignore_case(mens->nombre, RECURSO)) {
 			restarRecursos(posicion, listaItems, sockfd, mens->caracter, resources->recursosAt, resources);
 		}
-		nivel_gui_dibujar(listaItems);
+//		nivel_gui_dibujar(listaItems);
 	}
 
 }
