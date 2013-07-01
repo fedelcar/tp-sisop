@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Memory</name>
+	<name>pruebaKoopa</name>
 	<comment></comment>
 	<projects>
+		<project>Memory</project>
 		<project>commons</project>
-		<project>pruebaKoopa</project>
-		<project>uncommons</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
