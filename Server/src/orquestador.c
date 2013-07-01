@@ -247,6 +247,5 @@ void giveResource(t_scheduler_queue *queues, int recurso, blocked_character *blo
 	if(recurso > 0){
 		recurso--;
 		queue_push(queues->character_queue, blockedCharacter->fd);
-		pthread_mutex_unlock(blockedCharacter->readlock);
 	}
 }

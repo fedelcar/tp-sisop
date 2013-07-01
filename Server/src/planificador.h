@@ -6,6 +6,7 @@
  */
 
 #include <uncommons/fileStructures.h>
+#define MAXQUEUE 100
 
 struct scheduler_struct{
 
@@ -20,7 +21,7 @@ typedef struct{
 	pthread_mutex_t *readlock;
 }blocked_character;
 
+void planificar(t_scheduler_queue *scheduler_queue) ;
+
+
 void planificador(t_scheduler_queue *scheduler_queue);
-
-
-
