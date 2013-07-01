@@ -19,6 +19,11 @@
 #include "commons/string.h"
 #include <unistd.h>
 
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <uncommons/select.h>
+
 #define DOSPUNTOS ":"
 #define MAXSIZE 1024
 #define PORT "9930"
@@ -32,8 +37,10 @@
 #define NOTOK "NOTOK"
 #define BROKEN "BROKEN"
 
+void accionar(int sock, int connectlist[], int highsock, fd_set socks,t_dictionary *levelsMap, t_dictionary *levels_queues);
 void executeResponse(char* response, t_dictionary *levelsMap, int *fd, t_dictionary *levels_queues);
 void giveResource(t_scheduler_queue *queues, int recurso, blocked_character *blockedCharacter);
+void orquestador(t_dictionary *levelsMap, int *fd, t_dictionary *levels_queues);
 
 void main() {
 
@@ -95,56 +102,64 @@ void main() {
 	free(addresses);
 	free(levelsList);
 
-	pthread_mutex_t *readLock = (pthread_mutex_t*) malloc(
-			sizeof(pthread_mutex_t));
-	pthread_mutex_t *writeLock = (pthread_mutex_t*) malloc(
-			sizeof(pthread_mutex_t));
 
-	queue_n_locks *queue = (queue_n_locks*) malloc(sizeof(queue_n_locks));
+	int sock; /* fd del listener*/
+	int connectlist[MAXQUEUE]; /* array de sockets conectados */
+	fd_set socks; /* lista de fds */
+	int highsock; /* Highest #'d file descriptor, needed for select() */
 
-	pthread_mutex_init(readLock, NULL );
+	int readsocks; /* Number of sockets ready for reading */
 
-	pthread_mutex_init(writeLock, NULL );
+	/* Obtain a file descriptor for our "listening" socket */
+	sock = socketServer(PORT);
 
-	queue->character_queue = queue_create();
-	queue->readLock = readLock;
-	queue->writeLock = writeLock;
-	queue->portNumber = PORT;
+	listen(sock, MAXQUEUE);
 
-	pthread_t t;
-
-	pthread_create(&t, NULL, (int *) openSocketServer, (queue_n_locks *) queue);
-
-	char *response = (char *) malloc(MAXSIZE); //CHECK LENGTH
-	int *fd;
+	highsock = sock;
+	memset((char *) &connectlist, 0, sizeof(connectlist));
 
 	while (1) {
+		build_select_list(sock, connectlist, highsock, &socks);
 
-		printf("Entro al while\n");
+		readsocks = select(FD_SETSIZE, &socks, (fd_set *) 0, (fd_set *) 0, NULL);
 
-		if (queue_size(queue->character_queue) == 0) {
-			pthread_mutex_lock(readLock);
-		}
+		if (readsocks < 0) {
+			perror("select");
+			exit(1);
+		} else
+			accionar(sock, connectlist, highsock, socks, levelsMap, levels_queues);
+	}
 
-		printf("Paso el lock\n");
 
-		pthread_mutex_lock(readLock);
 
-		fd = (int *) queue_pop(queue->character_queue);
+}
+
+
+void accionar(int sock, int connectlist[], int highsock, fd_set socks, t_dictionary *levelsMap, t_dictionary *levels_queues) {
+	int listnum;
+
+// Devuelvo el valor correspondiente al fd listener para primero gestionar conexiones nuevas.
+	if (FD_ISSET(sock,&socks)){
+		orquestador(levelsMap, handle_new_connection(sock, connectlist, highsock, socks), levels_queues);
+	}
+	for (listnum = 0; listnum < MAXQUEUE; listnum++) {
+		if (FD_ISSET(connectlist[listnum],&socks))
+			orquestador(levelsMap, connectlist[listnum], levels_queues);
+	}
+}
+
+void orquestador(t_dictionary *levelsMap, int *fd, t_dictionary *levels_queues) {
+
+	char *response = (char *) malloc(MAXSIZE); //CHECK LENGTH
 
 		printf("Realizo el pop\n");
 
-		pthread_mutex_unlock(readLock);
 
 		response = recieveMessage(fd);
 
-		if(string_starts_with(response, BROKEN)){
-			break;
+		if(!string_starts_with(response, BROKEN)){
+			executeResponse(response, levelsMap, fd, levels_queues);
 		}
-
-		executeResponse(response, levelsMap, fd, levels_queues);
-
-	}
 
 }
 
