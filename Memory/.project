@@ -4,6 +4,8 @@
 	<comment></comment>
 	<projects>
 		<project>commons</project>
+		<project>pruebaKoopa</project>
+		<project>uncommons</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
