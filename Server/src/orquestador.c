@@ -36,11 +36,12 @@
 #define DAR_RECURSO "DAR_RECURSO"
 #define NOTOK "NOTOK"
 #define BROKEN "BROKEN"
+#define CONNECTED "CONNECTED"
 
-void accionar(int sock, int connectlist[], int highsock, fd_set socks,t_dictionary *levelsMap, t_dictionary *levels_queues);
+void accionar(int sock, int *connectlist, int *highsock, fd_set *socks, t_dictionary *levelsMap, t_dictionary *levels_queues);
 void executeResponse(char* response, t_dictionary *levelsMap, int *fd, t_dictionary *levels_queues);
 void giveResource(t_scheduler_queue *queues, int recurso, blocked_character *blockedCharacter);
-void orquestador(t_dictionary *levelsMap, int *fd, t_dictionary *levels_queues);
+void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues, fd_set *socks);
 
 void main() {
 
@@ -106,7 +107,7 @@ void main() {
 	int sock; /* fd del listener*/
 	int connectlist[MAXQUEUE]; /* array de sockets conectados */
 	fd_set socks; /* lista de fds */
-	int highsock; /* Highest #'d file descriptor, needed for select() */
+	int highsock;
 
 	int readsocks; /* Number of sockets ready for reading */
 
@@ -127,7 +128,8 @@ void main() {
 			perror("select");
 			exit(1);
 		} else
-			accionar(sock, connectlist, highsock, socks, levelsMap, levels_queues);
+			printf("paso por accionar\n");
+			accionar(sock, &connectlist, &highsock, &socks, levelsMap, levels_queues);
 	}
 
 
@@ -135,32 +137,32 @@ void main() {
 }
 
 
-void accionar(int sock, int connectlist[], int highsock, fd_set socks, t_dictionary *levelsMap, t_dictionary *levels_queues) {
+void accionar(int sock, int *connectlist, int *highsock, fd_set *socks, t_dictionary *levelsMap, t_dictionary *levels_queues) {
 	int listnum;
 
 // Devuelvo el valor correspondiente al fd listener para primero gestionar conexiones nuevas.
-	if (FD_ISSET(sock,&socks)){
-		orquestador(levelsMap, handle_new_connection(sock, connectlist, highsock, socks), levels_queues);
+	if (FD_ISSET(sock,socks)){
+		int fd = handle_new_connection(sock, connectlist, highsock, socks);
+		FD_SET(fd, socks);
+		sendMessage(fd, CONNECTED);
 	}
 	for (listnum = 0; listnum < MAXQUEUE; listnum++) {
-		if (FD_ISSET(connectlist[listnum],&socks))
-			orquestador(levelsMap, connectlist[listnum], levels_queues);
+		if (FD_ISSET(connectlist[listnum],socks))
+			orquestador(levelsMap, connectlist[listnum], levels_queues, socks);
+			connectlist[listnum] = 0;
 	}
 }
 
-void orquestador(t_dictionary *levelsMap, int *fd, t_dictionary *levels_queues) {
+void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues, fd_set *socks) {
 
-	char *response = (char *) malloc(MAXSIZE); //CHECK LENGTH
-
-		printf("Realizo el pop\n");
-
+	char *response = (char *) malloc(MAXSIZE);
 
 		response = recieveMessage(fd);
 
 		if(!string_starts_with(response, BROKEN)){
 			executeResponse(response, levelsMap, fd, levels_queues);
 		}
-
+		FD_CLR(fd, socks);
 }
 
 void executeResponse(char* response, t_dictionary *levelsMap, int *fd, t_dictionary *levels_queues) {
