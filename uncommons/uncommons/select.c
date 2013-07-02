@@ -69,8 +69,8 @@ void build_select_list(int sock, int connectlist[], int highsock, fd_set *socks)
 	}
 }
 
-int *handle_new_connection(int sock, int connectlist[], int highsock,
-		fd_set socks) {
+int *handle_new_connection(int sock, int *connectlist, int *highsock,
+		fd_set *socks) {
 	int listnum; /* Current item in connectlist for for loops */
 	int *connection = (int*) malloc(sizeof(int)); /* Socket file descriptor for incoming connections */
 	int finish = 0;
@@ -83,7 +83,7 @@ int *handle_new_connection(int sock, int connectlist[], int highsock,
 		exit(1);
 	}
 	setnonblocking(connection);
-	for (listnum = 0; (listnum < MAXQUEUE) && (finish != 0); listnum++)
+	for (listnum = 0; (listnum < MAXQUEUE) && (finish == 0); listnum++)
 		if (connectlist[listnum] == 0) {
 			printf("\nConnection accepted:   FD=%d; Slot=%d\n", connection,
 					listnum);
@@ -138,7 +138,7 @@ void read_socks(int sock, int connectlist[], int highsock, fd_set socks) {
 
 // Devuelvo el valor correspondiente al fd listener para primero gestionar conexiones nuevas.
 	if (FD_ISSET(sock,&socks))
-		handle_new_connection(sock, connectlist, highsock, socks);
+		handle_new_connection(sock, &connectlist, &highsock, &socks);
 
 	for (listnum = 0; listnum < MAXQUEUE; listnum++) {
 		if (FD_ISSET(connectlist[listnum],&socks))

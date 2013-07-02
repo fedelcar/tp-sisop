@@ -10,7 +10,8 @@ void setnonblocking(int sock);
 
 void build_select_list(int sock, int connectlist[], int highsock, fd_set *socks);
 
-int *handle_new_connection(int sock, int connectlist[], int highsock, fd_set socks);
+//int *handle_new_connection(int sock, int connectlist[], int highsock, fd_set socks);
+int *handle_new_connection(int sock, int *connectlist, int *highsock, fd_set *socks);
 
 void deal_with_data(int listnum, int connectlist[MAXQUEUE]);
 
