@@ -119,7 +119,7 @@ int main(int argc, char **argv) {
 		if (FD_ISSET(sock, &socks)){
 			int fd = handle_new_connection(sock, &connectlist, &highsock, &socks);
 			FD_SET(fd, &socks);
-			sendMessage(fd, CONNECTED);
+//			sendMessage(fd, CONNECTED);
 		}
 		if(readsocks > -1){
 		for (listnum = 0; listnum < MAXQUEUE; listnum++) {
@@ -137,6 +137,9 @@ void analize_response(int *fd, t_list *threads, t_level_config *nivel, int *id,
 	char* bufferSocket = (char*) malloc(MAXSIZE);
 	memset(bufferSocket, 0, sizeof(bufferSocket));
 	bufferSocket = recieveMessage(fd);
+	if(string_starts_with(bufferSocket, "BROKEN")){
+		return;
+	}
 
 	if (string_starts_with(bufferSocket, START)) {
 		bufferSocket = string_substring_from(bufferSocket, sizeof(START));
