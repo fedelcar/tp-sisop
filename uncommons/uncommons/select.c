@@ -146,67 +146,67 @@ void read_socks(int sock, int connectlist[], int highsock, fd_set socks) {
 	}
 }
 
-int selecting() {
-
-	int sock; /* fd del listener*/
-	int connectlist[MAXQUEUE]; /* array de sockets conectados */
-	fd_set socks; /* lista de fds */
-	int highsock; /* Highest #'d file descriptor, needed for select() */
-
-	int port; /* The port number after conversion from ascport */
-	struct sockaddr_in server_address; /* bind info structure */
-	int reuse_addr = 1; /* Used so we can re-bind to our port
-	 while a previous connection is still
-	 in TIME_WAIT state. */
-	int readsocks; /* Number of sockets ready for reading */
-
-	/* Obtain a file descriptor for our "listening" socket */
-	sock = socket(AF_INET, SOCK_STREAM, 0);
-	if (sock < 0) {
-		perror("socket");
-		exit(1);
-	}
-	/* So that we can re-bind to it without TIME_WAIT problems */
-	setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &reuse_addr, sizeof(reuse_addr));
-
-	/* Set socket to non-blocking with our setnonblocking routine */
-	setnonblocking(sock);
-
-	/* Get the address information, and bind it to the socket */
-	port = atoi(port); /* le paso el puerto */
-	memset((char *) &server_address, 0, sizeof(server_address));
-	server_address.sin_family = AF_INET;
-	server_address.sin_addr.s_addr = htonl(INADDR_ANY );
-	server_address.sin_port = port;
-	if (bind(sock, (struct sockaddr *) &server_address, sizeof(server_address))
-			< 0) {
-		perror("bind");
-		close(sock);
-		exit(1);
-	}
-
-	/* Set up queue for incoming connections. */
-	listen(sock, MAXQUEUE);
-
-	highsock = sock;
-	memset((char *) &connectlist, 0, sizeof(connectlist));
-
-	while (1) { /* Main server loop - forever */
-		build_select_list(sock, connectlist, highsock, &socks);
-
-		readsocks = select(FD_SETSIZE, &socks, (fd_set *) 0, (fd_set *) 0,
-				NULL );
-
-		if (readsocks < 0) {
-			perror("select");
-			exit(1);
-		}
-		if (readsocks == 0) {
-			/* Nothing ready to read, just show that
-			 we're alive */
-			printf(".");
-			fflush(stdout);
-		} else
-			read_socks(sock, connectlist, highsock, socks);
-	}
-}
+//int selecting() {
+//
+//	int sock; /* fd del listener*/
+//	int connectlist[MAXQUEUE]; /* array de sockets conectados */
+//	fd_set socks; /* lista de fds */
+//	int highsock; /* Highest #'d file descriptor, needed for select() */
+//
+//	int port; /* The port number after conversion from ascport */
+//	struct sockaddr_in server_address; /* bind info structure */
+//	int reuse_addr = 1; /* Used so we can re-bind to our port
+//	 while a previous connection is still
+//	 in TIME_WAIT state. */
+//	int readsocks; /* Number of sockets ready for reading */
+//
+//	/* Obtain a file descriptor for our "listening" socket */
+//	sock = socket(AF_INET, SOCK_STREAM, 0);
+//	if (sock < 0) {
+//		perror("socket");
+//		exit(1);
+//	}
+//	/* So that we can re-bind to it without TIME_WAIT problems */
+//	setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &reuse_addr, sizeof(reuse_addr));
+//
+//	/* Set socket to non-blocking with our setnonblocking routine */
+//	setnonblocking(sock);
+//
+//	/* Get the address information, and bind it to the socket */
+//	port = atoi(port); /* le paso el puerto */
+//	memset((char *) &server_address, 0, sizeof(server_address));
+//	server_address.sin_family = AF_INET;
+//	server_address.sin_addr.s_addr = htonl(INADDR_ANY );
+//	server_address.sin_port = port;
+//	if (bind(sock, (struct sockaddr *) &server_address, sizeof(server_address))
+//			< 0) {
+//		perror("bind");
+//		close(sock);
+//		exit(1);
+//	}
+//
+//	/* Set up queue for incoming connections. */
+//	listen(sock, MAXQUEUE);
+//
+//	highsock = sock;
+//	memset((char *) &connectlist, 0, sizeof(connectlist));
+//
+//	while (1) { /* Main server loop - forever */
+//		build_select_list(sock, connectlist, highsock, &socks);
+//
+//		readsocks = select(FD_SETSIZE, &socks, (fd_set *) 0, (fd_set *) 0,
+//				NULL );
+//
+//		if (readsocks < 0) {
+//			perror("select");
+//			exit(1);
+//		}
+//		if (readsocks == 0) {
+//			/* Nothing ready to read, just show that
+//			 we're alive */
+//			printf(".");
+//			fflush(stdout);
+//		} else
+//			read_socks(sock, connectlist, highsock, socks);
+//	}
+//}
