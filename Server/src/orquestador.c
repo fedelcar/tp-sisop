@@ -119,16 +119,19 @@ void main() {
 	highsock = sock;
 	memset((char *) &connectlist, 0, sizeof(connectlist));
 
+	struct timeval tv;
+	tv.tv_sec = 0;
+	tv.tv_usec = 0;
+
 	while (1) {
 		build_select_list(sock, connectlist, highsock, &socks);
 
-		readsocks = select(FD_SETSIZE, &socks, (fd_set *) 0, (fd_set *) 0, NULL);
+		readsocks = select(FD_SETSIZE, &socks, (fd_set *) 0, (fd_set *) 0, &tv);
 
 		if (readsocks < 0) {
 			perror("select");
 			exit(1);
 		} else
-			printf("paso por accionar\n");
 			accionar(sock, &connectlist, &highsock, &socks, levelsMap, levels_queues);
 	}
 
@@ -143,8 +146,9 @@ void accionar(int sock, int *connectlist, int *highsock, fd_set *socks, t_dictio
 // Devuelvo el valor correspondiente al fd listener para primero gestionar conexiones nuevas.
 	if (FD_ISSET(sock,socks)){
 		int fd = handle_new_connection(sock, connectlist, highsock, socks);
+//		sendMessage(fd, CONNECTED);
+		orquestador(levelsMap, fd, levels_queues, socks);
 		FD_SET(fd, socks);
-		sendMessage(fd, CONNECTED);
 	}
 	for (listnum = 0; listnum < MAXQUEUE; listnum++) {
 		if (FD_ISSET(connectlist[listnum],socks))
