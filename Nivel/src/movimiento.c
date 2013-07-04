@@ -57,17 +57,25 @@ void mandarPosRecurso(char recurso, ITEM_NIVEL* temp, int* sockfd) {
 
 int validarPos(t_posicion * Npos, t_posicion * Apos, int rows, int cols,
 		ITEM_NIVEL* ListaItems, char simbolo) {
-
+	printf("entro a la funcion");
 	if (Npos->posX > cols) {
 	} else {
 		if (Npos->posY > rows) {
 		} else {
 			Apos->posX = Npos->posX;
 			Apos->posY = Npos->posY;
-			MoverPersonaje(ListaItems, simbolo, Npos->posX, Npos->posY);
+			ITEM_NIVEL *personaje = (ITEM_NIVEL*) malloc(sizeof(ITEM_NIVEL));
+			personaje->id = simbolo;
+			personaje->posx = Npos->posX;
+			personaje->posy = Npos->posY;
+			personaje->item_type = PERSONAJE_ITEM_TYPE;
+			MoverPersonaje(personaje, simbolo, Npos->posX, Npos->posY);
+			free(personaje);
+			printf("return 1");
 			return 1;
 		}
 	}
+	printf("return 0");
 	return 0;
 }
 
@@ -148,34 +156,22 @@ void restaurarRecursos(recursos_otorgados* recursos, ITEM_NIVEL* listaItems){
 
 
 //Funcion Principal
-void movimientoPersonaje(resource_struct* resources) {
+void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* mensaje) {
 
-	ITEM_NIVEL* listaItems = (ITEM_NIVEL*) malloc(sizeof(ITEM_NIVEL));
-
-	listaItems = resources->listaItems;
-
-	int *rows = (int*) malloc(sizeof(int));
-	int *cols = (int*) malloc(sizeof(int));
-	rows = (int*) 10;
-	cols = (int*) 10;
-	char simbolo;
+	ITEM_NIVEL* listaItems = resources->listaItems;
 
 	t_posicion* posicion = (t_posicion*) malloc(sizeof(t_posicion));
 	posicion->posX = 0;
 	posicion->posY = 0;
 
-	nivel_gui_get_area_nivel(&rows, &cols);
-
-	char * mensaje = (char*) malloc(MAXSIZE);
 	int *sockfd = resources->fd;
 
 	char** splitMessage = (char*) malloc(MAXSIZE);
-	while (1) {
+
 		/*Voy a escuchar*/
-		mensaje = recieveMessage(sockfd);
 
 		if(string_starts_with(mensaje, BROKEN)){
-			break;
+			return;
 		}
 
 		splitMessage = string_split(mensaje, PIPE);
@@ -196,9 +192,11 @@ void movimientoPersonaje(resource_struct* resources) {
 				restaurarRecursos(resources->recursosAt, listaItems);
 				nivel_gui_dibujar(listaItems);
 			}
+			BorrarItem(&listaItems, resources->simbolo);
 			free(mensaje);
 			close(fileDescriptor);
-			break;
+			free(socket);
+			return;
 		}
 
 		mensaje_t * mens = interpretarMensaje(mensaje);
@@ -207,9 +205,9 @@ void movimientoPersonaje(resource_struct* resources) {
 			mandarPosRecurso(mens->caracter, listaItems, sockfd);
 		}
 		if (string_equals_ignore_case(mens->nombre, MOVER)) {
-
+			printf("validar pos");
 			int valor = validarPos(mens->pos, posicion, rows, cols, listaItems,
-					simbolo);
+					resources->simbolo);
 			char* msjMovimiento = (char*) malloc(MAXSIZE);
 
 			if (valor == 1) {
@@ -226,19 +224,14 @@ void movimientoPersonaje(resource_struct* resources) {
 			}
 		}
 
-		if (string_equals_ignore_case(mens->nombre, SIMBOLO)) {
-			simbolo = mens->caracter;
-			CrearPersonaje(&listaItems, simbolo, 1, 1);
-			posicion->posX = 1;
-			posicion->posY = 1;
-			sendMessage(sockfd, "Ok");
-		}
 		if (string_equals_ignore_case(mens->nombre, RECURSO)) {
 			restarRecursos(posicion, listaItems, sockfd, mens->caracter, resources->recursosAt, resources);
 		}
 		nivel_gui_dibujar(listaItems);
-	}
-	BorrarItem(&listaItems, simbolo);
+
+		free(posicion);
+		free(splitMessage);
+
 }
 
 

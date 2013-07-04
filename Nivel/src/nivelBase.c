@@ -27,15 +27,23 @@
 #define RESOURCES "RSC"
 #define COMA ","
 #define DEATH "DEATH"
+#define MAXQUEUE 100
+#define MOVIMIENTO "MOVIMIENTO"
+#define CONNECTED "CONNECTED"
+#define PIPE "|"
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <uncommons/select.h>
 
 void openListener(char* argv, queue_n_locks *queue);
 void agregarRecursos(char* buffer, ITEM_NIVEL *listaItems);
-void saveList(pthread_t *t, resource_struct *resourceStruct, t_list *threads,
-		int id);
+void saveList(resource_struct *resourceStruct, t_list *threads, int id);
 void deteccionInterbloqueo(deadlock_struct *deadlockStruct);
-
-resource_struct *getLevelStructure(t_level_config *level_config, int *fd,
-		pthread_mutex_t *resourcesReadLock, pthread_mutex_t *resourcesWriteLock);
+void analize_response(int *fd, t_list *threads, t_level_config *nivel, int *id,
+		ITEM_NIVEL *listaItems, t_dictionary *listaPersonajes, fd_set *socks, int rows, int cols);
+resource_struct *getLevelStructure(t_level_config *level_config, int *fd);
 
 ITEM_NIVEL* cambiarEstructura(t_level_config* levelConfig);
 
@@ -51,35 +59,7 @@ int main(int argc, char **argv) {
 
 	ITEM_NIVEL *listaItems = cambiarEstructura(nivel);
 
-	pthread_mutex_t *readLock = (pthread_mutex_t*) malloc(
-			sizeof(pthread_mutex_t));
-	pthread_mutex_t *writeLock = (pthread_mutex_t*) malloc(
-			sizeof(pthread_mutex_t));
-
-	queue_n_locks *queue = (queue_n_locks*) malloc(sizeof(queue_n_locks));
-
-	pthread_mutex_init(readLock, NULL );
-
-	pthread_mutex_init(writeLock, NULL );
-
-	queue->character_queue = queue_create();
-	queue->readLock = readLock;
-	queue->writeLock = writeLock;
-
-	int *fd;
-
-	openListener(mensaje, queue);
-
-	pthread_mutex_t *resourcesReadLock = (pthread_mutex_t*) malloc(
-			sizeof(pthread_mutex_t));
-	pthread_mutex_t *resourcesWriteLock = (pthread_mutex_t*) malloc(
-			sizeof(pthread_mutex_t));
-
-	pthread_mutex_init(resourcesReadLock, NULL );
-
-	pthread_mutex_init(resourcesWriteLock, NULL );
-
-	char* bufferSocket = (char*) malloc(MAXSIZE);
+	t_dictionary *listaPersonajes = dictionary_create();
 
 	t_list *threads = list_create();
 
@@ -98,55 +78,103 @@ int main(int argc, char **argv) {
 	pthread_create(&detectionThread, NULL, (void*) deteccionInterbloqueo,
 			(deadlock_struct*) deadlockStruct);
 
-	nivel_gui_inicializar();
+	int sock; /* fd del listener*/
+	int connectlist[MAXQUEUE]; /* array de sockets conectados */
+	fd_set socks; /* lista de fds */
+	int highsock;
+	int listnum;
+	int readsocks; /* Number of sockets ready for reading */
+
+	/* Obtain a file descriptor for our "listening" socket */
+	sock = socketServer("9931");
+
+	listen(sock, MAXQUEUE);
+
+	highsock = sock;
+	memset((char *) &connectlist, 0, sizeof(connectlist));
+
+	int *rows = (int*) malloc(sizeof(int));
+	int *cols = (int*) malloc(sizeof(int));
+	rows = (int*) 10;
+	cols = (int*) 10;
+
+//	nivel_gui_inicializar();
+//
+//	nivel_gui_get_area_nivel(&rows, &cols);
+
+	struct timeval tv;
+	tv.tv_sec = 0;
+	tv.tv_usec = 0;
 
 	while (1) {
+		build_select_list(sock, connectlist, highsock, &socks);
 
-		if (queue_size(queue->character_queue) == 0) {
-			pthread_mutex_lock(readLock);
+		readsocks = select(FD_SETSIZE, &socks, (fd_set *) 0, (fd_set *) 0,
+				&tv );
+
+		if (readsocks < 0) {
+			perror("select");
+			exit(1);
 		}
-
-		pthread_mutex_lock(readLock);
-
-		fd = (int *) queue_pop(queue->character_queue);
-
-		bufferSocket = recieveMessage(fd);
-
-		if (string_starts_with(bufferSocket, START)) {
-
-			recursos_otorgados * recursosAt = (recursos_otorgados*) malloc(
-					sizeof(recursos_otorgados));
-			recursosAt->F = 0;
-			recursosAt->H = 0;
-			recursosAt->M = 0;
-
-			resource_struct *resourceStruct = getLevelStructure(nivel, fd,
-					resourcesReadLock, resourcesWriteLock);
-
-			resourceStruct->recursosAt = recursosAt;
-
-			resourceStruct->recursoBloqueado = "0";
-
-			resourceStruct->listaItems = listaItems;
-
-			pthread_t *t = (pthread_t*) malloc(sizeof(pthread_t));
-
-			saveList(t, resourceStruct, threads, id);
-
-			pthread_create(t, NULL, (void*) movimientoPersonaje,
-					(resource_struct*) resourceStruct);
-
-			id++;
-		} else if (string_starts_with(bufferSocket, RESOURCES)) {
-			agregarRecursos(bufferSocket, listaItems);
+		if (FD_ISSET(sock, &socks)){
+			int fd = handle_new_connection(sock, &connectlist, &highsock, &socks);
+			FD_SET(fd, &socks);
+			sendMessage(fd, CONNECTED);
 		}
-
-		pthread_mutex_unlock(readLock);
+		if(readsocks > -1){
+		for (listnum = 0; listnum < MAXQUEUE; listnum++) {
+			if (FD_ISSET(connectlist[listnum], &socks))
+				analize_response(connectlist[listnum], threads, nivel, &id, listaItems, listaPersonajes, &socks, rows, cols);
+			}
+		}
 	}
-
-	//TODO PENDIENTE BORRAR ITEMS
-
 }
+
+
+void analize_response(int *fd, t_list *threads, t_level_config *nivel, int *id,
+		ITEM_NIVEL *listaItems, t_dictionary *listaPersonajes, fd_set *socks, int rows, int cols) {
+
+	char* bufferSocket = (char*) malloc(MAXSIZE);
+	memset(bufferSocket, 0, sizeof(bufferSocket));
+	bufferSocket = recieveMessage(fd);
+
+	if (string_starts_with(bufferSocket, START)) {
+		bufferSocket = string_substring_from(bufferSocket, sizeof(START));
+		char** split = string_split(bufferSocket, PIPE);
+		recursos_otorgados * recursosAt = (recursos_otorgados*) malloc(
+				sizeof(recursos_otorgados));
+		recursosAt->F = 0;
+		recursosAt->H = 0;
+		recursosAt->M = 0;
+
+		resource_struct *resourceStruct = getLevelStructure(nivel, fd);
+
+		resourceStruct->recursosAt = recursosAt;
+
+		resourceStruct->recursoBloqueado = "0";
+
+		resourceStruct->listaItems = listaItems;
+
+		resourceStruct->simbolo = split[0][0];
+
+		saveList(resourceStruct, threads, id);
+
+		dictionary_put(listaPersonajes, string_from_format("%d",fd), resourceStruct);
+
+		sendMessage(fd, "ok");
+
+		id++;
+	} else if (string_starts_with(bufferSocket, RESOURCES)) {
+		agregarRecursos(bufferSocket, listaItems);
+	} else if (string_starts_with(bufferSocket, MOVIMIENTO)){
+		bufferSocket = string_substring_from(bufferSocket, sizeof(MOVIMIENTO));
+		resource_struct *personaje = (resource_struct*) dictionary_get(listaPersonajes, string_from_format("%d",fd));
+		movimientoPersonaje(personaje, rows, cols, bufferSocket);
+	}
+	free(bufferSocket);
+}
+
+//TODO PENDIENTE BORRAR ITEMS
 
 void agregarRecursos(char* buffer, ITEM_NIVEL *listaItems) {
 
@@ -192,15 +220,12 @@ void openListener(char* mensaje, queue_n_locks *queue) {
 	free(addresses);
 }
 
-resource_struct *getLevelStructure(t_level_config *level_config, int *fd,
-		pthread_mutex_t *resourcesReadLock, pthread_mutex_t *resourcesWriteLock) {
+resource_struct *getLevelStructure(t_level_config *level_config, int *fd) {
 
 	resource_struct *resources = (resource_struct*) malloc(
 			sizeof(resource_struct));
 
 	resources->level_config = level_config;
-	resources->readLock = resourcesReadLock;
-	resources->writeLock = resourcesWriteLock;
 	resources->fd = fd;
 
 	return resources;
@@ -248,11 +273,13 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 	t_list *deadlockList;
 	while (1) {
 
-	sleep(3);//levantar de archivo de configuracion, inotify
+		sleep(3); //levantar de archivo de configuracion, inotify
 
-		deadlockList = detectionAlgorithm(deadlockStruct->items, deadlockStruct->list);
+		deadlockList = detectionAlgorithm(deadlockStruct->items,
+				deadlockStruct->list);
 
-		if (list_size(deadlockList) > 1 && atoi(deadlockStruct->recovery) == 1) {
+		if (list_size(deadlockList) > 1
+				&& atoi(deadlockStruct->recovery) == 1) {
 
 			deadlockMessage = string_from_format("DEADLOCK,%d,",
 					list_size(deadlockList));
@@ -261,8 +288,7 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 
 			for (j = 0; j < list_size(deadlockList); j++) {
 
-				datos = (datos_personaje*) list_get(
-						deadlockList, j);
+				datos = (datos_personaje*) list_get(deadlockList, j);
 
 				string_append(&deadlockMessage,
 						string_from_format("%d,", datos->id));
@@ -278,10 +304,9 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 
 			for (j = 0; j < list_size(deadlockList); j++) {
 
-				datos = (datos_personaje*) list_get(
-						deadlockList, j);
+				datos = (datos_personaje*) list_get(deadlockList, j);
 
-				if(datos->id == atoi(response[0])){
+				if (datos->id == atoi(response[0])) {
 					sendMessage(datos->fd, DEATH);
 				}
 
@@ -306,15 +331,13 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 	free(deadlockMessage);
 }
 
-void saveList(pthread_t *t, resource_struct *resourceStruct, t_list *threads,
-		int id) {
+void saveList(resource_struct *resourceStruct, t_list *threads, int id) {
 
 	datos_personaje *datos = (datos_personaje*) malloc(sizeof(datos_personaje));
 
 	datos->F = &(resourceStruct->recursosAt->F);
 	datos->H = &(resourceStruct->recursosAt->H);
 	datos->M = &(resourceStruct->recursosAt->M);
-	datos->thread = &t;
 	datos->recurso = &(resourceStruct->recursoBloqueado);
 	datos->id = id;
 	datos->fd = &resourceStruct->fd;

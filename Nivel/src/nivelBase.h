@@ -23,13 +23,12 @@ typedef struct {
 
 typedef struct {
 	int id;
-	pthread_mutex_t *readLock;
-	pthread_mutex_t *writeLock;
 	t_level_config *level_config;
 	ITEM_NIVEL * listaItems;
 	recursos_otorgados *recursosAt;
 	char recursoBloqueado;
 	int *fd;
+	char simbolo;
 } resource_struct;
 
 
