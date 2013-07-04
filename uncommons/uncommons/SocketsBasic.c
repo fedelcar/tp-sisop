@@ -12,7 +12,7 @@ char* sendMessage(int *sockfd,char *msg)
 	int len;
 	len = strlen(msg);
 
-	if(send(sockfd, msg, len, 0) == 0){
+	if(send(sockfd, msg, len, 0) == -1){
 		return BROKEN;
 	}
 	return GREAT;

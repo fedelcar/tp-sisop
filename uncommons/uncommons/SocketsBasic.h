@@ -22,7 +22,7 @@ typedef struct {
  * sockfd stands for the file descriptor of the socket you want
  * 		  to send the message.
  */
-void sendMessage(int *sockfd, char *msg);
+char* sendMessage(int *sockfd, char *msg);
 
 
 /*
