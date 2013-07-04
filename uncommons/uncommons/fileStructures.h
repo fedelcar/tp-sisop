@@ -66,6 +66,7 @@ typedef struct{
 	t_queue *character_queue;
 	t_queue *blocked_queue;
 	char *port;
+	int portInt;
 }t_scheduler_queue;
 
 t_dictionary* getCharacters();

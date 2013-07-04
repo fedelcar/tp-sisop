@@ -84,7 +84,7 @@ int *handle_new_connection(int sock, int *connectlist, int *highsock,
 	}
 	sendMessage(connection, "CONNECTED");
 	recieveMessage(connection);
-	sleep(0.5);
+	sleep(1);
 //	setnonblocking(connection);
 	for (listnum = 0; (listnum < MAXQUEUE) && (finish == 0); listnum++)
 		if (connectlist[listnum] == 0) {
