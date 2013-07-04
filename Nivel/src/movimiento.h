@@ -5,5 +5,5 @@
  *      Author: lucas
  */
 
-void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* mensaje);
+void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* mensaje, fd_set *master_set, int fileDescriptorPj);
 
