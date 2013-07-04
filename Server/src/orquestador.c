@@ -104,7 +104,7 @@ void main() {
 
 		scheduler_queue->blocked_queue = queue_create();
 		scheduler_queue->character_queue = queue_create();
-		scheduler_queue->port = port[1];
+		scheduler_queue->portInt = atoi(port[1]);
 
 		dictionary_put(levels_queues, levelName, scheduler_queue);
 
