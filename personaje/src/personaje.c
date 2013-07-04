@@ -35,10 +35,10 @@
 #define RECHAZO "Rechazo"
 #define BLOCKED "BLOCKED"
 #define OK "ok"
-#define DAME_RECURSO "Dame recurso"
+#define DAME_RECURSO "MOVIMIENTO:Dame recurso"
 #define TERMINE_TODO "Termine todo"
 #define TU_TURNO "Tu Turno"
-#define LIBERAR_RECURSOS "Liberar recursos"
+#define LIBERAR_RECURSOS "MOVIMIENTO:Liberar recursos"
 #define REINICIAR "Reinicio nivel"
 #define FALSE 0
 #define TRUE 1
@@ -141,8 +141,8 @@ int main(char* character) {
 		bloqueado = FALSE;
 
 		sockfdOrquestador = openSocketClient(puertoOrquestador, ipOrquestador);
-		recieveMessage(sockfdOrquestador);
-		sendMessage(sockfdOrquestador, "ok");
+//		recieveMessage(sockfdOrquestador);
+//		sendMessage(sockfdOrquestador, "ok");
 		log_debug(log, "Esperando conexión");
 //---------------------------------------------------------------------------------------
 
@@ -173,8 +173,6 @@ int main(char* character) {
 		puertoNivel = extraerPuertoNivel(buff2);
 
 		sockfdNivel = openSocketClient(puertoNivel, ipNivel);
-		recieveMessage(sockfdNivel);
-		sendMessage(sockfdNivel, "ok");
 //		sendMessage(sockfdNivel, START);
 		sockfdPlanif = openSocketClient(puertoPlanificador, ipPlanificador);
 
