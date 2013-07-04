@@ -141,8 +141,9 @@ int main(char* character) {
 		bloqueado = FALSE;
 
 		sockfdOrquestador = openSocketClient(puertoOrquestador, ipOrquestador);
-		log_debug(log, "Esperando conexión");
 		recieveMessage(sockfdOrquestador);
+		sendMessage(sockfdOrquestador, "ok");
+		log_debug(log, "Esperando conexión");
 //---------------------------------------------------------------------------------------
 
 
@@ -172,11 +173,13 @@ int main(char* character) {
 		puertoNivel = extraerPuertoNivel(buff2);
 
 		sockfdNivel = openSocketClient(puertoNivel, ipNivel);
-		sendMessage(sockfdNivel, START);
+		recieveMessage(sockfdNivel);
+		sendMessage(sockfdNivel, "ok");
+//		sendMessage(sockfdNivel, START);
 		sockfdPlanif = openSocketClient(puertoPlanificador, ipPlanificador);
 
 		//Envio mi simbolo al nivel
-		mensaje2 = string_from_format("Simbolo:%s|", personaje->simbolo);
+		mensaje2 = string_from_format("START:Simbolo:%s|", personaje->simbolo);
 		sendMessage(sockfdNivel, mensaje2);
 		log_debug(log, mensaje2);
 
@@ -220,7 +223,7 @@ int main(char* character) {
 			//si no se donde esta mi prox recurso se le pregunto al nivel
 			if (posRec->posX == -1) {
 				recursoActual = string_from_format("%s", pRecursoActual->data);
-				mensaje = string_from_format("Posicion del recurso:%s|",
+				mensaje = string_from_format("MOVIMIENTO:Posicion del recurso:%s|",
 						recursoActual);
 
 				sendMessage(sockfdNivel, mensaje);
@@ -233,7 +236,7 @@ int main(char* character) {
 
 			//moverme hacia el recurso
 			*miPos = calcularMovimiento(miPos, posRec);
-			mensaje = string_from_format("Me muevo:%d,%d|", miPos->posX,
+			mensaje = string_from_format("MOVIMIENTO:Me muevo:%d,%d|", miPos->posX,
 					miPos->posY);
 
 			sendMessage(sockfdNivel, mensaje);
@@ -243,14 +246,14 @@ int main(char* character) {
 
 			//Analizar respuesta
 			if ((string_equals_ignore_case(buff, OK)) == 0) {
-				log_debug(log, "Error al moverme");
+//				log_debug(log, "Error al moverme");
 //				Me manda miPos => Saber que pos tengo mal
 			}
 
 			//Analizar si llegue al recurso
 			if (sonPosicionesIguales(miPos, posRec)) {
 				//Pedir recurso al nivel
-				mensaje = string_from_format("Dame recurso:%s|", recursoActual);
+				mensaje = string_from_format("MOVIMIENTO:Dame recurso:%s|", recursoActual);
 				sendMessage(sockfdNivel, mensaje);
 
 				log_debug(log, DAME_RECURSO);
