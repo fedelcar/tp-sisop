@@ -48,15 +48,19 @@
 
 //void openListener(char* argv, queue_n_locks *queue);
 void agregarRecursos(char* buffer, ITEM_NIVEL *listaItems);
-void saveList(resource_struct *resourceStruct, t_list *threads, int id);
+void saveList(resource_struct *resourceStruct, t_list *threads);
 void deteccionInterbloqueo(deadlock_struct *deadlockStruct);
-void analize_response(int *fd, t_list *threads, t_level_config *nivel, int *id,
+void analize_response(int *fd, t_list *threads, t_level_config *nivel,
 		ITEM_NIVEL *listaItems, t_dictionary *listaPersonajes, int rows, int cols, fd_set *master_set, int socketOrquestador);
 resource_struct *getLevelStructure(t_level_config *level_config, int *fd);
 
 ITEM_NIVEL* cambiarEstructura(t_level_config* levelConfig);
 
+int id;
+
 int main(int argc, char **argv) {
+
+	id = 0;
 
 	t_dictionary *niveles = getLevels();
 
@@ -76,7 +80,9 @@ int main(int argc, char **argv) {
 
 	t_list *threads = list_create();
 
-	int id = 0;
+	int *id = (int*) malloc(sizeof(int));
+
+	id = 0;
 
 	pthread_t detectionThread;
 
@@ -96,9 +102,9 @@ int main(int argc, char **argv) {
 	rows = (int*) 10;
 	cols = (int*) 10;
 
-	nivel_gui_inicializar();
-//
-	nivel_gui_get_area_nivel(&rows, &cols);
+//	nivel_gui_inicializar();
+////
+//	nivel_gui_get_area_nivel(&rows, &cols);
 
 	 int    j, len, rc, on = 1;
 		   int    listen_sd, max_sd, new_sd;
@@ -327,7 +333,7 @@ int main(int argc, char **argv) {
 		                  /**********************************************/
 		                  /* Echo the data back to the client           */
 		                  /**********************************************/
-		            	   analize_response(j, threads,nivel, id, listaItems, listaPersonajes, rows, cols, &master_set, socketOrquestador);
+		            	   analize_response(j, threads,nivel, listaItems, listaPersonajes, rows, cols, &master_set, socketOrquestador);
 	//	                  rc = send(i, buffer, len, 0);
 	//	                  if (rc < 0)
 	//	                  {
@@ -364,7 +370,7 @@ int main(int argc, char **argv) {
 }
 
 
-void analize_response(int *fd, t_list *threads, t_level_config *nivel, int *id,
+void analize_response(int *fd, t_list *threads, t_level_config *nivel,
 		ITEM_NIVEL *listaItems, t_dictionary *listaPersonajes, int rows, int cols, fd_set *master_set, int socketOrquestador) {
 
 	char* bufferSocket = (char*) malloc(MAXSIZE);
@@ -402,7 +408,7 @@ void analize_response(int *fd, t_list *threads, t_level_config *nivel, int *id,
 
 		resourceStruct->listaItems = listaItems;
 
-		saveList(resourceStruct, threads, id);
+		saveList(resourceStruct, threads);
 
 		dictionary_put(listaPersonajes, string_from_format("%d",fd), resourceStruct);
 
@@ -573,7 +579,7 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 	free(deadlockMessage);
 }
 
-void saveList(resource_struct *resourceStruct, t_list *threads, int id) {
+void saveList(resource_struct *resourceStruct, t_list *threads) {
 
 	datos_personaje *datos = (datos_personaje*) malloc(sizeof(datos_personaje));
 
