@@ -96,9 +96,9 @@ int main(int argc, char **argv) {
 	rows = (int*) 10;
 	cols = (int*) 10;
 
-//	nivel_gui_inicializar();
+	nivel_gui_inicializar();
 //
-//	nivel_gui_get_area_nivel(&rows, &cols);
+	nivel_gui_get_area_nivel(&rows, &cols);
 
 	 int    j, len, rc, on = 1;
 		   int    listen_sd, max_sd, new_sd;
@@ -235,7 +235,7 @@ int main(int argc, char **argv) {
 		            /****************************************************/
 		            if (j == listen_sd)
 		            {
-		               printf("  Listening socket is readable\n");
+		               //printf("  Listening socket is readable\n");
 		               /*************************************************/
 		               /* Accept all incoming connections that are      */
 		               /* queued up on the listening socket before we   */
@@ -265,7 +265,7 @@ int main(int argc, char **argv) {
 		                  /* Add the new incoming connection to the     */
 		                  /* master read set                            */
 		                  /**********************************************/
-		                  printf("  New incoming connection - %d\n", new_sd);
+		                 //printf("  New incoming connection - %d\n", new_sd);
 		                  FD_SET(new_sd, &master_set);
 		                  if (new_sd > max_sd)
 		                     max_sd = new_sd;
@@ -283,7 +283,7 @@ int main(int argc, char **argv) {
 		            /****************************************************/
 		            else
 		            {
-		               printf("  Descriptor %d is readable\n", j);
+		              // printf("  Descriptor %d is readable\n", j);
 		               close_conn = FALSE;
 		               /*************************************************/
 		               /* Receive all incoming data on this socket      */
@@ -518,7 +518,7 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 	t_list *deadlockList;
 	while (1) {
 
-		sleep(15); //levantar de archivo de configuracion, inotify
+		sleep(3); //levantar de archivo de configuracion, inotify
 
 		deadlockList = detectionAlgorithm(deadlockStruct->items,
 				deadlockStruct->list);
