@@ -102,9 +102,9 @@ int main(int argc, char **argv) {
 	rows = (int*) 10;
 	cols = (int*) 10;
 
-//	nivel_gui_inicializar();
-////
-//	nivel_gui_get_area_nivel(&rows, &cols);
+	nivel_gui_inicializar();
+//
+	nivel_gui_get_area_nivel(&rows, &cols);
 
 	 int    j, len, rc, on = 1;
 		   int    listen_sd, max_sd, new_sd;
