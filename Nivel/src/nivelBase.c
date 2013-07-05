@@ -96,9 +96,9 @@ int main(int argc, char **argv) {
 	rows = (int*) 10;
 	cols = (int*) 10;
 
-	nivel_gui_inicializar();
-
-	nivel_gui_get_area_nivel(&rows, &cols);
+//	nivel_gui_inicializar();
+//
+//	nivel_gui_get_area_nivel(&rows, &cols);
 
 	 int    j, len, rc, on = 1;
 		   int    listen_sd, max_sd, new_sd;
@@ -480,6 +480,7 @@ ITEM_NIVEL* cambiarEstructura(t_level_config* levelConfig) {
 
 	char simbolo;
 	ITEM_NIVEL* listaItems = (ITEM_NIVEL*) malloc(sizeof(ITEM_NIVEL));
+	listaItems = NULL;
 
 	if (dictionary_has_key(levelConfig->cajas, FLOR)) {
 		t_caja *caja = dictionary_get(levelConfig->cajas, FLOR);
@@ -517,7 +518,7 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 	t_list *deadlockList;
 	while (1) {
 
-		sleep(3); //levantar de archivo de configuracion, inotify
+		sleep(15); //levantar de archivo de configuracion, inotify
 
 		deadlockList = detectionAlgorithm(deadlockStruct->items,
 				deadlockStruct->list);

@@ -10,7 +10,7 @@
 int algunRecursoVacio(ITEM_NIVEL *temp, int *he, int *fe, int *me) {
     int bol = 0;
 //Me fijo si algun recurso esta en 0
-    while (temp != NULL ) {
+    while (temp != NULL) {
         if (temp->item_type == RECURSO_ITEM_TYPE){
 
         if (temp->quantity == 0) {
