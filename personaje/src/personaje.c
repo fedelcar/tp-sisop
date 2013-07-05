@@ -46,7 +46,6 @@
 typedef struct {
 	int *sockfdNivel;
 	t_link_element* pNivelActual;
-	char* nivelActual;
 	t_list* recursosNivel;
 } t_Nivel;
 
@@ -135,7 +134,6 @@ int main(char* character) {
 
 		sockfdOrquestador = openSocketClient(puertoOrquestador, ipOrquestador);
 		log_debug(log, "Esperando conexión");
-		recieveMessage(sockfdOrquestador);
 
 		conectarseAlNivelActual(nivel, sockfdOrquestador, &sockfdPlanif,
 				personaje);
@@ -238,7 +236,7 @@ int main(char* character) {
 
 			//moverme hacia el recurso
 			*miPos = calcularMovimiento(miPos, posRec);
-			mensaje = string_from_format("Me muevo:%d,%d|", miPos->posX,
+			mensaje = string_from_format("MOVIMIENTO:Me muevo:%d,%d|", miPos->posX,
 					miPos->posY);
 
 			sendMessage(nivel->sockfdNivel, mensaje);
@@ -247,7 +245,7 @@ int main(char* character) {
 			buff = recieveMessage(nivel->sockfdNivel);
 
 			//Analizar respuesta
-			if ((string_equals_ignore_case(buff, OK)) == 0) {
+			if (!(string_starts_with(buff, "Confirmacion"))) {
 				log_debug(log, "Error al moverme");
 //				Me manda miPos => Saber que pos tengo mal
 			}
@@ -268,7 +266,7 @@ int main(char* character) {
 				log_debug(log, buff);
 
 //				Analizar si quedo bloqueado
-				if (string_equals_ignore_case(buff, RECHAZO)) {
+				if (string_starts_with(buff, RECHAZO)) {
 					char* mensajeBloqueado = (char*) malloc(MAXSIZE);
 					mensajeBloqueado = string_from_format("BLOCKED,%s",
 							pRecursoActual->data);
@@ -292,6 +290,7 @@ int main(char* character) {
 				log_debug(log, "Termine mi turno");
 			}
 
+
 		} //termina WHILE recursos
 
 //		Informo que termine el nivel al Planif
@@ -302,7 +301,7 @@ int main(char* character) {
 		close(sockfdPlanif);
 
 //		Analizo si sali porque mori o porque termine el nivel
-		if (vivo == FALSE) {
+		if (!vivo) {
 			muerePersonaje(nivel, &pRecursoActual, personaje);
 //------------------------------------------------------------------------------------
 //			pRecursoActual = nivel->recursosNivel->head;
@@ -344,8 +343,6 @@ int main(char* character) {
 //	free(nivelActual);
 	free(personajesTodos);
 	free(personaje);
-	free(sockfdOrquestador);
-	free(sockfdPlanif);
 	free(pRecursoActual);
 	free(miPos);
 	free(posRec);
@@ -471,7 +468,7 @@ void conectarseAlNivelActual(t_Nivel* nivel, int* sockfdOrquestador,
 	char* buff2 = (char*) malloc(MAXSIZE);
 
 	//Pedir direccion de planificador y nivel
-	mensaje2 = string_from_format("LVL,%s", nivel->nivelActual);
+	mensaje2 = string_from_format("LVL,%s", nivel->pNivelActual->data);
 	string_append(&mensaje2, ENDSTRING);
 	sendMessage(sockfdOrquestador, mensaje2);
 	log_debug(log, mensaje2);
@@ -486,12 +483,10 @@ void conectarseAlNivelActual(t_Nivel* nivel, int* sockfdOrquestador,
 	puertoNivel = extraerPuertoNivel(buff2);
 
 	nivel->sockfdNivel = openSocketClient(puertoNivel, ipNivel);
-	sendMessage(nivel->sockfdNivel, START);
-
 	*sockfdPlanif = openSocketClient(puertoPlanificador, ipPlanificador);
 
 	//Envio mi simbolo al nivel
-	mensaje2 = string_from_format("Simbolo:%s|", personaje->simbolo);
+	mensaje2 = string_from_format("START:Simbolo:%s|", personaje->simbolo);
 	sendMessage(nivel->sockfdNivel, mensaje2);
 	log_debug(log, mensaje2);
 
@@ -507,13 +502,16 @@ void conectarseAlNivelActual(t_Nivel* nivel, int* sockfdOrquestador,
 
 void inicializarNivel(t_Nivel* nivel, t_posicion* miPos, t_posicion* posRec,
 		t_link_element** pRecursoActual, int* bloqueado, t_character* personaje) {
-	nivel->nivelActual = (char*) nivel->pNivelActual->data;
-	nivel->recursosNivel = (t_list*) dictionary_get(personaje->obj,
-			nivel->nivelActual);
+	char* nivelActual = (char*) malloc(MAXSIZE);
+
+	nivelActual = (char*) nivel->pNivelActual->data;
+	nivel->recursosNivel = (t_list*) dictionary_get(personaje->obj, nivelActual);
 	*miPos = setPosicion(1, 1);
 	*posRec = setPosicion(-1, -1);
 	*pRecursoActual = nivel->recursosNivel->head;
 	*bloqueado = FALSE;
+
+	free(nivelActual);
 }
 
 void pedirPosicionRecurso(t_Nivel* nivel,t_posicion* posRec,t_link_element* pRecursoActual){
@@ -522,7 +520,7 @@ void pedirPosicionRecurso(t_Nivel* nivel,t_posicion* posRec,t_link_element* pRec
 	char* buff2 = (char*) malloc(MAXSIZE);
 
 	recursoActual = string_from_format("%s", pRecursoActual->data);
-	mensaje2 = string_from_format("Posicion del recurso:%s|",
+	mensaje2 = string_from_format("MOVIMIENTO:Posicion del recurso:%s|",
 			recursoActual);
 
 	sendMessage(nivel->sockfdNivel, mensaje2);
