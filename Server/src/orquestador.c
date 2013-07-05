@@ -114,7 +114,6 @@ void main() {
 	}
 
 	free(levelName);
-	free(addresses);
 	free(levelsList);
 
 	int j, len, rc, on = 1;

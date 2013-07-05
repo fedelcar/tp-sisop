@@ -268,7 +268,6 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 		                  /* master read set                            */
 		                  /**********************************************/
 		                  printf("  New incoming connection - %d\n", new_sd);
-		                  FD_SET(new_sd, &master_set);
 		                  queue_push(scheduler_queue->character_queue, new_sd);
 		                  if (new_sd > max_sd)
 		                     max_sd = new_sd;
