@@ -344,6 +344,8 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 
 	}
 
+	FD_CLR(fd, socks);
+
 }
 
 void giveResource(t_scheduler_queue *queues, int recurso,
