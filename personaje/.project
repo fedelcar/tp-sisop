@@ -3,8 +3,8 @@
 	<name>personaje</name>
 	<comment></comment>
 	<projects>
-		<project>commons</project>
 		<project>uncommons</project>
+		<project>so-commons-library</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

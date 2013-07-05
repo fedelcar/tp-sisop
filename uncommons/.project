@@ -3,7 +3,7 @@
 	<name>uncommons</name>
 	<comment></comment>
 	<projects>
-		<project>commons</project>
+		<project>so-commons-library</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

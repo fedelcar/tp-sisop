@@ -3,9 +3,9 @@
 	<name>Nivel</name>
 	<comment></comment>
 	<projects>
-		<project>commons</project>
 		<project>uncommons</project>
 		<project>Libreria-nivel</project>
+		<project>so-commons-library</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
