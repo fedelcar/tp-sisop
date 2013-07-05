@@ -1,9 +1,10 @@
 #include <stdlib.h>
 #include "memoria.h"
 #include <stdio.h>
+#include<string.h>
 
 t_list* listaParticiones;
-char* Memoria;
+//char* Memoria;
 int tamanioMax;
 
 
@@ -19,23 +20,24 @@ t_memoria crear_memoria(int tamanio) {
 	part->tamanio=tamanio;
 	part->libre=1;
 	list_add(listaParticiones, part);
-	t_memoria Memoria = malloc(tamanio+1);
-	int i =0;
-	for (i; i <= tamanio; ++i) {
+	t_memoria Memoria = malloc(tamanio-1);
+	int i;
+	for (i=0; i <= tamanio; i++) {
 		Memoria[i]='/';
 	}
 	Memoria[tamanio]='\0';
 	return Memoria;
-
 }
 
 int almacenar_particion(t_memoria segmento, char id, int tamanio, char* contenido) {
 
 //Chequeo que no exista el id
+
+
 	t_link_element* nodo2 = listaParticiones->head;
 	do {
-		t_particion* ptemp = nodo2->data;
-		if(ptemp->id == id)
+		t_particion* ptemp2 = nodo2->data;
+		if(ptemp2->id == id)
 			return -1;
 		else
 			nodo2=nodo2->next;
@@ -44,14 +46,17 @@ int almacenar_particion(t_memoria segmento, char id, int tamanio, char* contenid
 
 //Chequeo que la particion sea menor que el tamaño maximo de la memoria creada.
 	if (tamanioMax<tamanio)
+	{
 		return -1;
+	}
 
 //Creo particion a almacenar en la lista de particiones.
 	t_particion* part=malloc(sizeof(t_particion));
 	part->id=id;
 	part->tamanio=tamanio;
-	part->dato=contenido;
 	part->libre=0;
+
+	int index = 0;
 
 	t_link_element* nodo = listaParticiones->head;
 
@@ -63,20 +68,31 @@ int almacenar_particion(t_memoria segmento, char id, int tamanio, char* contenid
 			part->inicio=ptemp->inicio;
 			ptemp->inicio=ptemp->inicio+tamanio;
 			ptemp->tamanio=ptemp->tamanio-tamanio;
-			list_add(listaParticiones,part);
+
+			list_remove(listaParticiones, index);
+
+			list_add_in_index(listaParticiones, index, part);
+
+			if (ptemp->tamanio>0){
+			list_add_in_index(listaParticiones, index+1, ptemp);
+			}
+
 			int p=part->inicio;
-			int o=0;
-			for (; o<tamanio; ++p, ++o) {
+			part->dato=&segmento[p];
+			int o;
+			for (o = 0; o<tamanio; p++, o++) {
 				segmento[p]=contenido[o];
 			}
+
 			return 1;
 		}
 		else
-			nodo2=nodo2->next;
+			nodo=nodo->next;
+			index++;
 
-	} while (nodo2->next!=NULL);
+	} while (nodo!=NULL);
+	free(nodo);
 	free(nodo2);
-
 	//No existe una particion de espacio suficiente.
 	return 0;
 }
@@ -95,7 +111,9 @@ int eliminar_particion(t_memoria segmento, char id) {
 
 //			free(ptemp);
 	//		free(nodo);
-			t_link_element* b = list_remove(listaParticiones,a);
+			ptemp->id= '/';
+			ptemp->libre = 1;
+			//t_link_element* b = list_remove(listaParticiones,a);
 			return 1;
 		}
 		nodo=nodo->next;
@@ -110,5 +128,10 @@ void liberar_memoria(t_memoria segmento) {
 }
 
 t_list* particiones(t_memoria segmento) {
-	return listaParticiones;
+
+	t_list* copiaLista = list_create();
+
+	list_add_all(copiaLista, listaParticiones);
+
+	return copiaLista;
 }
