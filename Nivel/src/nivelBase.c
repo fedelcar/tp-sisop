@@ -33,6 +33,7 @@
 #define PIPE "|"
 #define TRUE             1
 #define FALSE            0
+#define SIMBOLO "Simbolo"
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -50,7 +51,7 @@ void agregarRecursos(char* buffer, ITEM_NIVEL *listaItems);
 void saveList(resource_struct *resourceStruct, t_list *threads, int id);
 void deteccionInterbloqueo(deadlock_struct *deadlockStruct);
 void analize_response(int *fd, t_list *threads, t_level_config *nivel, int *id,
-		ITEM_NIVEL *listaItems, t_dictionary *listaPersonajes, int rows, int cols, fd_set *master_set);
+		ITEM_NIVEL *listaItems, t_dictionary *listaPersonajes, int rows, int cols, fd_set *master_set, int socketOrquestador);
 resource_struct *getLevelStructure(t_level_config *level_config, int *fd);
 
 ITEM_NIVEL* cambiarEstructura(t_level_config* levelConfig);
@@ -69,6 +70,10 @@ int main(int argc, char **argv) {
 
 	t_dictionary *listaPersonajes = dictionary_create();
 
+	char **ipPuerto = string_split(nivel->orquestador, DOSPUNTOS);
+
+	int socketOrquestador = openSocketClient(ipPuerto[1], ipPuerto[0]);
+
 	t_list *threads = list_create();
 
 	int id = 0;
@@ -80,7 +85,7 @@ int main(int argc, char **argv) {
 
 	deadlockStruct->items = listaItems;
 	deadlockStruct->list = threads;
-	deadlockStruct->socket = nivel->orquestador;
+	deadlockStruct->socket = socketOrquestador;
 	deadlockStruct->recovery = nivel->recovery;
 
 	pthread_create(&detectionThread, NULL, (void*) deteccionInterbloqueo,
@@ -91,9 +96,9 @@ int main(int argc, char **argv) {
 	rows = (int*) 10;
 	cols = (int*) 10;
 
-//	nivel_gui_inicializar();
-//
-//	nivel_gui_get_area_nivel(&rows, &cols);
+	nivel_gui_inicializar();
+
+	nivel_gui_get_area_nivel(&rows, &cols);
 
 	 int    j, len, rc, on = 1;
 		   int    listen_sd, max_sd, new_sd;
@@ -322,7 +327,7 @@ int main(int argc, char **argv) {
 		                  /**********************************************/
 		                  /* Echo the data back to the client           */
 		                  /**********************************************/
-		            	   analize_response(j, threads,nivel, id, listaItems, listaPersonajes, rows, cols, &master_set);
+		            	   analize_response(j, threads,nivel, id, listaItems, listaPersonajes, rows, cols, &master_set, socketOrquestador);
 	//	                  rc = send(i, buffer, len, 0);
 	//	                  if (rc < 0)
 	//	                  {
@@ -356,38 +361,11 @@ int main(int argc, char **argv) {
 
 		   } while (end_server == FALSE);
 
-
-//	struct timeval tv;
-//	tv.tv_sec = 0;
-//	tv.tv_usec = 0;
-//
-//	while (1) {
-//		build_select_list(sock, connectlist, highsock, &socks);
-//
-//		readsocks = select(FD_SETSIZE, &socks, (fd_set *) 0, (fd_set *) 0,
-//				NULL );
-//
-//		if (readsocks < 0) {
-//			perror("select");
-//			exit(1);
-//		}
-//		if (FD_ISSET(sock, &socks)){
-//			int fd = handle_new_connection(sock, &connectlist, &highsock, &socks);
-//			FD_SET(fd, &socks);
-//			sendMessage(fd, CONNECTED);
-//		}
-//		if(readsocks > -1){
-//		for (listnum = 0; listnum < MAXQUEUE; listnum++) {
-//			if (FD_ISSET(connectlist[listnum], &socks))
-//				analize_response(connectlist[listnum], threads, nivel, &id, listaItems, listaPersonajes, &socks, rows, cols);
-//			}
-//		}
-//	}
 }
 
 
 void analize_response(int *fd, t_list *threads, t_level_config *nivel, int *id,
-		ITEM_NIVEL *listaItems, t_dictionary *listaPersonajes, int rows, int cols, fd_set *master_set) {
+		ITEM_NIVEL *listaItems, t_dictionary *listaPersonajes, int rows, int cols, fd_set *master_set, int socketOrquestador) {
 
 	char* bufferSocket = (char*) malloc(MAXSIZE);
 	memset(bufferSocket, 0, sizeof(bufferSocket));
@@ -398,6 +376,7 @@ void analize_response(int *fd, t_list *threads, t_level_config *nivel, int *id,
 
 	if (string_starts_with(bufferSocket, START)) {
 		bufferSocket = string_substring_from(bufferSocket, sizeof(START));
+		bufferSocket = string_substring_from(bufferSocket, sizeof(SIMBOLO));
 		char** split = string_split(bufferSocket, PIPE);
 		recursos_otorgados * recursosAt = (recursos_otorgados*) malloc(
 				sizeof(recursos_otorgados));
@@ -411,9 +390,17 @@ void analize_response(int *fd, t_list *threads, t_level_config *nivel, int *id,
 
 		resourceStruct->recursoBloqueado = "0";
 
-		resourceStruct->listaItems = listaItems;
-
 		resourceStruct->simbolo = split[0][0];
+
+		resourceStruct->posicion = (t_posicion*) malloc(sizeof(t_posicion));
+
+				resourceStruct->posicion->posX = 1;
+				resourceStruct->posicion->posY = 1;
+
+
+		CrearPersonaje(&listaItems, resourceStruct->simbolo, 1, 1);
+
+		resourceStruct->listaItems = listaItems;
 
 		saveList(resourceStruct, threads, id);
 
@@ -427,7 +414,7 @@ void analize_response(int *fd, t_list *threads, t_level_config *nivel, int *id,
 	} else if (string_starts_with(bufferSocket, MOVIMIENTO)){
 		bufferSocket = string_substring_from(bufferSocket, sizeof(MOVIMIENTO));
 		resource_struct *personaje = (resource_struct*) dictionary_get(listaPersonajes, string_from_format("%d",fd));
-		movimientoPersonaje(personaje, rows, cols, bufferSocket, master_set, fd);
+		movimientoPersonaje(personaje, rows, cols, bufferSocket, master_set, fd, socketOrquestador);
 	}
 	free(bufferSocket);
 }
@@ -520,7 +507,6 @@ ITEM_NIVEL* cambiarEstructura(t_level_config* levelConfig) {
 
 void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 
-	char **ipPuerto = string_split(deadlockStruct->socket, DOSPUNTOS);
 
 	char *bufferDeadlock = (char*) malloc(MAXSIZE);
 
@@ -552,11 +538,9 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 						string_from_format("%d,", datos->id));
 
 			}
-			int *socketDeadlock = openSocketClient(ipPuerto[1], ipPuerto[0]);
-			sendMessage(socketDeadlock, deadlockMessage);
+			sendMessage(deadlockStruct->socket, deadlockMessage);
 			memset(deadlockMessage, 0, sizeof(deadlockMessage));
-			bufferDeadlock = recieveMessage(socketDeadlock);
-			close(socketDeadlock);
+			bufferDeadlock = recieveMessage(deadlockStruct->socket);
 
 			char** response = string_split(bufferDeadlock, COMA);
 
@@ -584,7 +568,6 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 
 	}
 
-	free(ipPuerto);
 	free(bufferDeadlock);
 	free(deadlockMessage);
 }

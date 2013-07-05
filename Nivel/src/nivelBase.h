@@ -29,6 +29,7 @@ typedef struct {
 	char recursoBloqueado;
 	int *fd;
 	char simbolo;
+	t_posicion* posicion;
 } resource_struct;
 
 
@@ -45,6 +46,6 @@ typedef struct {
 typedef struct {
 	t_list *list;
 	ITEM_NIVEL *items;
-	char *socket;
+	int socket;
 	int *recovery;
 }deadlock_struct;

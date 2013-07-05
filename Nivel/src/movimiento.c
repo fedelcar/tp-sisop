@@ -69,7 +69,7 @@ int validarPos(t_posicion * Npos, t_posicion * Apos, int rows, int cols,
 			personaje->posx = Npos->posX;
 			personaje->posy = Npos->posY;
 			personaje->item_type = PERSONAJE_ITEM_TYPE;
-//			MoverPersonaje(personaje, simbolo, Npos->posX, Npos->posY);
+			MoverPersonaje(ListaItems, simbolo, Npos->posX, Npos->posY);
 			free(personaje);
 			return 1;
 		}
@@ -154,13 +154,9 @@ void restaurarRecursos(recursos_otorgados* recursos, ITEM_NIVEL* listaItems){
 
 
 //Funcion Principal
-void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* mensaje, fd_set *master_set, int fileDescriptorPj) {
+void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* mensaje, fd_set *master_set, int fileDescriptorPj, int socketOrquestador) {
 
 	ITEM_NIVEL* listaItems = resources->listaItems;
-
-	t_posicion* posicion = (t_posicion*) malloc(sizeof(t_posicion));
-	posicion->posX = 0;
-	posicion->posY = 0;
 
 	int *sockfd = resources->fd;
 
@@ -188,9 +184,9 @@ void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* m
 			mensaje = recieveMessage(fileDescriptor);
 			if (string_equals_ignore_case(mensaje, OKEY)) {
 				restaurarRecursos(resources->recursosAt, listaItems);
-//				nivel_gui_dibujar(listaItems);
+				nivel_gui_dibujar(listaItems);
 			}
-//			BorrarItem(&listaItems, resources->simbolo);
+			BorrarItem(&listaItems, resources->simbolo);
 			FD_CLR(fileDescriptorPj, master_set);
 			free(mensaje);
 			close(fileDescriptor);
@@ -205,7 +201,7 @@ void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* m
 		}
 		if (string_equals_ignore_case(mens->nombre, MOVER)) {
 			printf("validar pos");
-			int valor = validarPos(mens->pos, posicion, rows, cols, listaItems,
+			int valor = validarPos(mens->pos, resources->posicion, rows, cols, listaItems,
 					resources->simbolo);
 			char* msjMovimiento = (char*) malloc(MAXSIZE);
 
@@ -216,19 +212,18 @@ void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* m
 				free(msjMovimiento);
 			} else {
 
-				msjMovimiento = string_from_format("%d,%d", posicion->posX,
-						posicion->posY);
+				msjMovimiento = string_from_format("%d,%d", resources->posicion->posX,
+						resources->posicion->posY);
 				sendMessage(sockfd, msjMovimiento);
 				free(msjMovimiento);
 			}
 		}
 
 		if (string_equals_ignore_case(mens->nombre, RECURSO)) {
-			restarRecursos(posicion, listaItems, sockfd, mens->caracter, resources->recursosAt, resources);
+			restarRecursos(resources->posicion, listaItems, sockfd, mens->caracter, resources->recursosAt, resources);
 		}
-//		nivel_gui_dibujar(listaItems);
+		nivel_gui_dibujar(listaItems);
 
-		free(posicion);
 		free(splitMessage);
 
 }
