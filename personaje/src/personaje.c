@@ -44,7 +44,7 @@
 #define TRUE 1
 
 typedef struct {
-	int *sockfdNivel;
+	int sockfdNivel;
 	t_link_element* pNivelActual;
 	t_list* recursosNivel;
 } t_Nivel;
@@ -90,7 +90,7 @@ int main(char* character) {
 			sizeof(t_dictionary));
 	t_character *personaje = (t_character *) malloc(sizeof(t_character));
 	int *sockfdOrquestador = (int*) malloc(sizeof(int));
-	int *sockfdPlanif = (int*) malloc(sizeof(int));
+	int sockfdPlanif = (int*) malloc(sizeof(int));
 	t_link_element* pRecursoActual = (t_link_element*) malloc(
 			sizeof(t_link_element));
 	t_posicion* miPos = (t_posicion*) malloc(sizeof(t_posicion));
@@ -130,114 +130,53 @@ int main(char* character) {
 	nivel->pNivelActual = ((personaje->planDeNiveles)->head);
 	vidas = personaje->vidas;
 
-	do { //		Comienzo Nivel
+//	Configuro select
+	int rc = 1;
+	int listen_sd;
+
+	fd_set master_set;
+	fd_set working_set;
+
+	do { //		Comienzo Plan de Niveles
 
 		sockfdOrquestador = openSocketClient(puertoOrquestador, ipOrquestador);
 		log_debug(log, "Esperando conexión");
 
 		conectarseAlNivelActual(nivel, sockfdOrquestador, &sockfdPlanif,
 				personaje);
-//---------------------------------------------------------------------------------------
-//		char* ipPlanificador = (char*) malloc(MAXSIZE);
-//		char* ipNivel = (char*) malloc(MAXSIZE);
-//		char* puertoPlanificador = (char*) malloc(MAXSIZE);
-//		char* puertoNivel = (char*) malloc(MAXSIZE);
-//		char* mensaje2 = (char*) malloc(MAXSIZE);
-//		char* buff2 = (char*) malloc(MAXSIZE);
-//
-//		sockfdOrquestador = openSocketClient(puertoOrquestador, ipOrquestador);
-//		log_debug(log, "Esperando conexión");
-//		recieveMessage(sockfdOrquestador);
-//
-//		//Pedir direccion de planificador y nivel
-//		mensaje2 = string_from_format("LVL,%s", nivel->nivelActual);
-//		string_append(&mensaje2, ENDSTRING);
-//		sendMessage(sockfdOrquestador, mensaje2);
-//		log_debug(log, mensaje2);
-//
-//		buff2 = recieveMessage(sockfdOrquestador);
-//		log_debug(log, buff2);
-//
-//		//Conectarse al planificador y nivel
-//		ipPlanificador = extraerIpPlanificador(buff2);
-//		ipNivel = extraerIpNivel(buff2);
-//		puertoPlanificador = extraerPuertoPlanificador(buff2);
-//		puertoNivel = extraerPuertoNivel(buff2);
-//
-//		nivel->sockfdNivel = openSocketClient(puertoNivel, ipNivel);
-//		sendMessage(nivel->sockfdNivel, START);
-//		sockfdPlanif = openSocketClient(puertoPlanificador, ipPlanificador);
-//
-//		//Envio mi simbolo al nivel
-//		mensaje2 = string_from_format("Simbolo:%s|", personaje->simbolo);
-//		sendMessage(nivel->sockfdNivel, mensaje2);
-//		log_debug(log, mensaje2);
-//
-//		recieveMessage(nivel->sockfdNivel);
-//
-//
-//		free(ipPlanificador);
-//		free(ipNivel);
-//		free(puertoPlanificador);
-//		free(puertoNivel);
-//		free(mensaje2);
-//		free(buff2);
-//---------------------------------------------------------------------------------------
+
 		close(sockfdOrquestador);
 
 		inicializarNivel(nivel, miPos, posRec, &pRecursoActual, &bloqueado,
 				personaje);
-//---------------------------------------------------------------------------------------
-//		nivelActual = (char*) nivel->pNivelActual->data;
-//		nivel->recursosNivel = (t_list*) dictionary_get(personaje->obj,
-//				nivelActual);
-//		*miPos = setPosicion(1, 1);
-//		*posRec = setPosicion(-1, -1);
-//		pRecursoActual = nivel->recursosNivel->head;
-//		bloqueado = FALSE;
-//---------------------------------------------------------------------------------------
 
+		FD_ZERO(&master_set);
+		FD_SET(nivel->sockfdNivel, &master_set);
+		FD_SET(sockfdPlanif, &master_set);
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 		vivo = TRUE;
-		while (vivo) { //Comienzo Recurso
+		while (vivo) { //Comienzo Nivel
 
-//			Analizar si termine el Nivel
-			if (pRecursoActual == NULL) {
-
-				if (bloqueado == TRUE) {
-					//Quedar a la espera del desbloqueo
-					buff = recieveMessage(sockfdPlanif);
-				}
-
-				break;
+//			Analizo si estuve bloqueado (si lo estuve no espero el turno)
+			if (bloqueado) {
+				bloqueado = FALSE;
 			} else {
-
 				//Quedar a la espera del turno
 				buff = recieveMessage(sockfdPlanif);
-				bloqueado = FALSE;
 			}
-//			FALTAAAAA: Cerrar conexion con Nivel en caso de Bloqueo (para muerte por Dreadlock)
 
 			//si no se donde esta mi prox recurso se le pregunto al nivel
 			if (posRec->posX == -1) {
 
 				pedirPosicionRecurso(nivel, posRec, pRecursoActual);
-//------------------------------------------------------------------------------------------
-//				recursoActual = string_from_format("%s", pRecursoActual->data);
-//				mensaje = string_from_format("Posicion del recurso:%s|",
-//						recursoActual);
-//
-//				sendMessage(nivel->sockfdNivel, mensaje);
-//				log_debug(log, mensaje);
-//
-//				buff = recieveMessage(nivel->sockfdNivel);
-//				*posRec = stringToPosicion(buff);
-//------------------------------------------------------------------------------------------
+
 			}
 
 			//moverme hacia el recurso
 			*miPos = calcularMovimiento(miPos, posRec);
-			mensaje = string_from_format("MOVIMIENTO:Me muevo:%d,%d|", miPos->posX,
-					miPos->posY);
+			mensaje = string_from_format("MOVIMIENTO:Me muevo:%d,%d|",
+					miPos->posX, miPos->posY);
 
 			sendMessage(nivel->sockfdNivel, mensaje);
 			log_debug(log, mensaje);
@@ -275,7 +214,27 @@ int main(char* character) {
 					free(mensajeBloqueado);
 
 					bloqueado = TRUE;
-					//					FALTAAA: Crear un hilo que escuche al Nivel en caso de muerte por Dreadlock
+
+					/**********************************************************/
+					/* Copy the master fd_set over to the working fd_set.     */
+					/**********************************************************/
+					memcpy(&working_set, &master_set, sizeof(master_set));
+
+					rc = select(FD_SETSIZE, &working_set, NULL, NULL, NULL );
+
+					/**********************************************************/
+					/* Check to see if the select call failed.                */
+					/**********************************************************/
+					if (rc < 0) {
+						perror("select() failed");
+						vivo = FALSE;
+						break;
+					}
+
+					if (FD_ISSET(nivel->sockfdNivel, &working_set)) {
+						log_debug(log, "Mori por DEADLOCK");
+						vivo = FALSE;
+					}
 
 				} else {
 
@@ -285,11 +244,16 @@ int main(char* character) {
 				}
 
 			} else {
+
 				//				Informo al planificador que termine mi turno
 				sendMessage(sockfdPlanif, OK);
 				log_debug(log, "Termine mi turno");
 			}
 
+//			Analizar si termine el Nivel
+			if (pRecursoActual == NULL ) {
+				break;
+			}
 
 		} //termina WHILE recursos
 
@@ -302,21 +266,13 @@ int main(char* character) {
 
 //		Analizo si sali porque mori o porque termine el nivel
 		if (!vivo) {
+
 			muerePersonaje(nivel, &pRecursoActual, personaje);
-//------------------------------------------------------------------------------------
-//			pRecursoActual = nivel->recursosNivel->head;
-//			if ((vidas--) == 0) {
-//				nivel->pNivelActual = ((personaje->planDeNiveles)->head);
-//				vidas = personaje->vidas;
-//				log_debug(log, "Reinicio Plan de Niveles");
-//			} else {
-//				log_debug(log, REINICIAR);
-//			}
-//------------------------------------------------------------------------------------
+
 		} else {
 
 			//			Analizo si termine el Plan de Niveles
-			if ((nivel->pNivelActual->next) == NULL) {
+			if ((nivel->pNivelActual->next) == NULL ) {
 
 				sockfdOrquestador = openSocketClient(puertoOrquestador,
 						ipOrquestador);
@@ -448,7 +404,8 @@ bool sonPosicionesIguales(t_posicion* pos1, t_posicion* pos2) {
 	return (pos1->posX == pos2->posX && pos1->posY == pos2->posY);
 }
 
-void muerePersonaje(t_Nivel* nivel,t_link_element** pRecursoActual,t_character* personaje){
+void muerePersonaje(t_Nivel* nivel, t_link_element** pRecursoActual,
+		t_character* personaje) {
 	if ((vidas--) == 0) {
 		nivel->pNivelActual = ((personaje->planDeNiveles)->head);
 		vidas = personaje->vidas;
@@ -505,7 +462,8 @@ void inicializarNivel(t_Nivel* nivel, t_posicion* miPos, t_posicion* posRec,
 	char* nivelActual = (char*) malloc(MAXSIZE);
 
 	nivelActual = (char*) nivel->pNivelActual->data;
-	nivel->recursosNivel = (t_list*) dictionary_get(personaje->obj, nivelActual);
+	nivel->recursosNivel = (t_list*) dictionary_get(personaje->obj,
+			nivelActual);
 	*miPos = setPosicion(1, 1);
 	*posRec = setPosicion(-1, -1);
 	*pRecursoActual = nivel->recursosNivel->head;
@@ -514,7 +472,8 @@ void inicializarNivel(t_Nivel* nivel, t_posicion* miPos, t_posicion* posRec,
 	free(nivelActual);
 }
 
-void pedirPosicionRecurso(t_Nivel* nivel,t_posicion* posRec,t_link_element* pRecursoActual){
+void pedirPosicionRecurso(t_Nivel* nivel, t_posicion* posRec,
+		t_link_element* pRecursoActual) {
 	char* recursoActual = (char*) malloc(MAXSIZE);
 	char* mensaje2 = (char*) malloc(MAXSIZE);
 	char* buff2 = (char*) malloc(MAXSIZE);
