@@ -43,7 +43,6 @@
 #define FALSE 0
 #define TRUE 1
 
-
 int vivo;
 int vidas;
 t_log* log;
@@ -146,7 +145,6 @@ int main(char* character) {
 		log_debug(log, "Esperando conexión");
 //---------------------------------------------------------------------------------------
 
-
 //		conectarseAlNivelActual(sockfdOrquestador, nivelActual, &sockfdNivel,
 //				sockfdPlanif, personaje);
 //---------------------------------------------------------------------------------------
@@ -196,7 +194,7 @@ int main(char* character) {
 		while (vivo) { //Comienzo Recurso
 
 //			Analizar si termine el Nivel
-			if (pRecursoActual == NULL) {
+			if (pRecursoActual == NULL ) {
 
 				if (bloqueado == TRUE) {
 					//Quedar a la espera del desbloqueo
@@ -212,7 +210,6 @@ int main(char* character) {
 			}
 //			Cerrar conexion con Nivel en caso de Bloqueo (para muerte por Dreadlock)
 
-
 			if (string_equals_ignore_case(buff, TU_TURNO)) {
 				//Que pasa si no es mi turno???
 				log_debug(log, "No es mi turno :(");
@@ -221,8 +218,8 @@ int main(char* character) {
 			//si no se donde esta mi prox recurso se le pregunto al nivel
 			if (posRec->posX == -1) {
 				recursoActual = string_from_format("%s", pRecursoActual->data);
-				mensaje = string_from_format("MOVIMIENTO:Posicion del recurso:%s|",
-						recursoActual);
+				mensaje = string_from_format(
+						"MOVIMIENTO:Posicion del recurso:%s|", recursoActual);
 
 				sendMessage(sockfdNivel, mensaje);
 				log_debug(log, mensaje);
@@ -234,8 +231,8 @@ int main(char* character) {
 
 			//moverme hacia el recurso
 			*miPos = calcularMovimiento(miPos, posRec);
-			mensaje = string_from_format("MOVIMIENTO:Me muevo:%d,%d|", miPos->posX,
-					miPos->posY);
+			mensaje = string_from_format("MOVIMIENTO:Me muevo:%d,%d|",
+					miPos->posX, miPos->posY);
 
 			sendMessage(sockfdNivel, mensaje);
 			log_debug(log, mensaje);
@@ -251,7 +248,8 @@ int main(char* character) {
 			//Analizar si llegue al recurso
 			if (sonPosicionesIguales(miPos, posRec)) {
 				//Pedir recurso al nivel
-				mensaje = string_from_format("MOVIMIENTO:Dame recurso:%s|", recursoActual);
+				mensaje = string_from_format("MOVIMIENTO:Dame recurso:%s|",
+						recursoActual);
 				sendMessage(sockfdNivel, mensaje);
 
 				log_debug(log, DAME_RECURSO);
@@ -277,8 +275,19 @@ int main(char* character) {
 				} else {
 
 //					Informo al planificador que pedi recurso
-					sendMessage(sockfdPlanif, "PEDIRRECURSO");
-					log_debug(log, "PEDIRRECURSO");
+					if (pRecursoActual != NULL ) {
+						sendMessage(sockfdPlanif,
+								"PEDIRRECURSO");
+						log_debug(log, "PEDIRRECURSO");
+					} else {
+						sendMessage(sockfdNivel, LIBERAR_RECURSOS);
+						close(sockfdNivel);
+						sendMessage(sockfdPlanif, TERMINE_NIVEL);
+						close(sockfdPlanif);
+						log_debug(log, TERMINE_NIVEL);
+
+					}
+
 				}
 
 			} else {
@@ -290,11 +299,10 @@ int main(char* character) {
 		} //termina recursos
 
 //		Informo que termine el nivel al Planif
-		sendMessage(sockfdNivel, LIBERAR_RECURSOS);
-		close(sockfdNivel);
 
-		sendMessage(sockfdPlanif, TERMINE_NIVEL);
-		close(sockfdPlanif);
+
+//		sendMessage(sockfdPlanif, TERMINE_NIVEL);
+//		close(sockfdPlanif);
 
 //		Analizo si sali porque mori o porque termine el nivel
 		if (vivo == FALSE) {
@@ -315,7 +323,7 @@ int main(char* character) {
 		} else {
 
 //			Analizo si termine el Plan de Niveles
-			if ((pNivelActual->next) == NULL) {
+			if ((pNivelActual->next) == NULL ) {
 
 				sockfdOrquestador = openSocketClient(puertoOrquestador,
 						ipOrquestador);
@@ -326,10 +334,9 @@ int main(char* character) {
 				break;
 
 			} else {
-
-				log_debug(log, TERMINE_NIVEL);
 				pNivelActual = (pNivelActual->next);
 			}
+			break;
 		}
 
 	} while (1); //termina nivel
