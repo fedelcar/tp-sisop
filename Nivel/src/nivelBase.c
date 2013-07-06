@@ -62,13 +62,9 @@ int main(int argc, char **argv) {
 
 	id = 0;
 
-	t_dictionary *niveles = getLevels();
-
-	char*mensaje = "nivel1";
-
 	t_level_config *nivel = (t_level_config*) malloc(sizeof(t_level_config));
 
-	nivel = dictionary_get(niveles, mensaje);
+	nivel = getLevel("/home/tp/config/niveles/nivel1.config");
 
 	ITEM_NIVEL *listaItems = cambiarEstructura(nivel);
 
