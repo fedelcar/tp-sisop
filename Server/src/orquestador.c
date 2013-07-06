@@ -55,11 +55,12 @@ void giveResource(t_scheduler_queue *queues, int recurso,
 //void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues, fd_set *socks);
 void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues, fd_set *socks);
 
-void main() {
+int main(int argc, char **argv) {
 
 	/**
 	 * Lista de niveles
 	 */
+	t_orquestador *orquestador_config = getOrquestador("/home/tp/config/orquestador/orquestador.config");
 
 	t_list *levelsList = getLevelsList();
 
@@ -105,6 +106,7 @@ void main() {
 		scheduler_queue->blocked_queue = queue_create();
 		scheduler_queue->character_queue = queue_create();
 		scheduler_queue->portInt = atoi(port[1]);
+		scheduler_queue->orquestador_config = orquestador_config;
 
 		dictionary_put(levels_queues, levelName, scheduler_queue);
 
@@ -150,7 +152,7 @@ void main() {
 	memset(&addr, 0, sizeof(addr));
 	addr.sin_family = AF_INET;
 	addr.sin_addr.s_addr = htonl(INADDR_ANY );
-	addr.sin_port = htons(9930);
+	addr.sin_port = htons(orquestador_config->puerto);
 	rc = bind(listen_sd, (struct sockaddr *) &addr, sizeof(addr));
 	if (rc < 0) {
 		perror("bind() failed");
