@@ -39,9 +39,7 @@
 #define BROKEN "BROKEN"
 
 void analize_response(char *response, t_scheduler_queue *scheduler_queue,
-		int fd, int *breakIt);
-void nuevo_fd(int sock, int connectlist[], int highsock, fd_set socks,
-		t_scheduler_queue *scheduler_queue);
+		personaje_planificador *personaje , int *breakIt);
 
 void planificar(t_scheduler_queue *scheduler_queue) {
 
@@ -49,17 +47,11 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 
 		char *response = (char *) malloc(MAXDATASIZE); //CHECK LENGTH
 
-		int *fd;
-
-		t_level_attributes *level;
-
 		int turno = 0;
 
 		int *breakIt;
 
 		breakIt = FALSE;
-
-		level = getLevelAttributes();
 
 		int turnoActual = scheduler_queue->orquestador_config->turnos;
 
@@ -71,13 +63,13 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 
 		printf("Entro al while\n");
 
-		fd = (int *) queue_pop(scheduler_queue->character_queue);
+		personaje_planificador *personaje = (personaje_planificador*) queue_pop(scheduler_queue->character_queue);
 
 		while (turno < turnoActual && breakIt == FALSE) {
 
 			printf("Realizo el pop\n");
 
-			response = sendMessage(fd, "Paso por el planificador\n");
+			response = sendMessage(personaje->fd, "Paso por el planificador\n");
 
 			if (string_starts_with(response, BROKEN)) {
 				break;
@@ -85,7 +77,7 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 
 			printf("Mando mensaje\n");
 
-			response = recieveMessage(fd);
+			response = recieveMessage(personaje->fd);
 
 			if (string_starts_with(response, BROKEN)) {
 				break;
@@ -93,14 +85,14 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 
 			printf("Respondio mensaje\n");
 
-			analize_response(response, scheduler_queue, fd, &breakIt);
+			analize_response(response, scheduler_queue, personaje, &breakIt);
 
 			sleep(sleepTime);
 			free(response);
 			turno++;
 		}
 		if (string_equals_ignore_case(response, SIGNAL_OK) && breakIt == 0) {
-			queue_push(scheduler_queue->character_queue, fd);
+			queue_push(scheduler_queue->character_queue, personaje);
 		}
 	}
 }
@@ -207,8 +199,11 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 							/* master read set                            */
 							/**********************************************/
 							printf("  New incoming connection - %d\n", new_sd);
+							personaje_planificador *personaje = (personaje_planificador*) malloc(sizeof(personaje_planificador));
+							personaje->fd = new_sd;
+							personaje->respondio = 1;
 							queue_push(scheduler_queue->character_queue,
-									new_sd);
+									personaje);
 							if (new_sd > max_sd)
 								max_sd = new_sd;
 
@@ -231,34 +226,21 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 
 }
 
-void nuevo_fd(int sock, int connectlist[], int highsock, fd_set socks,
-		t_scheduler_queue *scheduler_queue) {
-	int listnum;
-
-// Devuelvo el valor correspondiente al fd listener para primero gestionar conexiones nuevas.
-	if (FD_ISSET(sock,&socks)) {
-		queue_push(scheduler_queue->character_queue,
-				handle_new_connection_scheduler(sock, connectlist, highsock,
-						socks));
-	}
-
-}
-
 void analize_response(char *response, t_scheduler_queue *scheduler_queue,
-		int fd, int *breakIt) {
+		personaje_planificador *personaje , int *breakIt) {
 
 	if (string_starts_with(response, SIGNAL_BLOCKED)) {
 		response = string_substring_from(response, sizeof(SIGNAL_BLOCKED));
 		blocked_character *blockedCharacter = (blocked_character*) malloc(
 				sizeof(blocked_character));
-		blockedCharacter->fd = fd;
+		blockedCharacter->personaje = personaje;
 		blockedCharacter->recurso = response[0];
 		*breakIt = TRUE;
 		queue_push(scheduler_queue->blocked_queue, blockedCharacter);
 	} else if (string_equals_ignore_case(response, TERMINE_NIVEL)) {
-		close(fd);
+		close(personaje->fd);
 	} else if (string_equals_ignore_case(response, PEDIR)) {
 		*breakIt = TRUE;
-		queue_push(scheduler_queue->character_queue, fd);
+		queue_push(scheduler_queue->character_queue, personaje);
 	}
 }

@@ -16,10 +16,17 @@ struct scheduler_struct{
 };
 
 typedef struct{
-	int* fd;
+	int *fd;
+	char* nombre;
+	int *respondio;
+}personaje_planificador;
+
+typedef struct{
+	personaje_planificador *personaje;
 	char recurso;
 	pthread_mutex_t *readlock;
 }blocked_character;
+
 
 void planificar(t_scheduler_queue *scheduler_queue) ;
 
