@@ -30,6 +30,7 @@ typedef struct {
 	int *fd;
 	char simbolo;
 	t_posicion* posicion;
+	char *nombre;
 } resource_struct;
 
 
@@ -41,6 +42,7 @@ typedef struct {
 	int *M;
 	char *recurso;
 	int *fd;
+	char *nombre;
 } datos_personaje;
 
 typedef struct {

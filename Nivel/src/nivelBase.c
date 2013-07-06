@@ -413,6 +413,8 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 		resourceStruct->posicion->posX = 1;
 		resourceStruct->posicion->posY = 1;
 
+		resourceStruct->nombre = split[1];
+
 		CrearPersonaje(&listaItems, resourceStruct->simbolo, 1, 1);
 
 		resourceStruct->listaItems = listaItems;
@@ -569,6 +571,8 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 				if (datos->id == atoi(response[0])) {
 					printf("Muerte al personaje, %d", datos->fd);
 					sendMessage(datos->fd, DEATH);
+					close(datos->fd);
+					list_remove(deadlockList, j);
 				}
 
 			}
@@ -601,6 +605,7 @@ void saveList(resource_struct *resourceStruct, t_list *threads) {
 	datos->recurso = &(resourceStruct->recursoBloqueado);
 	datos->id = id;
 	datos->fd = &resourceStruct->fd;
+	datos->nombre = resourceStruct->nombre;
 
 	list_add(threads, datos);
 
