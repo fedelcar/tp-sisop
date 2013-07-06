@@ -248,14 +248,19 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 				sizeof(t_level_address));
 		char *socketsToGo = (char*) malloc(MAXSIZE);
 		memset(socketsToGo, 0, sizeof(socketsToGo));
-		string_append(&socketsToGo,
-				((t_level_address*) (dictionary_get(levelsMap,
-						(string_split(response, PIPE))[0])))->planificador);
-		string_append(&socketsToGo, COMA);
-		string_append(&socketsToGo,
-				((t_level_address*) (dictionary_get(levelsMap,
-						(string_split(response, PIPE))[0])))->nivel);
-		sendMessage(fd, socketsToGo);
+		if(!dictionary_has_key(levelsMap, (string_split(response, PIPE))[0])){
+			sendMessage(fd, "No existe el nivel pedido");
+		}
+		else{
+			string_append(&socketsToGo,
+					((t_level_address*) (dictionary_get(levelsMap,
+							(string_split(response, PIPE))[0])))->planificador);
+			string_append(&socketsToGo, COMA);
+			string_append(&socketsToGo,
+					((t_level_address*) (dictionary_get(levelsMap,
+							(string_split(response, PIPE))[0])))->nivel);
+			sendMessage(fd, socketsToGo);
+		}
 		FD_CLR(fd, socks);
 		free(socketsToGo);
 		free(response);
