@@ -64,7 +64,7 @@ int main(int argc, char **argv) {
 
 	t_level_config *nivel = (t_level_config*) malloc(sizeof(t_level_config));
 
-	nivel = getLevel("/home/tp/config/niveles/nivel1.config");
+	nivel = getLevel("/home/tp/config/niveles/nivel1.config"); //argv[0]
 
 	ITEM_NIVEL *listaItems = cambiarEstructura(nivel);
 
@@ -89,6 +89,8 @@ int main(int argc, char **argv) {
 	deadlockStruct->list = threads;
 	deadlockStruct->socket = socketOrquestador;
 	deadlockStruct->recovery = nivel->recovery;
+	deadlockStruct->checkDeadlock = nivel->tiempoChequeoDeadlock;
+	deadlockStruct->path = "/home/tp/config/niveles/nivel1.config"; //argv[0]
 
 	pthread_create(&detectionThread, NULL, (void*) deteccionInterbloqueo,
 			(deadlock_struct*) deadlockStruct);

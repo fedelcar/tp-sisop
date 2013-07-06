@@ -48,4 +48,6 @@ typedef struct {
 	ITEM_NIVEL *items;
 	int socket;
 	int *recovery;
+	int checkDeadlock;
+	char *path;
 }deadlock_struct;
