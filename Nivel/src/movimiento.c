@@ -51,7 +51,7 @@ void mandarPosRecurso(char recurso, ITEM_NIVEL* temp, int* sockfd) {
 		temp = temp->next;
 	}
 
-	char *mensaje = string_from_format("%d,%d", temp->posx, temp->posy);
+	char *mensaje = string_from_format("%d,%d|", temp->posx, temp->posy);
 	sendMessage(sockfd, mensaje);
 }
 
@@ -64,13 +64,7 @@ int validarPos(t_posicion * Npos, t_posicion * Apos, int rows, int cols,
 		} else {
 			Apos->posX = Npos->posX;
 			Apos->posY = Npos->posY;
-			ITEM_NIVEL *personaje = (ITEM_NIVEL*) malloc(sizeof(ITEM_NIVEL));
-			personaje->id = simbolo;
-			personaje->posx = Npos->posX;
-			personaje->posy = Npos->posY;
-			personaje->item_type = PERSONAJE_ITEM_TYPE;
 			MoverPersonaje(ListaItems, simbolo, Npos->posX, Npos->posY);
-			free(personaje);
 			return 1;
 		}
 	}
