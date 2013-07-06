@@ -165,6 +165,7 @@ void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* m
 		/*Voy a escuchar*/
 
 		if(string_starts_with(mensaje, BROKEN)){
+			FD_CLR(fileDescriptorPj, master_set);
 			return;
 		}
 

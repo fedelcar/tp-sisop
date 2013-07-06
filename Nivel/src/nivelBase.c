@@ -50,7 +50,7 @@
 void agregarRecursos(char* buffer, ITEM_NIVEL *listaItems);
 void saveList(resource_struct *resourceStruct, t_list *threads);
 void deteccionInterbloqueo(deadlock_struct *deadlockStruct);
-void analize_response(int *fd, t_list *threads, t_level_config *nivel,
+void analize_response(int fd, t_list *threads, t_level_config *nivel,
 		ITEM_NIVEL *listaItems, t_dictionary *listaPersonajes, int rows, int cols, fd_set *master_set, int socketOrquestador);
 resource_struct *getLevelStructure(t_level_config *level_config, int *fd);
 
@@ -102,9 +102,9 @@ int main(int argc, char **argv) {
 	rows = (int*) 10;
 	cols = (int*) 10;
 
-	nivel_gui_inicializar();
+//	nivel_gui_inicializar();
 //
-	nivel_gui_get_area_nivel(&rows, &cols);
+//	nivel_gui_get_area_nivel(&rows, &cols);
 
 	 int    j, len, rc, on = 1;
 		   int    listen_sd, max_sd, new_sd;
@@ -370,13 +370,14 @@ int main(int argc, char **argv) {
 }
 
 
-void analize_response(int *fd, t_list *threads, t_level_config *nivel,
+void analize_response(int fd, t_list *threads, t_level_config *nivel,
 		ITEM_NIVEL *listaItems, t_dictionary *listaPersonajes, int rows, int cols, fd_set *master_set, int socketOrquestador) {
 
 	char* bufferSocket = (char*) malloc(MAXSIZE);
 	memset(bufferSocket, 0, sizeof(bufferSocket));
 	bufferSocket = recieveMessage(fd);
 	if(string_starts_with(bufferSocket, "BROKEN")){
+		FD_CLR(fd,master_set);
 		return;
 	}
 
@@ -556,6 +557,7 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 				datos = (datos_personaje*) list_get(deadlockList, j);
 
 				if (datos->id == atoi(response[0])) {
+					printf("Muerte al personaje, %d", datos->fd);
 					sendMessage(datos->fd, DEATH);
 				}
 
