@@ -34,6 +34,7 @@
 #define TRUE             1
 #define FALSE            0
 #define SIMBOLO "Simbolo"
+#define DEFAULTPORT 9930
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -150,17 +151,21 @@ int main(int argc, char **argv) {
 	/*************************************************************/
 	/* Bind the socket                                           */
 	/*************************************************************/
-	memset(&addr, 0, sizeof(addr));
-	addr.sin_family = AF_INET;
-	addr.sin_addr.s_addr = htonl(INADDR_ANY );
-	addr.sin_port = htons(9931);
-	rc = bind(listen_sd, (struct sockaddr *) &addr, sizeof(addr));
-	if (rc < 0) {
-		perror("bind() failed");
-		close(listen_sd);
-		exit(-1);
-	}
 
+	int portForLevel = DEFAULTPORT;
+
+	while (1) {
+		memset(&addr, 0, sizeof(addr));
+		addr.sin_family = AF_INET;
+		addr.sin_addr.s_addr = htonl(INADDR_ANY );
+		addr.sin_port = htons(portForLevel);
+		rc = bind(listen_sd, (struct sockaddr *) &addr, sizeof(addr));
+		if (rc < 0) {
+			portForLevel++;
+			continue;
+		}
+		break;
+	}
 	/*************************************************************/
 	/* Set the listen back log                                   */
 	/*************************************************************/
@@ -170,6 +175,20 @@ int main(int argc, char **argv) {
 		close(listen_sd);
 		exit(-1);
 	}
+
+	//Resuelvo que puerto tengo.
+	socklen_t length;
+	struct sockaddr_storage addrr;
+	char ipstr[INET_ADDRSTRLEN];
+
+	len = sizeof addr;
+	getpeername(listen_sd, (struct sockaddr*) &addrr, &length);
+
+	struct sockaddr_in *s = (struct sockaddr_in *) &addr;
+
+	sendMessage(socketOrquestador,
+			string_from_format("NEWLVL,%d,%s,", ntohs(s->sin_port),
+					nivel->nombre));
 
 	/*************************************************************/
 	/* Initialize the master fd_set                              */
