@@ -12,20 +12,16 @@ t_memoria crear_memoria(int tamanio) {
 
 	//Se usa la barra  '/' para determinar espacio libre, con el mismo ID
 	listaParticiones = list_create();
+	t_memoria Memoria = (t_memoria)malloc(tamanio+1);
 	tamanioMax=tamanio;
-	t_particion* part = malloc(sizeof(t_particion));
-	part->dato="";
+	t_particion* part = (t_particion*)malloc(sizeof(t_particion));
+	part->dato=&Memoria[0];
 	part->id='/';
 	part->inicio=0;
 	part->tamanio=tamanio;
 	part->libre=1;
 	list_add(listaParticiones, part);
-	t_memoria Memoria = malloc(tamanio-1);
-	int i;
-	for (i=0; i <= tamanio; i++) {
-		Memoria[i]='/';
-	}
-	Memoria[tamanio]='\0';
+
 	return Memoria;
 }
 
@@ -74,15 +70,18 @@ int almacenar_particion(t_memoria segmento, char id, int tamanio, char* contenid
 			list_add_in_index(listaParticiones, index, part);
 
 			if (ptemp->tamanio>0){
+				ptemp->dato = &segmento[ptemp->inicio];
 			list_add_in_index(listaParticiones, index+1, ptemp);
 			}
 
 			int p=part->inicio;
-			part->dato=&segmento[p];
 			int o;
 			for (o = 0; o<tamanio; p++, o++) {
 				segmento[p]=contenido[o];
 			}
+			int i = part->inicio;
+
+			part->dato=&segmento[i];
 
 			return 1;
 		}
@@ -104,10 +103,6 @@ int eliminar_particion(t_memoria segmento, char id) {
 		t_particion* ptemp = nodo->data;
 		if (ptemp->id == id)
 		{
-			int i =ptemp->inicio;
-			for (; i < ptemp->tamanio+ptemp->inicio; i++) {
-				segmento[i]='/';
-			}
 
 	//		free(nodo);
 			ptemp->id= '/';
@@ -123,6 +118,8 @@ int eliminar_particion(t_memoria segmento, char id) {
 }
 
 void liberar_memoria(t_memoria segmento) {
+	list_clean(listaParticiones);
+	list_destroy(listaParticiones);
 	free(segmento);
 }
 
