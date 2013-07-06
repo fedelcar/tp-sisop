@@ -61,9 +61,9 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 
 	level = getLevelAttributes();
 
-	int turnoActual = atoi(level->turnos);
+	int turnoActual = scheduler_queue->orquestador_config->turnos;
 
-	int sleepTime = atoi(level->sleep);
+	int sleepTime = scheduler_queue->orquestador_config->intervalo;
 
 	turno = 0;
 
