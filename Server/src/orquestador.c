@@ -107,6 +107,7 @@ int main(int argc, char **argv) {
 		scheduler_queue->character_queue = queue_create();
 		scheduler_queue->portInt = atoi(port[1]);
 		scheduler_queue->orquestador_config = orquestador_config;
+		scheduler_queue->path = "/home/tp/config/orquestador/orquestador.config"; //argv[0]
 
 		dictionary_put(levels_queues, levelName, scheduler_queue);
 
