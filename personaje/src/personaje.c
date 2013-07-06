@@ -443,7 +443,7 @@ void conectarseAlNivelActual(t_Nivel* nivel, int* sockfdOrquestador,
 	*sockfdPlanif = openSocketClient(puertoPlanificador, ipPlanificador);
 
 	//Envio mi simbolo al nivel
-	mensaje2 = string_from_format("START:Simbolo:%s|", personaje->simbolo);
+	mensaje2 = string_from_format("START:Simbolo:%s|%s|", personaje->simbolo, personaje->nombre);
 	sendMessage(nivel->sockfdNivel, mensaje2);
 	log_debug(log, mensaje2);
 
