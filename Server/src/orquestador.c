@@ -384,7 +384,7 @@ void giveResource(t_scheduler_queue *queues, int recurso,
 		blocked_character *blockedCharacter) {
 	if (recurso > 0) {
 		recurso--;
-		queue_push(queues->character_queue, blockedCharacter->personaje->fd);
+		queue_push(queues->character_queue, blockedCharacter->personaje);
 	}
 }
 

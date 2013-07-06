@@ -37,6 +37,7 @@
 #define TRUE 1
 #define FALSE 0
 #define BROKEN "BROKEN"
+#define SETNAME "SETNAME"
 
 void analize_response(char *response, t_scheduler_queue *scheduler_queue,
 		personaje_planificador *personaje , int *breakIt);
@@ -199,9 +200,11 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 							/* master read set                            */
 							/**********************************************/
 							printf("  New incoming connection - %d\n", new_sd);
+							sendMessage(new_sd, "ok");
 							personaje_planificador *personaje = (personaje_planificador*) malloc(sizeof(personaje_planificador));
 							personaje->fd = new_sd;
 							personaje->respondio = 1;
+							personaje->nombre = recieveMessage(new_sd);
 							queue_push(scheduler_queue->character_queue,
 									personaje);
 							if (new_sd > max_sd)
@@ -242,5 +245,8 @@ void analize_response(char *response, t_scheduler_queue *scheduler_queue,
 	} else if (string_equals_ignore_case(response, PEDIR)) {
 		*breakIt = TRUE;
 		queue_push(scheduler_queue->character_queue, personaje);
+	}
+	else if(string_equals_ignore_case(response, SETNAME)){
+
 	}
 }
