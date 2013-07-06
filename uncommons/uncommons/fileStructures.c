@@ -367,3 +367,71 @@ t_caja* getBox(t_config *configFile, int *boxNumber){
 
 	return caja;
 }
+
+t_character * getCharacter(char* finalPath) {
+
+	t_dictionary *character_dictionary = dictionary_create();
+	t_config *configFile;
+
+	/* Variables */
+	DIR *dirp;
+	struct dirent *direntp;
+
+	int nivel = 0;
+	char *key = (char*) malloc(MAXSIZE);
+
+	/* Leemos las entradas del directorio */
+
+
+
+			t_character *character_struct = (t_character *) malloc(
+					sizeof(t_character));
+			character_struct->planDeNiveles = list_create();
+			character_struct->obj = dictionary_create();
+
+
+			configFile = config_create(finalPath);
+
+			character_struct->nombre = config_get_string_value(configFile,
+					NOMBRE);
+			character_struct->simbolo = config_get_string_value(configFile,
+					SIMBOLO);
+			char **planDeNiveles = config_get_array_value(configFile,
+					PLANDENIVELES);
+			character_struct->vidas = atoi(config_get_string_value(configFile,
+					VIDAS));
+			character_struct->orquestador = config_get_string_value(configFile,
+					ORQUESTADORBASE);
+
+			while (planDeNiveles[nivel] != NULL ) {
+				list_add(character_struct->planDeNiveles, planDeNiveles[nivel]);
+				nivel++;
+			}
+
+			for (nivel = 0; nivel < list_size(character_struct->planDeNiveles);
+					nivel++) {
+				char *nombre = (char*) malloc(MAXSIZE);
+				char **array = (char*) malloc(MAXSIZE);
+				t_list *anotherList = list_create();
+				int elemento = 0;
+
+				nombre = list_get(character_struct->planDeNiveles, nivel);
+				array = config_get_array_value(configFile,
+						getFullKey(
+								list_get(character_struct->planDeNiveles,
+										nivel), key));
+
+				while (array[elemento] != NULL ) {
+					list_add(anotherList, array[elemento]);
+					elemento++;
+				}
+
+				dictionary_put(character_struct->obj, nombre, anotherList);
+				memset(key, 0, sizeof(key));
+			}
+
+
+	free(key);
+	/* Cerramos el directorio */
+	return character_struct;
+}
