@@ -69,6 +69,12 @@ typedef struct{
 	int portInt;
 }t_scheduler_queue;
 
+typedef struct{
+	int intervalo;
+	int puerto;
+	int turnos;
+}t_orquestador;
+
 t_dictionary* getCharacters();
 
 t_dictionary* getLevelsMap();
@@ -80,5 +86,11 @@ t_list* getLevelsInfo();
 t_list *getLevelsList();
 
 t_level_attributes *getLevelAttributes();
+
+t_orquestador* getOrquestador(char* finalPath);
+
+t_character* getCharacter(char* finalPath);
+
+t_level_config* getLevel(char* finalPath);
 
 
