@@ -435,3 +435,42 @@ t_character * getCharacter(char* finalPath) {
 	/* Cerramos el directorio */
 	return character_struct;
 }
+
+
+t_level_config* getLevel(char* finalPath){
+
+	t_config *configFile;
+
+	/* Variables */
+	DIR *dirp;
+	struct dirent *direntp;
+
+	/* Abrimos el directorio */
+
+	int box = 0;
+	char *key = (char*) malloc(MAXSIZE);
+
+	/* Leemos las entradas del directorio */
+
+			t_level_config *level_config = (t_level_config *) malloc(
+					sizeof(t_level_config));
+
+			level_config->cajas = dictionary_create();
+
+			configFile = config_create(finalPath);
+
+			level_config->nombre = config_get_string_value(configFile, "Nombre");
+			level_config->orquestador = config_get_string_value(configFile,
+					"orquestador");
+			level_config->recovery = config_get_string_value(configFile,
+					RECOVERY);
+			level_config->tiempoChequeoDeadlock = config_get_string_value(
+					configFile, TIEMPOCHEQUEODEADLOCK);
+
+			for(box = 1 ; box <= CAJASMAXIMAS ; box++){
+				t_caja *caja = getBox(configFile, box);
+				dictionary_put(level_config->cajas, caja->nombre, caja);
+			}
+
+	return level_config;
+}
