@@ -121,8 +121,7 @@ int main(char* character) {
 //	---------------------------------------------
 
 //	cargo archivo de config
-	personajesTodos = getCharacters();
-	personaje = (t_character*) dictionary_get(personajesTodos, "Mario");
+	personaje = getCharacter("/home/tp/config/personajes/personaje1.config");
 	ipOrquestador = extraerIp(personaje->orquestador);
 	puertoOrquestador = extraerPuerto(personaje->orquestador);
 
