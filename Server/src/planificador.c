@@ -75,9 +75,15 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 
 	while (turno < turnoActual && breakIt == FALSE) {
 
+
+
 		printf("Realizo el pop\n");
 
-		sendMessage(fd, "Paso por el planificador\n");
+		response = sendMessage(fd, "Paso por el planificador\n");
+
+		if(string_starts_with(response, BROKEN)	){
+			break;
+		}
 
 		printf("Mando mensaje\n");
 
@@ -92,7 +98,7 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 		analize_response(response, scheduler_queue, fd, &breakIt);
 
 		sleep(sleepTime);
-
+		free(response);
 		turno++;
 	}
 	if (string_equals_ignore_case(response, SIGNAL_OK) && breakIt == 0) {
@@ -211,10 +217,10 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 		      /**********************************************************/
 		      /* Check to see if the 5 minute time out expired.         */
 		      /**********************************************************/
-		      if (rc == 0)
+		      if (rc == 0 && queue_size(scheduler_queue->character_queue) > 0)
 		      {
 		    	  planificar(scheduler_queue);
-		      }else {
+		      }else if(rc > 0){
 		      desc_ready = rc;
 		      for (j=0; j <= max_sd  &&  desc_ready > 0; ++j)
 		      {

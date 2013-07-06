@@ -242,9 +242,13 @@ void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues, f
 
 	response = recieveMessage(fd);
 
-	if (!string_starts_with(response, BROKEN)) {
+	if (string_starts_with(response, BROKEN)) {
+		FD_CLR(fd, socks);
+	}
+	else{
 		executeResponse(response, levelsMap, fd, levels_queues, socks);
 	}
+
 
 }
 
