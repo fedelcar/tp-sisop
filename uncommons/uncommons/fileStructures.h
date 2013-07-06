@@ -63,17 +63,18 @@ typedef struct{
 }t_caja;
 
 typedef struct{
-	t_queue *character_queue;
-	t_queue *blocked_queue;
-	char *port;
-	int portInt;
-}t_scheduler_queue;
-
-typedef struct{
 	int intervalo;
 	int puerto;
 	int turnos;
 }t_orquestador;
+
+typedef struct{
+	t_queue *character_queue;
+	t_queue *blocked_queue;
+	char *port;
+	int portInt;
+	t_orquestador *orquestador_config;
+}t_scheduler_queue;
 
 t_dictionary* getCharacters();
 
