@@ -53,7 +53,7 @@
 void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		t_dictionary *levels_queues, fd_set *socks,
 		t_orquestador *orquestador_config, char* path);
-void giveResource(t_scheduler_queue *queues, int recurso,
+void giveResource(t_scheduler_queue *queues, int *recurso,
 		blocked_character *blockedCharacter);
 //void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues, fd_set *socks);
 void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues,
@@ -317,20 +317,16 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 
 		t_scheduler_queue *queues = dictionary_get(levels_queues, data[0]);
 
-		if (queue_size(queues->blocked_queue) == 0) {
-			sendMessage(fd, OKEY);
-			close(fd);
-		} else {
 
-			sendMessage(fd, NOTOK);
+		int flores = atoi(data[1]);
+		int monedas = atoi(data[2]);
+		int hongos = atoi(data[3]);
 
-			int hongos = (int*) malloc(sizeof(int));
-			int monedas = (int*) malloc(sizeof(int));
-			int flores = (int*) malloc(sizeof(int));
+		if (queue_size(queues->blocked_queue) > 0) {
 
-			flores = atoi(data[1]);
-			monedas = atoi(data[2]);
-			hongos = atoi(data[3]);
+//			int hongos = (int*) malloc(sizeof(int));
+//			int monedas = (int*) malloc(sizeof(int));
+//			int flores = (int*) malloc(sizeof(int));
 
 			int i = 0;
 
@@ -340,28 +336,27 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 						queues->blocked_queue);
 
 				if (blockedCharacter->recurso == 'F') {
-					giveResource(queues, flores, blockedCharacter);
+					giveResource(queues, &flores, blockedCharacter);
 				} else if (blockedCharacter->recurso == 'H') {
-					giveResource(queues, hongos, blockedCharacter);
+					giveResource(queues, &hongos, blockedCharacter);
 				} else if (blockedCharacter->recurso == 'M') {
-					giveResource(queues, monedas, blockedCharacter);
+					giveResource(queues, &monedas, blockedCharacter);
 				}
-
-				t_level_address *addresses = (t_level_address*) dictionary_get(
-						levelsMap, data[0]);
-
-				char **levelSocket = string_split(addresses->nivel, DOSPUNTOS);
-
-				int fdNivel = openSocketClient(levelSocket[1], levelSocket[0]);
-
-				sendMessage(fdNivel,
-						string_from_format("RSC,%d,%d,%d", flores, monedas,
-								hongos));
-
-				free(data);
 			}
-
 		}
+		t_level_address *addresses = (t_level_address*) dictionary_get(
+				levelsMap, data[0]);
+
+		char **levelSocket = string_split(addresses->nivel, DOSPUNTOS);
+
+		int fdNivel = openSocketClient(levelSocket[1], levelSocket[0]);
+
+		sendMessage(fdNivel,
+				string_from_format("RSC,%d,%d,%d", flores, monedas,
+						hongos));
+
+		free(data);
+
 	} else if (string_starts_with(response, DEADLOCK)) {
 
 		response = string_substring_from(response, sizeof(DEADLOCK));
@@ -385,10 +380,11 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 
 }
 
-void giveResource(t_scheduler_queue *queues, int recurso,
+void giveResource(t_scheduler_queue *queues, int *recurso,
 		blocked_character *blockedCharacter) {
-	if (recurso > 0) {
-		recurso--;
+	if (*recurso > 0) {
+		int value = *recurso;
+		*recurso = value - 1;
 		queue_push(queues->character_queue, blockedCharacter->personaje);
 	}
 }
