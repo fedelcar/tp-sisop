@@ -42,6 +42,7 @@
 #define REINICIAR "Reinicio nivel"
 #define FALSE 0
 #define TRUE 1
+#define PIPE "|"
 
 typedef struct {
 	int sockfdNivel;
@@ -485,6 +486,8 @@ void pedirPosicionRecurso(t_Nivel* nivel, t_posicion* posRec,
 	log_debug(log, mensaje2);
 
 	buff2 = recieveMessage(nivel->sockfdNivel);
+	char **split = string_split(buff2, PIPE);
+	buff2 = split[0];
 	*posRec = stringToPosicion(buff2);
 
 }
