@@ -199,7 +199,6 @@ int main(char* character) {
 				log_debug(log, mensaje);
 
 				*posRec = setPosicion(-1, -1);
-				pRecursoActual = pRecursoActual->next;
 
 				buff = recieveMessage(nivel->sockfdNivel);
 				log_debug(log, buff);
@@ -242,6 +241,8 @@ int main(char* character) {
 					sendMessage(sockfdPlanif, "PEDIRRECURSO");
 					log_debug(log, "PEDIRRECURSO");
 				}
+
+				pRecursoActual = pRecursoActual->next;
 
 			} else {
 
