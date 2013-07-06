@@ -74,6 +74,7 @@ typedef struct{
 	char *port;
 	int portInt;
 	t_orquestador *orquestador_config;
+	char *path;
 }t_scheduler_queue;
 
 t_dictionary* getCharacters();
