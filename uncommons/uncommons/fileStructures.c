@@ -478,10 +478,9 @@ t_orquestador* getOrquestador(char* finalPath) {
 
 	configFile = config_create(finalPath);
 
-	orquestador->turnos = config_get_string_value(configFile, "turnos");
-	orquestador->puerto = config_get_string_value(configFile, "puerto");
-	orquestador->intervalo = config_get_string_value(configFile, RECOVERY);
-	orquestador->intervalo = config_get_string_value(configFile, "intervalo");
+	orquestador->turnos = atoi(config_get_string_value(configFile, "turnos"));
+	orquestador->puerto = atoi(config_get_string_value(configFile, "orquestador"));
+	orquestador->intervalo = atoi(config_get_string_value(configFile, "intervalo"));
 
 	return orquestador;
 }
