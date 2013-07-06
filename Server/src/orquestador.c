@@ -31,6 +31,7 @@
 #include <netinet/in.h>
 #include <errno.h>
 
+#define DEFAULTPORT 9930
 #define DOSPUNTOS ":"
 #define MAXSIZE 1024
 #define PORT "9930"
@@ -46,21 +47,26 @@
 #define CONNECTED "CONNECTED"
 #define TRUE             1
 #define FALSE            0
+#define NEWLVL "NEWLVL"
 
 //void accionar(int sock, int *connectlist, int *highsock, fd_set *socks, t_dictionary *levelsMap, t_dictionary *levels_queues);
 void executeResponse(char* response, t_dictionary *levelsMap, int fd,
-		t_dictionary *levels_queues, fd_set *socks);
+		t_dictionary *levels_queues, fd_set *socks,
+		t_orquestador *orquestador_config, char* path);
 void giveResource(t_scheduler_queue *queues, int recurso,
 		blocked_character *blockedCharacter);
 //void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues, fd_set *socks);
-void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues, fd_set *socks);
+void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues,
+		fd_set *socks, t_orquestador *orquestador_config, char* path);
+int *generateSocket(int* portInt, int *scheduler_port);
 
 int main(int argc, char **argv) {
 
 	/**
 	 * Lista de niveles
 	 */
-	t_orquestador *orquestador_config = getOrquestador("/home/tp/config/orquestador/orquestador.config");
+	t_orquestador *orquestador_config = getOrquestador(
+			"/home/tp/config/orquestador/orquestador.config"); //argv[0]
 
 	t_list *levelsList = getLevelsList();
 
@@ -82,39 +88,13 @@ int main(int argc, char **argv) {
 	 */
 	t_dictionary *levelsMap = dictionary_create();
 
-	levelsMap = getLevelsMap();
+//	levelsMap = getLevelsMap();
 
 	char** port = (char*) malloc(MAXSIZE);
 
 	int i;
 
 	t_dictionary *levels_queues = dictionary_create();
-
-	for (i = 0; i < list_size(levelsList); i++) {
-
-		pthread_t *t = (pthread_t*) malloc(sizeof(pthread_t));
-
-		levelName = (char *) list_get(levelsList, i);
-
-		addresses = (t_level_address*) dictionary_get(levelsMap, levelName);
-
-		port = string_split(addresses->planificador, DOSPUNTOS);
-
-		t_scheduler_queue *scheduler_queue = (t_scheduler_queue*) malloc(
-				sizeof(t_scheduler_queue));
-
-		scheduler_queue->blocked_queue = queue_create();
-		scheduler_queue->character_queue = queue_create();
-		scheduler_queue->portInt = atoi(port[1]);
-		scheduler_queue->orquestador_config = orquestador_config;
-		scheduler_queue->path = "/home/tp/config/orquestador/orquestador.config"; //argv[0]
-
-		dictionary_put(levels_queues, levelName, scheduler_queue);
-
-		pthread_create(t, NULL, (void *) planificador,
-				(t_scheduler_queue*) scheduler_queue);
-
-	}
 
 	free(levelName);
 	free(levelsList);
@@ -210,6 +190,7 @@ int main(int argc, char **argv) {
 						}
 
 						printf("  New incoming connection - %d\n", new_sd);
+
 						FD_SET(new_sd, &master_set);
 						if (new_sd > max_sd)
 							max_sd = new_sd;
@@ -221,7 +202,9 @@ int main(int argc, char **argv) {
 					printf("  Descriptor %d is readable\n", j);
 					close_conn = FALSE;
 
-					orquestador(levelsMap, j, levels_queues, &master_set);
+					orquestador(levelsMap, j, levels_queues, &master_set,
+							orquestador_config,
+							"/home/tp/config/orquestador/orquestador.config"); //argv[0]
 
 					if (close_conn) {
 						close(j);
@@ -239,7 +222,8 @@ int main(int argc, char **argv) {
 
 }
 
-void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues, fd_set *socks) {
+void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues,
+		fd_set *socks, t_orquestador *orquestador_config, char* path) {
 
 	char *response = (char *) malloc(MAXSIZE);
 
@@ -247,16 +231,16 @@ void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues, f
 
 	if (string_starts_with(response, BROKEN)) {
 		FD_CLR(fd, socks);
+	} else {
+		executeResponse(response, levelsMap, fd, levels_queues, socks,
+				orquestador_config, path);
 	}
-	else{
-		executeResponse(response, levelsMap, fd, levels_queues, socks);
-	}
-
 
 }
 
 void executeResponse(char* response, t_dictionary *levelsMap, int fd,
-		t_dictionary *levels_queues, fd_set *socks) {
+		t_dictionary *levels_queues, fd_set *socks,
+		t_orquestador *orquestador_config, char* path) {
 
 	if (string_starts_with(response, LEVEL)) {
 		response = string_substring_from(response, sizeof(LEVEL));
@@ -277,6 +261,47 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		free(response);
 		free(level);
 		close(fd);
+	} else if (string_starts_with(response, NEWLVL)) {
+
+		response = string_substring_from(response, sizeof(NEWLVL));
+		char** split = string_split(response, COMA);
+
+		socklen_t len;
+		struct sockaddr_storage addr;
+		char ipstr[INET_ADDRSTRLEN];
+
+		len = sizeof addr;
+		getpeername(fd, (struct sockaddr*) &addr, &len);
+
+		struct sockaddr_in *s = (struct sockaddr_in *) &addr;
+
+		inet_ntop(AF_INET, &s->sin_addr, ipstr, sizeof ipstr);
+
+		pthread_t *t = (pthread_t*) malloc(sizeof(pthread_t));
+
+		t_scheduler_queue *scheduler_queue = (t_scheduler_queue*) malloc(
+				sizeof(t_scheduler_queue));
+
+		int *scheduler_port = (int*) malloc(sizeof(int));
+
+		scheduler_queue->blocked_queue = queue_create();
+		scheduler_queue->character_queue = queue_create();
+		scheduler_queue->listen_sd = generateSocket(DEFAULTPORT, scheduler_port);
+		scheduler_queue->orquestador_config = orquestador_config;
+		scheduler_queue->path = path; //argv[0]
+
+		t_level_address *level = (t_level_address *) malloc(
+				sizeof(t_level_address));
+
+		level->nivel = string_from_format("%s:%s", ipstr, split[0]);
+		level->planificador = string_from_format("%s:%d", ipstr, *scheduler_port);
+
+		dictionary_put(levelsMap, split[1], level);
+		dictionary_put(levels_queues, split[1], scheduler_queue);
+
+		pthread_create(t, NULL, (void *) planificador,
+				(t_scheduler_queue*) scheduler_queue);
+
 	} else if (string_starts_with(response, FREERESC)) {
 
 		response = string_substring_from(response, sizeof(FREERESC));
@@ -361,4 +386,65 @@ void giveResource(t_scheduler_queue *queues, int recurso,
 		recurso--;
 		queue_push(queues->character_queue, blockedCharacter->fd);
 	}
+}
+
+int *generateSocket(int* portInt, int *scheduler_port) {
+
+	int rc, on = 1;
+	int *listen_sd = (int*) malloc(sizeof(int));
+	struct sockaddr_in addr;
+
+	/*************************************************************/
+	/* Create an AF_INET stream socket to receive incoming       */
+	/* connections on                                            */
+	/*************************************************************/
+	listen_sd = socket(AF_INET, SOCK_STREAM, 0);
+	if (listen_sd < 0) {
+		perror("socket() failed");
+		exit(-1);
+	}
+
+	/*************************************************************/
+	/* Allow socket descriptor to be reuseable                   */
+	/*************************************************************/
+	rc = setsockopt(listen_sd, SOL_SOCKET, SO_REUSEADDR, (char *) &on,
+			sizeof(on));
+	if (rc < 0) {
+		perror("setsockopt() failed");
+		close(listen_sd);
+		exit(-1);
+	}
+
+	/*************************************************************/
+	/* Set socket to be non-blocking.  All of the sockets for    */
+	/* the incoming connections will also be non-blocking since  */
+	/* they will inherit that state from the listening socket.   */
+	/*************************************************************/
+	rc = ioctl(listen_sd, FIONBIO, (char *) &on);
+	if (rc < 0) {
+		perror("ioctl() failed");
+		close(listen_sd);
+		exit(-1);
+	}
+
+	/*************************************************************/
+	/* Bind the socket                                           */
+	/*************************************************************/
+
+	while (1) {
+		memset(&addr, 0, sizeof(addr));
+		addr.sin_family = AF_INET;
+		addr.sin_addr.s_addr = htonl(INADDR_ANY );
+		addr.sin_port = htons(portInt);
+		rc = bind(listen_sd, (struct sockaddr *) &addr, sizeof(addr));
+		if (rc < 0) {
+			portInt++;
+			continue;
+		}
+		break;
+	}
+
+	*scheduler_port = portInt;
+
+	return listen_sd;
 }
