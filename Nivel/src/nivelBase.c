@@ -429,6 +429,7 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 		id++;
 	} else if (string_starts_with(bufferSocket, RESOURCES)) {
 		agregarRecursos(bufferSocket, listaItems);
+		nivel_gui_dibujar(listaItems);
 	} else if (string_starts_with(bufferSocket, MOVIMIENTO)) {
 		bufferSocket = string_substring_from(bufferSocket, sizeof(MOVIMIENTO));
 		resource_struct *personaje = (resource_struct*) dictionary_get(

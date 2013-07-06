@@ -105,14 +105,14 @@ void restarRecursos(t_posicion* posicion, ITEM_NIVEL* listaItems, int* sockfd,
 
 	if (evaluarPosicion(posicion, listaItems) == 1) {
 		if (listaItems->quantity > 0) {
-			restarRecurso(listaItems, listaItems->id);
-			pasarLista(recursos, recurso);
 			msjMovimiento = string_from_format("%s", CONFIRMACION);
 
 		} else {
 			msjMovimiento = string_from_format("%s", RECHAZO);
 			resources->recursoBloqueado = recurso;
 		}
+		restarRecurso(listaItems, listaItems->id);
+		pasarLista(recursos, recurso);
 	}
 
 	if (string_equals_ignore_case(msjMovimiento, "EMPTY")) {
@@ -176,11 +176,11 @@ void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* m
 			fileDescriptor = openSocketClient(socket[1], socket[0]);
 			char* mensaje = endingString(resources->recursosAt, resources->level_config->nombre);
 			sendMessage(fileDescriptor, mensaje);
-			mensaje = recieveMessage(fileDescriptor);
-			if (string_equals_ignore_case(mensaje, OKEY)) {
-				restaurarRecursos(resources->recursosAt, listaItems);
-				nivel_gui_dibujar(listaItems);
-			}
+//			mensaje = recieveMessage(fileDescriptor);
+//			if (string_equals_ignore_case(mensaje, OKEY)) {
+//				restaurarRecursos(resources->recursosAt, listaItems);
+//				nivel_gui_dibujar(listaItems);
+//			}
 			BorrarItem(&listaItems, resources->simbolo);
 			FD_CLR(fileDescriptorPj, master_set);
 			free(mensaje);
