@@ -52,12 +52,12 @@
 //void accionar(int sock, int *connectlist, int *highsock, fd_set *socks, t_dictionary *levelsMap, t_dictionary *levels_queues);
 void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		t_dictionary *levels_queues, fd_set *socks,
-		t_orquestador *orquestador_config, char* path);
+		t_orquestador *orquestador_config, char* path, t_list *niveles);
 void giveResource(t_scheduler_queue *queues, int *recurso,
 		blocked_character *blockedCharacter);
 //void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues, fd_set *socks);
 void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues,
-		fd_set *socks, t_orquestador *orquestador_config, char* path);
+		fd_set *socks, t_orquestador *orquestador_config, char* path, t_list *niveles);
 int *generateSocket(int* portInt, int *scheduler_port);
 
 int main(int argc, char **argv) {
@@ -95,6 +95,8 @@ int main(int argc, char **argv) {
 	int i;
 
 	t_dictionary *levels_queues = dictionary_create();
+
+	t_list *niveles = list_create();
 
 	free(levelName);
 	free(levelsList);
@@ -204,7 +206,7 @@ int main(int argc, char **argv) {
 
 					orquestador(levelsMap, j, levels_queues, &master_set,
 							orquestador_config,
-							"/home/tp/config/orquestador/orquestador.config"); //argv[0]
+							"/home/tp/config/orquestador/orquestador.config", niveles); //argv[0]
 
 					if (close_conn) {
 						close(j);
@@ -223,7 +225,7 @@ int main(int argc, char **argv) {
 }
 
 void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues,
-		fd_set *socks, t_orquestador *orquestador_config, char* path) {
+		fd_set *socks, t_orquestador *orquestador_config, char* path, t_list *niveles) {
 
 	char *response = (char *) malloc(MAXSIZE);
 
@@ -233,14 +235,14 @@ void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues,
 		FD_CLR(fd, socks);
 	} else {
 		executeResponse(response, levelsMap, fd, levels_queues, socks,
-				orquestador_config, path);
+				orquestador_config, path, niveles);
 	}
 
 }
 
 void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		t_dictionary *levels_queues, fd_set *socks,
-		t_orquestador *orquestador_config, char* path) {
+		t_orquestador *orquestador_config, char* path, t_list *niveles) {
 
 	if (string_starts_with(response, LEVEL)) {
 		response = string_substring_from(response, sizeof(LEVEL));
@@ -301,6 +303,8 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 
 		level->nivel = string_from_format("%s:%s", ipstr, split[0]);
 		level->planificador = string_from_format("%s:%d", ipstr, *scheduler_port);
+
+		list_add(niveles, split[1]);
 
 		dictionary_put(levelsMap, split[1], level);
 		dictionary_put(levels_queues, split[1], scheduler_queue);
@@ -388,6 +392,23 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 //			}
 //		}
 
+	}
+	else if(string_starts_with(response, "TTODO")){
+		int i = 0;
+		char* nivel;
+		t_scheduler_queue *scheduler;
+		int final = TRUE;
+
+		for(i = 0 ; i < list_size(niveles) ; i++){
+			nivel = list_take(niveles, i);
+			scheduler = dictionary_get(levels_queues, nivel);
+			if(list_size(scheduler->pjList) > 0){
+				final = FALSE;
+			}
+		}
+		if(final == TRUE){
+			//EXEC KOOPA
+		}
 	}
 
 //	FD_CLR(fd, socks);
