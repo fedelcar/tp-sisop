@@ -393,7 +393,7 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 //		}
 
 	}
-	else if(string_starts_with(response, "TTODO")){
+	else if(string_starts_with(response, "Termine todo")){
 		int i = 0;
 		char* nivel;
 		t_scheduler_queue *scheduler;
