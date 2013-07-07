@@ -376,7 +376,7 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 
 	}
 
-	FD_CLR(fd, socks);
+//	FD_CLR(fd, socks);
 
 }
 
