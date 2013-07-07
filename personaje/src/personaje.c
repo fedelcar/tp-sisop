@@ -53,6 +53,7 @@ typedef struct {
 int vivo;
 int vidas;
 t_log* log;
+int myFd;
 
 char* extraerIpPlanificador(char* mensaje);
 char* extraerIpNivel(char* mensaje);
@@ -154,6 +155,8 @@ int main(char* character) {
 		FD_SET(nivel->sockfdNivel, &master_set);
 		FD_SET(sockfdPlanif, &master_set);
 
+		 myFd = atoi(recieveMessage(sockfdPlanif));
+		 sendMessage(sockfdPlanif, personaje->nombre);
 ////////////////////////////////////////////////////////////////////////////////////////////////
 		vivo = TRUE;
 		while (vivo) { //Comienzo Nivel
@@ -262,8 +265,11 @@ int main(char* character) {
 		sendMessage(nivel->sockfdNivel, LIBERAR_RECURSOS);
 		close(nivel->sockfdNivel);
 
-		sendMessage(sockfdPlanif, TERMINE_NIVEL);
+		sockfdOrquestador = openSocketClient(puertoOrquestador,
+				ipOrquestador);
+		sendMessage(sockfdOrquestador, string_from_format("TNIVEL,%d,%s,", myFd, nivel->pNivelActual->data));
 		close(sockfdPlanif);
+		close(sockfdOrquestador);
 
 //		Analizo si sali porque mori o porque termine el nivel
 		if (!vivo) {
@@ -443,7 +449,6 @@ void conectarseAlNivelActual(t_Nivel* nivel, int* sockfdOrquestador,
 	nivel->sockfdNivel = openSocketClient(puertoNivel, ipNivel);
 	*sockfdPlanif = openSocketClient(puertoPlanificador, ipPlanificador);
 	recieveMessage(sockfdPlanif);
-	sendMessage(sockfdPlanif, personaje->nombre);
 	log_debug(log, personaje->nombre);
 
 	//Envio mi simbolo al nivel
