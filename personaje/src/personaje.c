@@ -156,11 +156,20 @@ int main(char* character) {
 		close(sockfdOrquestador);
 		log_debug(log, "Me desconecto con el Orquestador");
 
+		log_debug(log, "NIVEL ACTUAL (antes de inicializar)");
+		log_debug(log, nivel->pNivelActual->data);
+
 		inicializarNivel(nivel, miPos, posRec, &pRecursoActual, &bloqueado,
 				personaje);
 
+		log_debug(log, "NIVEL ACTUAL(Despues de inicializar)");
+		log_debug(log, nivel->pNivelActual->data);
+
 		vivo = TRUE;
 		while (vivo) { //Comienzo Nivel
+
+			log_debug(log, "NIVEL ACTUAL");
+			log_debug(log, nivel->pNivelActual->data);
 
 //			Analizo si estuve bloqueado (si lo estuve no espero el turno)
 			if (bloqueado) {
@@ -226,7 +235,7 @@ int main(char* character) {
 					FD_SET(sockfdPlanif, &master_set);
 					memcpy(&working_set, &master_set, sizeof(master_set));
 
-					rc = select(FD_SETSIZE, &working_set, NULL, NULL, NULL);
+					rc = select(FD_SETSIZE, &working_set, NULL, NULL, NULL );
 
 					/**********************************************************/
 					/* Check to see if the select call failed.                */
@@ -261,10 +270,14 @@ int main(char* character) {
 			}
 
 //			Analizar si termine el Nivel
-			if (pRecursoActual == NULL) {
+			if (pRecursoActual == NULL ) {
 				break;
 			}
 
+//			vivo = FALSE;
+
+			log_debug(log, "NIVEL ACTUAL");
+			log_debug(log, nivel->pNivelActual->data);
 		} //termina WHILE Nivel
 
 //		Informo que termine el nivel al Nivel y al Orquestador
@@ -280,7 +293,6 @@ int main(char* character) {
 				nivel->pNivelActual->data);
 		sendMessage(sockfdOrquestador, mensaje);
 		log_debug(log, mensaje);
-
 
 		close(sockfdOrquestador);
 		log_debug(log, "Me desconecto con el Orquestador");
@@ -298,7 +310,7 @@ int main(char* character) {
 		} else {
 
 			//			Analizo si termine el Plan de Niveles
-			if ((nivel->pNivelActual->next) == NULL) {
+			if ((nivel->pNivelActual->next) == NULL ) {
 
 				sockfdOrquestador = openSocketClient(puertoOrquestador,
 						ipOrquestador);
@@ -435,7 +447,7 @@ bool sonPosicionesIguales(t_posicion* pos1, t_posicion* pos2) {
 
 void muerePersonaje(t_Nivel* nivel, t_link_element** pRecursoActual,
 		t_character* personaje) {
-	log_debug(log,nivel->pNivelActual->data);
+	log_debug(log, nivel->pNivelActual->data);
 
 	if ((vidas--) == 0) {
 		nivel->pNivelActual = ((personaje->planDeNiveles)->head);
@@ -516,17 +528,25 @@ int conectarseAlNivelActual(t_Nivel* nivel, int* sockfdOrquestador,
 
 void inicializarNivel(t_Nivel* nivel, t_posicion* miPos, t_posicion* posRec,
 		t_link_element** pRecursoActual, int* bloqueado, t_character* personaje) {
-	char* nivelActual = (char*) malloc(MAXSIZE);
 
-	nivelActual = (char*) nivel->pNivelActual->data;
+	log_debug(log, "NIVEL ACTUAL(inicio)");
+	log_debug(log, nivel->pNivelActual->data);
+
+
 	nivel->recursosNivel = (t_list*) dictionary_get(personaje->obj,
-			nivelActual);
+			nivel->pNivelActual->data);
 	*miPos = setPosicion(1, 1);
 	*posRec = setPosicion(-1, -1);
 	*pRecursoActual = nivel->recursosNivel->head;
 	*bloqueado = FALSE;
 
-	free(nivelActual);
+	log_debug(log, "NIVEL ACTUAL(durante)");
+	log_debug(log, nivel->pNivelActual->data);
+
+
+	log_debug(log, "NIVEL ACTUAL(dsp free)");
+	log_debug(log, nivel->pNivelActual->data);
+
 }
 
 void pedirPosicionRecurso(t_Nivel* nivel, t_posicion* posRec,
