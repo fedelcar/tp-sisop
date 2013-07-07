@@ -28,20 +28,20 @@
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.exe.debug.option.optimization.level.445487425" name="Optimization Level" superClass="gnu.c.compiler.exe.debug.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.exe.debug.option.debugging.level.397126410" name="Debug Level" superClass="gnu.c.compiler.exe.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.654019017" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/commons}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Memory}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/so-commons-library}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/memoria}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.misc.pic.1033680283" name="Position Independent Code (-fPIC)" superClass="gnu.c.compiler.option.misc.pic" value="true" valueType="boolean"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1851220386" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.1661821112" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug">
 								<option id="gnu.c.link.option.paths.1212707523" name="Library search path (-L)" superClass="gnu.c.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/commons/Debug}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Memory/Debug}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/so-commons-library/Debug}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/memoria/Debug}&quot;"/>
 								</option>
 								<option id="gnu.c.link.option.libs.954688526" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="commons"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Memory"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="so-commons-library"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="memoria"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.861418763" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -51,8 +51,8 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.503769168" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.exe.debug.851760063" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.debug">
 								<option id="gnu.both.asm.option.include.paths.1956014340" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/commons}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Memory}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/so-commons-library}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/memoria}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.373205662" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -64,18 +64,18 @@
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
-				<externalSettings containerId="Memory;" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+				<externalSettings containerId="memoria;" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
 					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Memory"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Memory/Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Memory" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/memoria"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/memoria/Debug"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="memoria" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
 				</externalSettings>
-				<externalSettings containerId="commons;" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
+				<externalSettings containerId="so-commons-library;" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
 					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/commons"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/commons/Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="commons" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/so-commons-library"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/so-commons-library/Debug"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="so-commons-library" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
 				</externalSettings>
 			</storageModule>

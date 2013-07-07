@@ -3,8 +3,8 @@
 	<name>pruebaKoopa</name>
 	<comment></comment>
 	<projects>
-		<project>Memory</project>
-		<project>commons</project>
+		<project>memoria</project>
+		<project>so-commons-library</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
