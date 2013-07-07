@@ -387,7 +387,7 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 //		t_scheduler_queue *scheduler_queue = dictionary_get(levels_queues, split[1]);
 //		int i = 0;
 //		for(i = 0 ; i < list_size(scheduler_queue->pjList) ; i++){
-//			if(( (personaje_planificador*)list_get(scheduler_queue->pjList, i))->fd == atoi(split[0])){
+//			if(( (personaje_planificador*)list_get(scheduler_queue->pjList, i))->nombre == split[0]){
 //				list_remove(scheduler_queue->pjList, i);
 //			}
 //		}
