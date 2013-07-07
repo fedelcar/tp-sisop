@@ -93,17 +93,17 @@ int main(int argc, char **argv) {
 	deadlockStruct->checkDeadlock = nivel->tiempoChequeoDeadlock;
 	deadlockStruct->path = "/home/tp/config/niveles/nivel1.config"; //argv[0]
 
-	pthread_create(&detectionThread, NULL, (void*) deteccionInterbloqueo,
-			(deadlock_struct*) deadlockStruct);
+//	pthread_create(&detectionThread, NULL, (void*) deteccionInterbloqueo,
+//			(deadlock_struct*) deadlockStruct);
 
 	int *rows = (int*) malloc(sizeof(int));
 	int *cols = (int*) malloc(sizeof(int));
 	rows = (int*) 10;
 	cols = (int*) 10;
 
-	nivel_gui_inicializar();
-
-	nivel_gui_get_area_nivel(&rows, &cols);
+//	nivel_gui_inicializar();
+//
+//	nivel_gui_get_area_nivel(&rows, &cols);
 
 	int j, len, rc, on = 1;
 	int listen_sd, max_sd, new_sd;
@@ -572,7 +572,6 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 				if (datos->id == atoi(response[0])) {
 					printf("Muerte al personaje, %d", datos->fd);
 					sendMessage(datos->fd, DEATH);
-					close(datos->fd);
 					list_remove(deadlockList, j);
 				}
 
