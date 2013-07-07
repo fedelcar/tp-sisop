@@ -79,7 +79,7 @@ void sum(int signum);
 
 int main(char* character) {
 
-	log = log_create("/home/lucas/log.txt", "Personaje", 1, LOG_LEVEL_DEBUG);
+	log = log_create("/home/utnso/log.txt", "Personaje", 1, LOG_LEVEL_DEBUG);
 //---------- Inicializar Punteros ------------
 	t_Nivel* nivel = (t_Nivel*) malloc(sizeof(t_Nivel));
 
@@ -146,7 +146,7 @@ int main(char* character) {
 				puertoOrquestador);
 		log_debug(log, mensaje);
 
-		if (!(conectarseAlNivelActual(nivel, &sockfdOrquestador, &sockfdPlanif,
+		if (!(conectarseAlNivelActual(nivel, sockfdOrquestador, &sockfdPlanif,
 				personaje))) {
 			break;
 		}
@@ -326,7 +326,7 @@ int main(char* character) {
 
 //Libero Punteros
 	free(nivel);
-	free(personajesTodos);
+//	free(personajesTodos);
 	free(personaje);
 	free(pRecursoActual);
 	free(miPos);
