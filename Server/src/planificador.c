@@ -13,6 +13,7 @@
 #include "planificador.h"
 #include "commons/string.h"
 #include "uncommons/select.h"
+#include <string.h>
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -107,6 +108,7 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 	fd_set master_set;
 	fd_set working_set;
 
+	scheduler_queue->master_set = &master_set;
 	/*************************************************************/
 	/* Set the listen back log                                   */
 	/*************************************************************/
@@ -200,11 +202,12 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 							/* master read set                            */
 							/**********************************************/
 							printf("  New incoming connection - %d\n", new_sd);
-							sendMessage(new_sd, "ok");
+							sendMessage(new_sd, string_from_format("%d", new_sd));
 							personaje_planificador *personaje = (personaje_planificador*) malloc(sizeof(personaje_planificador));
 							personaje->fd = new_sd;
 							personaje->respondio = 1;
 							personaje->nombre = recieveMessage(new_sd);
+							list_add(scheduler_queue->pjList, personaje);
 							queue_push(scheduler_queue->character_queue,
 									personaje);
 							if (new_sd > max_sd)
@@ -245,8 +248,5 @@ void analize_response(char *response, t_scheduler_queue *scheduler_queue,
 	} else if (string_equals_ignore_case(response, PEDIR)) {
 		*breakIt = TRUE;
 		queue_push(scheduler_queue->character_queue, personaje);
-	}
-	else if(string_equals_ignore_case(response, SETNAME)){
-
 	}
 }

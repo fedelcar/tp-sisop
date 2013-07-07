@@ -294,6 +294,7 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		scheduler_queue->listen_sd = generateSocket(DEFAULTPORT, scheduler_port);
 		scheduler_queue->orquestador_config = orquestador_config;
 		scheduler_queue->path = path; //argv[0]
+		scheduler_queue->pjList = list_create();
 
 		t_level_address *level = (t_level_address *) malloc(
 				sizeof(t_level_address));
@@ -373,6 +374,19 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		}
 
 		sendMessage(fd, string_from_format("%d,", selected));
+
+	}
+	else if(string_starts_with(response, "TNIVEL")){
+		response = string_substring_from(response, sizeof("TNIVEL"));
+		char** split = string_split(response, COMA);
+		char* ressssponse = split[1];
+//		t_scheduler_queue *scheduler_queue = dictionary_get(levels_queues, split[1]);
+//		int i = 0;
+//		for(i = 0 ; i < list_size(scheduler_queue->pjList) ; i++){
+//			if(( (personaje_planificador*)list_get(scheduler_queue->pjList, i))->fd == atoi(split[0])){
+//				list_remove(scheduler_queue->pjList, i);
+//			}
+//		}
 
 	}
 
