@@ -76,6 +76,8 @@ typedef struct{
 	t_orquestador *orquestador_config;
 	char *path;
 	int listen_sd;
+	fd_set *master_set;
+	t_list *pjList;
 }t_scheduler_queue;
 
 t_dictionary* getCharacters();
