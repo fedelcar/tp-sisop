@@ -66,6 +66,9 @@ typedef struct{
 	int intervalo;
 	int puerto;
 	int turnos;
+	char *argumento1;
+	char *argumento2;
+	char *argumento3;
 }t_orquestador;
 
 typedef struct{
