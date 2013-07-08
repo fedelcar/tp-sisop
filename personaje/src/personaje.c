@@ -79,7 +79,7 @@ void sum(int signum);
 
 int main(char* character) {
 
-	log = log_create("/home/utnso/log.txt", "Personaje", 1, LOG_LEVEL_DEBUG);
+	log = log_create("/home/lucas/log.txt", "Personaje", 1, LOG_LEVEL_DEBUG);
 //---------- Inicializar Punteros ------------
 	t_Nivel* nivel = (t_Nivel*) malloc(sizeof(t_Nivel));
 
@@ -165,6 +165,8 @@ int main(char* character) {
 		log_debug(log, "NIVEL ACTUAL(Despues de inicializar)");
 		log_debug(log, nivel->pNivelActual->data);
 
+
+		sendMessage(sockfdPlanif, personaje->nombre);
 		vivo = TRUE;
 		while (vivo) { //Comienzo Nivel
 
@@ -502,9 +504,6 @@ int conectarseAlNivelActual(t_Nivel* nivel, int* sockfdOrquestador,
 				"Me conecto con el Planificador. IP:%s Puerto:%s",
 				ipPlanificador, puertoPlanificador);
 		log_debug(log, mensaje2);
-
-		recieveMessage(sockfdPlanif);
-		sendMessage(sockfdPlanif, personaje->nombre);
 		log_debug(log, personaje->nombre);
 
 		//Envio mi simbolo al nivel
