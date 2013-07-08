@@ -1,5 +1,5 @@
 cd
-cd git/tp-20131c-tp-so-1c2013/commons/Debug
+cd git/tp-20131c-tp-so-1c2013/so-commons-library/Debug
 make clean
 make
 cd
