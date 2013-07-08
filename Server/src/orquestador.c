@@ -404,9 +404,9 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 			}
 		}
 		if(final == TRUE){
-			char * arg1   = "/home/lucas/koopa";
-			char * arg2[] = {"koopa", "/home/lucas/koopa/CasosKoopa.txt", NULL};
-			char * arg3[] = {"LD_LIBRARY_PATH=/home/lucas/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug:/home/utnso/git/tp-20131c-tp-so-1c2013/memoria/Debug", "TERM=xterm", NULL};
+			char * arg1   = orquestador_config->argumento1;
+			char * arg2[] = {orquestador_config->argumento2, NULL};
+			char * arg3[] = {orquestador_config->argumento3, "TERM=xterm", NULL};
 			int ejecKoopa = execve(arg1, arg2, arg3);
 		}
 	}
