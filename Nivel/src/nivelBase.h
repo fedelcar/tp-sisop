@@ -52,4 +52,5 @@ typedef struct {
 	int *recovery;
 	int checkDeadlock;
 	char *path;
+	int puerto;
 }deadlock_struct;

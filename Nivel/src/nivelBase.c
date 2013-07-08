@@ -81,29 +81,14 @@ int main(int argc, char **argv) {
 
 	id = 0;
 
-	pthread_t detectionThread;
-
-	deadlock_struct *deadlockStruct = (deadlock_struct*) malloc(
-			sizeof(deadlock_struct));
-
-	deadlockStruct->items = listaItems;
-	deadlockStruct->list = threads;
-	deadlockStruct->socket = socketOrquestador;
-	deadlockStruct->recovery = nivel->recovery;
-	deadlockStruct->checkDeadlock = nivel->tiempoChequeoDeadlock;
-	deadlockStruct->path = "/home/tp/config/niveles/nivel1.config"; //argv[0]
-
-//	pthread_create(&detectionThread, NULL, (void*) deteccionInterbloqueo,
-//			(deadlock_struct*) deadlockStruct);
-
 	int *rows = (int*) malloc(sizeof(int));
 	int *cols = (int*) malloc(sizeof(int));
 	rows = (int*) 10;
 	cols = (int*) 10;
 
-//	nivel_gui_inicializar();
-//
-//	nivel_gui_get_area_nivel(&rows, &cols);
+	nivel_gui_inicializar();
+
+	nivel_gui_get_area_nivel(&rows, &cols);
 
 	int j, len, rc, on = 1;
 	int listen_sd, max_sd, new_sd;
@@ -189,6 +174,23 @@ int main(int argc, char **argv) {
 	sendMessage(socketOrquestador,
 			string_from_format("NEWLVL,%d,%s,", ntohs(s->sin_port),
 					nivel->nombre));
+
+
+	pthread_t detectionThread;
+
+	deadlock_struct *deadlockStruct = (deadlock_struct*) malloc(
+			sizeof(deadlock_struct));
+
+	deadlockStruct->items = listaItems;
+	deadlockStruct->list = threads;
+	deadlockStruct->socket = socketOrquestador;
+	deadlockStruct->puerto = portForLevel;
+	deadlockStruct->recovery = nivel->recovery;
+	deadlockStruct->checkDeadlock = nivel->tiempoChequeoDeadlock;
+	deadlockStruct->path = "/home/tp/config/niveles/nivel1.config"; //argv[0]
+
+	pthread_create(&detectionThread, NULL, (void*) deteccionInterbloqueo,
+			(deadlock_struct*) deadlockStruct);
 
 	/*************************************************************/
 	/* Initialize the master fd_set                              */
@@ -436,6 +438,10 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 				listaPersonajes, string_from_format("%d", fd));
 		movimientoPersonaje(personaje, rows, cols, bufferSocket, master_set, fd,
 				socketOrquestador);
+	} else if (string_starts_with(bufferSocket, DEATH)){
+		bufferSocket = string_substring_from(bufferSocket, sizeof(DEATH));
+		char** split = string_split(bufferSocket, COMA);
+		sendMessage(atoi(split[0]), DEATH);
 	}
 	free(bufferSocket);
 }
@@ -529,6 +535,9 @@ ITEM_NIVEL* cambiarEstructura(t_level_config* levelConfig) {
 
 void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 
+
+	int fdNivel = openSocketClient(string_from_format("%d", deadlockStruct->puerto), "localhost");
+
 	char *bufferDeadlock = (char*) malloc(MAXSIZE);
 
 	int j = 0;
@@ -538,7 +547,7 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 	t_list *deadlockList;
 	while (1) {
 
-		sleep(deadlockStruct->checkDeadlock); //levantar de archivo de configuracion, inotify
+		sleep(atoi(deadlockStruct->checkDeadlock)); //levantar de archivo de configuracion, inotify
 
 		deadlockList = detectionAlgorithm(deadlockStruct->items,
 				deadlockStruct->list);
@@ -570,8 +579,7 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 				datos = (datos_personaje*) list_get(deadlockList, j);
 
 				if (datos->id == atoi(response[0])) {
-					printf("Muerte al personaje, %d", datos->fd);
-					sendMessage(datos->fd, DEATH);
+					sendMessage(fdNivel, string_from_format("DEATH,%d,", *(datos->fd)));
 					list_remove(deadlockList, j);
 				}
 
