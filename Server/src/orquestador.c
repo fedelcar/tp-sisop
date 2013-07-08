@@ -405,7 +405,7 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		}
 		if(final == TRUE){
 			char * arg1   = orquestador_config->argumento1;
-			char * arg2[] = {orquestador_config->argumento2, NULL};
+			char * arg2[] = {"koopa", orquestador_config->argumento2, NULL};
 			char * arg3[] = {orquestador_config->argumento3, "TERM=xterm", NULL};
 			int ejecKoopa = execve(arg1, arg2, arg3);
 		}
