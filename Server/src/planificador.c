@@ -10,10 +10,12 @@
 #include <unistd.h>
 #include "uncommons/SocketsBasic.h"
 #include "uncommons/SocketsServer.h"
+#include "uncommons/inotify.h"
 #include "planificador.h"
 #include "commons/string.h"
 #include "uncommons/select.h"
 #include <string.h>
+#include <pthread.h>
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -39,6 +41,9 @@
 #define FALSE 0
 #define BROKEN "BROKEN"
 #define SETNAME "SETNAME"
+#define TIEMPOCHEQUEODEADLOCK "TiempoChequeoDeadlock"
+#define TURNOS "turnos"
+#define INTERVALO "intervalo"
 
 void analize_response(char *response, t_scheduler_queue *scheduler_queue,
 		personaje_planificador *personaje , int *breakIt);
@@ -107,6 +112,31 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 	struct timeval timeout;
 	fd_set master_set;
 	fd_set working_set;
+
+
+	//Declaro las estructuras nesesarias para el inotify
+
+	inotify_struct *datos = (inotify_struct*)malloc(sizeof(inotify_struct));
+	inotify_list_struct* data = (inotify_list_struct*)malloc(sizeof(inotify_list_struct));
+	inotify_list_struct* data2 = (inotify_list_struct*)malloc(sizeof(inotify_list_struct));
+	datos->path = scheduler_queue->path;
+	datos->lista = list_create();
+
+	data->nombre = TURNOS;
+	data->valor = &(scheduler_queue->orquestador_config->turnos);
+	list_add(datos->lista, data);
+
+	data2->nombre = INTERVALO;
+	data2->valor = &(scheduler_queue->orquestador_config->intervalo);
+	list_add(datos->lista, data2);
+
+	pthread_t *thread_inot = (pthread_t*) malloc(sizeof(pthread_t));
+	pthread_create(thread_inot, NULL, (void *) inotify,
+			(inotify_struct *) datos);
+
+
+
+
 
 	scheduler_queue->master_set = &master_set;
 	/*************************************************************/
