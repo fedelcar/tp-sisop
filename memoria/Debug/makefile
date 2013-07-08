@@ -25,14 +25,14 @@ endif
 all: libmemoria.so
 
 dependents:
-	-cd /home/lucas/git/tp-20131c-tp-so-1c2013/uncommons/Debug && $(MAKE) all
-	-cd /home/lucas/workspace/so-commons-library/Debug && $(MAKE) all
+	-cd /home/lucas/git/tp-20131c-tp-so-1c2013/uncommons/Debug && $(MAKE) clean all
+	-cd /home/lucas/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug && $(MAKE) clean all
 
 # Tool invocations
-libmemoria.so: $(OBJS) $(USER_OBJS) /home/lucas/git/tp-20131c-tp-so-1c2013/uncommons/Debug/libuncommons.so /home/lucas/workspace/so-commons-library/Debug/libso-commons-library.so
+libmemoria.so: $(OBJS) $(USER_OBJS) /home/lucas/git/tp-20131c-tp-so-1c2013/uncommons/Debug/libuncommons.so /home/lucas/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug/libso-commons-library.so
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc -L"/home/lucas/workspace/so-commons-library/Debug" -L"/home/lucas/git/tp-20131c-tp-so-1c2013/uncommons/Debug" -shared -o "libmemoria.so" $(OBJS) $(USER_OBJS) $(LIBS)
+	gcc -L"/home/lucas/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug" -L"/home/lucas/git/tp-20131c-tp-so-1c2013/uncommons/Debug" -shared -o "libmemoria.so" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -44,6 +44,6 @@ clean:
 .PHONY: all clean dependents
 .SECONDARY:
 /home/lucas/git/tp-20131c-tp-so-1c2013/uncommons/Debug/libuncommons.so:
-/home/lucas/workspace/so-commons-library/Debug/libso-commons-library.so:
+/home/lucas/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug/libso-commons-library.so:
 
 -include ../makefile.targets
