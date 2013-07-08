@@ -68,7 +68,6 @@ int main(int argc, char **argv) {
 	t_orquestador *orquestador_config = getOrquestador(
 			"/home/tp/config/orquestador/orquestador.config"); //argv[0]
 
-	t_list *levelsList = getLevelsList();
 
 	/**
 	 * Usado para retener nombres de niveles
@@ -99,7 +98,6 @@ int main(int argc, char **argv) {
 	t_list *niveles = list_create();
 
 	free(levelName);
-	free(levelsList);
 
 	int j, len, rc, on = 1;
 	int listen_sd, max_sd, new_sd;
