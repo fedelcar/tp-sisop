@@ -12,6 +12,7 @@
 #include <uncommons/SocketsServer.h>
 #include <uncommons/SocketsBasic.h>
 #include <uncommons/SocketsCliente.h>
+#include "uncommons/inotify.h"
 #include <string.h>
 #include <unistd.h>
 #include "nivelBase.h"
@@ -46,6 +47,8 @@
 #include <netinet/in.h>
 #include <errno.h>
 
+#define TIEMPOCHEQUEODEADLOCK "TiempoChequeoDeadlock"
+
 //void openListener(char* argv, queue_n_locks *queue);
 void agregarRecursos(char* buffer, ITEM_NIVEL *listaItems);
 void saveList(resource_struct *resourceStruct, t_list *threads);
@@ -65,7 +68,27 @@ int main(int argc, char **argv) {
 
 	t_level_config *nivel = (t_level_config*) malloc(sizeof(t_level_config));
 
-	nivel = getLevel("/home/tp/config/niveles/nivel1.config"); //argv[0]
+	char* path = "/home/tp/config/niveles/nivel1.config";
+
+	nivel = getLevel(path); //argv[0]
+
+	//Creo el thread nesesario para el inotify
+
+	inotify_struct *datos = (inotify_struct*)malloc(sizeof(inotify_struct));
+	inotify_list_struct* data = (inotify_list_struct*)malloc(sizeof(inotify_list_struct));
+	datos->path = path;
+	datos->lista = list_create();
+
+	data->nombre = TIEMPOCHEQUEODEADLOCK;
+	data->valor = &(nivel->tiempoChequeoDeadlock);
+	list_add(datos->lista, data);
+
+
+	pthread_t *thread_inot = (pthread_t*) malloc(sizeof(pthread_t));
+	pthread_create(thread_inot, NULL, (void *) inotify,
+			(inotify_struct *) datos);
+
+
 
 	ITEM_NIVEL *listaItems = cambiarEstructura(nivel);
 
@@ -86,9 +109,9 @@ int main(int argc, char **argv) {
 	rows = (int*) 10;
 	cols = (int*) 10;
 
-	nivel_gui_inicializar();
+	//nivel_gui_inicializar();
 
-	nivel_gui_get_area_nivel(&rows, &cols);
+	//nivel_gui_get_area_nivel(&rows, &cols);
 
 	int j, len, rc, on = 1;
 	int listen_sd, max_sd, new_sd;
@@ -186,7 +209,7 @@ int main(int argc, char **argv) {
 	deadlockStruct->socket = socketOrquestador;
 	deadlockStruct->puerto = portForLevel;
 	deadlockStruct->recovery = nivel->recovery;
-	deadlockStruct->checkDeadlock = nivel->tiempoChequeoDeadlock;
+	deadlockStruct->checkDeadlock = &(nivel->tiempoChequeoDeadlock);
 	deadlockStruct->path = "/home/tp/config/niveles/nivel1.config"; //argv[0]
 
 	pthread_create(&detectionThread, NULL, (void*) deteccionInterbloqueo,
@@ -547,7 +570,7 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 	t_list *deadlockList;
 	while (1) {
 
-		sleep(atoi(deadlockStruct->checkDeadlock)); //levantar de archivo de configuracion, inotify
+		sleep(*(deadlockStruct->checkDeadlock)); //levantar de archivo de configuracion, inotify
 
 		deadlockList = detectionAlgorithm(deadlockStruct->items,
 				deadlockStruct->list);
