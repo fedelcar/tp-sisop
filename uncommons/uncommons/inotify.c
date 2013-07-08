@@ -12,7 +12,7 @@
 #define EVENT_SIZE  ( sizeof (struct inotify_event) )
 #define BUF_LEN     ( 1024 * ( EVENT_SIZE + 16 ) )
 #define MAXSIZE 1024
-#define TIEMPOCHEQUEODEADLOCK "TiempoChequeoDeadlock"
+
 
 void getValues(inotify_struct * datos) {
 
@@ -25,7 +25,7 @@ void getValues(inotify_struct * datos) {
 	for (y = 0; y<list_size(datos->lista);y++){
 
 		inotify_list_struct * dato = list_get(datos->lista,y);
-		dato->valor = atoi(config_get_string_value(
+		*(dato->valor) = atoi(config_get_string_value(
 										configFile,dato->nombre));
 	}
 }

@@ -13,7 +13,7 @@ typedef struct {
 
 typedef struct{
 	char* nombre;
-	int valor;
+	int* valor;
 }inotify_list_struct;
 
 int inotify(inotify_struct *datos);
