@@ -202,7 +202,6 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 							/* master read set                            */
 							/**********************************************/
 							printf("  New incoming connection - %d\n", new_sd);
-							sendMessage(new_sd, string_from_format("%d", new_sd));
 							personaje_planificador *personaje = (personaje_planificador*) malloc(sizeof(personaje_planificador));
 							personaje->fd = new_sd;
 							personaje->respondio = 1;

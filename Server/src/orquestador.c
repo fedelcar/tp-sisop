@@ -384,13 +384,13 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		response = string_substring_from(response, sizeof("TNIVEL"));
 		char** split = string_split(response, COMA);
 		char* ressssponse = split[1];
-//		t_scheduler_queue *scheduler_queue = dictionary_get(levels_queues, split[1]);
-//		int i = 0;
-//		for(i = 0 ; i < list_size(scheduler_queue->pjList) ; i++){
-//			if(( (personaje_planificador*)list_get(scheduler_queue->pjList, i))->nombre == split[0]){
-//				list_remove(scheduler_queue->pjList, i);
-//			}
-//		}
+		t_scheduler_queue *scheduler_queue = dictionary_get(levels_queues, split[1]);
+		int i = 0;
+		for(i = 0 ; i < list_size(scheduler_queue->pjList) ; i++){
+			if(string_equals_ignore_case(split[0], ( (personaje_planificador*)list_get(scheduler_queue->pjList, i))->nombre)){
+				list_remove(scheduler_queue->pjList, i);
+			}
+		}
 
 	}
 	else if(string_starts_with(response, "Termine todo")){
@@ -398,18 +398,17 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		char* nivel;
 		t_scheduler_queue *scheduler;
 		int final = TRUE;
-
 		for(i = 0 ; i < list_size(niveles) ; i++){
-			nivel = list_take(niveles, i);
+			nivel = (char*) list_get(niveles, i);
 			scheduler = dictionary_get(levels_queues, nivel);
 			if(list_size(scheduler->pjList) > 0){
 				final = FALSE;
 			}
 		}
 		if(final == TRUE){
-			char * arg1   = "/home/utnso/Descargas/koopaa/koopa";
-			char * arg2[] = {"koopa", "/home/utnso/Descargas/koopaa/archivo.txt", NULL};
-			char * arg3[] = {"LD_LIBRARY_PATH=/home/utnso/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug:/home/utnso/git/tp-20131c-tp-so-1c2013/memoria/Debug", "TERM=xterm", NULL};
+			char * arg1   = "/home/lucas/koopa";
+			char * arg2[] = {"koopa", "/home/lucas/koopa/CasosKoopa.txt", NULL};
+			char * arg3[] = {"LD_LIBRARY_PATH=/home/lucas/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug:/home/utnso/git/tp-20131c-tp-so-1c2013/memoria/Debug", "TERM=xterm", NULL};
 			int ejecKoopa = execve(arg1, arg2, arg3);
 		}
 	}
