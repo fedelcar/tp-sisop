@@ -1,3 +1,4 @@
+
 /*
  * fileStructures.c
  *
@@ -24,8 +25,8 @@ typedef struct {
 	char *nombre;
 	t_dictionary *cajas;
 	char *orquestador;
-	char *tiempoChequeoDeadlock;
-	char *recovery;
+	int tiempoChequeoDeadlock;
+	int recovery;
 } t_level_config;
 
 typedef struct{
@@ -81,6 +82,7 @@ typedef struct{
 	int listen_sd;
 	fd_set *master_set;
 	t_list *pjList;
+	t_list *simbolos;
 }t_scheduler_queue;
 
 t_dictionary* getCharacters();
@@ -99,6 +101,6 @@ t_orquestador* getOrquestador(char* finalPath);
 
 t_character* getCharacter(char* finalPath);
 
-t_level_config* getLevel(char* finalPath);
+t_level_config* getLevel(char* finalPath, t_list *listaSimbolos);
 
 

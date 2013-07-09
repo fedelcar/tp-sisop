@@ -37,7 +37,7 @@
 #define CAJASMAXIMAS 3
 
 char* getFullKey(char *nivel, char *key);
-t_caja* getBox(t_config *configFile, int *boxNumber);
+t_caja* getBox(t_config *configFile, int *boxNumber, t_list *listaSimbolos);
 
 t_dictionary* getCharacters() {
 
@@ -275,74 +275,74 @@ t_level_attributes *getLevelAttributes() {
 	return level;
 }
 
-t_dictionary* getLevels() {
+//t_dictionary* getLevels() {
+//
+//	t_dictionary *level_dictionary = dictionary_create();
+//	t_config *configFile;
+//
+//	/* Variables */
+//	DIR *dirp;
+//	struct dirent *direntp;
+//
+//	/* Abrimos el directorio */
+//	dirp = opendir(directoryPathLevels);
+//	if (dirp == NULL ) {
+//		printf("Error: No se puede abrir el directorio\n");
+//		exit(2);
+//	}
+//
+//	char *finalPath = (char*) malloc(MAXSIZE);
+//	int box = 0;
+//	char *key = (char*) malloc(MAXSIZE);
+//
+//	/* Leemos las entradas del directorio */
+//	while ((direntp = readdir(dirp)) != NULL ) {
+//
+//		if (strlen(direntp->d_name) >= EXTENSIONLENGTH
+//				&& strcmp(
+//						direntp->d_name
+//								+ strlen(direntp->d_name) - EXTENSIONLENGTH,
+//						fileExtension) == 0) {
+//
+//			t_level_config *level_config = (t_level_config *) malloc(
+//					sizeof(t_level_config));
+//
+//			level_config->cajas = dictionary_create();
+//
+//			string_append(&finalPath, directoryPathLevels);
+//			string_append(&finalPath, "/");
+//			string_append(&finalPath, direntp->d_name);
+//
+//			configFile = config_create(finalPath);
+//
+//			level_config->nombre = config_get_string_value(configFile,
+//					"Nombre");
+//			level_config->orquestador = config_get_string_value(configFile,
+//					"orquestador");
+//			level_config->recovery = config_get_string_value(configFile,
+//					RECOVERY);
+//			level_config->tiempoChequeoDeadlock = config_get_string_value(
+//					configFile, TIEMPOCHEQUEODEADLOCK);
+//
+//			for (box = 1; box <= CAJASMAXIMAS; box++) {
+//				t_caja *caja = getBox(configFile, box, listaSimbolos);
+//				dictionary_put(level_config->cajas, caja->nombre, caja);
+//			}
+//
+//			dictionary_put(level_dictionary, level_config->nombre,
+//					level_config);
+//			box = 0;
+//			memset(finalPath, 0, sizeof(finalPath));
+//		}
+//	}
+//	free(finalPath);
+//	free(key);
+//	/* Cerramos el directorio */
+//	closedir(dirp);
+//	return level_dictionary;
+//}
 
-	t_dictionary *level_dictionary = dictionary_create();
-	t_config *configFile;
-
-	/* Variables */
-	DIR *dirp;
-	struct dirent *direntp;
-
-	/* Abrimos el directorio */
-	dirp = opendir(directoryPathLevels);
-	if (dirp == NULL ) {
-		printf("Error: No se puede abrir el directorio\n");
-		exit(2);
-	}
-
-	char *finalPath = (char*) malloc(MAXSIZE);
-	int box = 0;
-	char *key = (char*) malloc(MAXSIZE);
-
-	/* Leemos las entradas del directorio */
-	while ((direntp = readdir(dirp)) != NULL ) {
-
-		if (strlen(direntp->d_name) >= EXTENSIONLENGTH
-				&& strcmp(
-						direntp->d_name
-								+ strlen(direntp->d_name) - EXTENSIONLENGTH,
-						fileExtension) == 0) {
-
-			t_level_config *level_config = (t_level_config *) malloc(
-					sizeof(t_level_config));
-
-			level_config->cajas = dictionary_create();
-
-			string_append(&finalPath, directoryPathLevels);
-			string_append(&finalPath, "/");
-			string_append(&finalPath, direntp->d_name);
-
-			configFile = config_create(finalPath);
-
-			level_config->nombre = config_get_string_value(configFile,
-					"Nombre");
-			level_config->orquestador = config_get_string_value(configFile,
-					"orquestador");
-			level_config->recovery = config_get_string_value(configFile,
-					RECOVERY);
-			level_config->tiempoChequeoDeadlock = config_get_string_value(
-					configFile, TIEMPOCHEQUEODEADLOCK);
-
-			for (box = 1; box <= CAJASMAXIMAS; box++) {
-				t_caja *caja = getBox(configFile, box);
-				dictionary_put(level_config->cajas, caja->nombre, caja);
-			}
-
-			dictionary_put(level_dictionary, level_config->nombre,
-					level_config);
-			box = 0;
-			memset(finalPath, 0, sizeof(finalPath));
-		}
-	}
-	free(finalPath);
-	free(key);
-	/* Cerramos el directorio */
-	closedir(dirp);
-	return level_dictionary;
-}
-
-t_caja* getBox(t_config *configFile, int *boxNumber) {
+t_caja* getBox(t_config *configFile, int *boxNumber, t_list *listaSimbolos) {
 
 	char *msg = (char*) malloc(MAXSIZE);
 	sprintf(msg, "%d", boxNumber);
@@ -362,6 +362,8 @@ t_caja* getBox(t_config *configFile, int *boxNumber) {
 	caja->instancias = atoi(elementos[2]);
 	caja->posX = atoi(elementos[3]);
 	caja->posY = atoi(elementos[4]);
+
+	list_add(listaSimbolos, caja->simbolo);
 
 	free(elementos);
 	free(oneBox);
@@ -427,7 +429,7 @@ t_character * getCharacter(char* finalPath) {
 	return character_struct;
 }
 
-t_level_config* getLevel(char* finalPath) {
+t_level_config* getLevel(char* finalPath, t_list *listaSimbolos) {
 
 	t_config *configFile;
 
@@ -452,13 +454,13 @@ t_level_config* getLevel(char* finalPath) {
 	level_config->nombre = config_get_string_value(configFile, "Nombre");
 	level_config->orquestador = config_get_string_value(configFile,
 			"orquestador");
-	level_config->recovery = config_get_string_value(configFile, RECOVERY);
-	level_config->tiempoChequeoDeadlock = config_get_string_value(configFile,
-			TIEMPOCHEQUEODEADLOCK);
+	level_config->recovery = atoi(config_get_string_value(configFile, RECOVERY));
+	level_config->tiempoChequeoDeadlock = atoi(config_get_string_value(configFile,
+			TIEMPOCHEQUEODEADLOCK));
 
 	for (box = 1; box <= CAJASMAXIMAS; box++) {
-		t_caja *caja = getBox(configFile, box);
-		dictionary_put(level_config->cajas, caja->nombre, caja);
+		t_caja *caja = getBox(configFile, box, listaSimbolos);
+		dictionary_put(level_config->cajas, caja->simbolo, caja);
 	}
 
 	return level_config;
@@ -479,8 +481,10 @@ t_orquestador* getOrquestador(char* finalPath) {
 	configFile = config_create(finalPath);
 
 	orquestador->turnos = atoi(config_get_string_value(configFile, "turnos"));
-	orquestador->puerto = atoi(config_get_string_value(configFile, "orquestador"));
-	orquestador->intervalo = atoi(config_get_string_value(configFile, "intervalo"));
+	orquestador->puerto = atoi(
+			config_get_string_value(configFile, "orquestador"));
+	orquestador->intervalo = atoi(
+			config_get_string_value(configFile, "intervalo"));
 	orquestador->argumento1 = config_get_string_value(configFile, "argumento1");
 	orquestador->argumento2 = config_get_string_value(configFile, "argumento2");
 	orquestador->argumento3 = config_get_string_value(configFile, "argumento2");
