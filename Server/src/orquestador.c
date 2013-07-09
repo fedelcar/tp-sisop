@@ -53,7 +53,7 @@ char* stringRecursos(t_list *simbolos, t_dictionary *recursosDisponibles);
 void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		t_dictionary *levels_queues, fd_set *socks,
 		t_orquestador *orquestador_config, char* path, t_list *niveles);
-void giveResource(t_scheduler_queue *queues, int *recurso,
+int giveResource(t_scheduler_queue *queues, int *recurso,
 		blocked_character *blockedCharacter);
 //void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues, fd_set *socks);
 void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues,
@@ -355,10 +355,20 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 						queues->blocked_queue);
 
 				for (k = 0; k < list_size(queues->simbolos); k++) {
-					giveResource(queues,
-							dictionary_get(recursosDisponibles,
-									list_get(queues->simbolos, k)),
-							blockedCharacter);
+					if (blockedCharacter->recurso
+							== ((char*) list_get(queues->simbolos, k))[0]) {
+
+						if (giveResource(queues,
+								dictionary_get(recursosDisponibles,
+										list_get(queues->simbolos, k)),
+								blockedCharacter) == 1) {
+							queue_push(queues->character_queue,
+									blockedCharacter->personaje);
+						} else {
+							queue_push(queues->blocked_queue,
+									blockedCharacter->personaje);
+						}
+					}
 				}
 				k = 0;
 			}
@@ -370,7 +380,8 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 
 		int fdNivel = openSocketClient(levelSocket[1], levelSocket[0]);
 
-		sendMessage(fdNivel, stringRecursos(queues->simbolos, recursosDisponibles));
+		sendMessage(fdNivel,
+				stringRecursos(queues->simbolos, recursosDisponibles));
 
 		free(data);
 
@@ -398,6 +409,17 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		t_scheduler_queue *scheduler_queue = dictionary_get(levels_queues,
 				split[1]);
 		int i = 0;
+		for (i = 0; i < queue_size(scheduler_queue->blocked_queue); i++) {
+			blocked_character *blockedCharacter = queue_pop(
+					scheduler_queue->blocked_queue);
+			if (!string_equals_ignore_case(split[0],
+					blockedCharacter->personaje->nombre)) {
+				queue_push(scheduler_queue->blocked_queue, blockedCharacter);
+			}
+		}
+
+		i = 0;
+
 		for (i = 0; i < list_size(scheduler_queue->pjList); i++) {
 			if (string_equals_ignore_case(split[0],
 					((personaje_planificador*) list_get(scheduler_queue->pjList,
@@ -419,11 +441,11 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 			}
 		}
 		if (final == TRUE) {
-			char * arg1 = orquestador_config->argumento1;
-			char * arg2[] = { "koopa", orquestador_config->argumento2, NULL };
-			char * arg3[] =
-					{ orquestador_config->argumento3, "TERM=xterm", NULL };
-			int ejecKoopa = execve(arg1, arg2, arg3);
+			printf("KOOPA");
+//			char * arg1 = orquestador_config->argumento1;
+//			char * arg2[] = { "koopa", orquestador_config->argumento2, NULL };
+//			char * arg3[] = { orquestador_config->argumento3, "TERM=xterm", NULL };
+//			int ejecKoopa = execve(arg1, arg2, arg3);
 		}
 	}
 
@@ -431,14 +453,16 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 
 }
 
-void giveResource(t_scheduler_queue *queues, int *recurso,
+int giveResource(t_scheduler_queue *queues, int *recurso,
 		blocked_character *blockedCharacter) {
 	if (recurso > 0) {
 		int value = recurso;
 		recurso = value - 1;
-		queue_push(queues->character_queue, blockedCharacter->personaje);
+		return 1;
+//		queue_push(queues->character_queue, blockedCharacter->personaje);
 	} else {
-		queue_push(queues->blocked_queue, blockedCharacter->personaje);
+		return 0;
+//		queue_push(queues->blocked_queue, blockedCharacter->personaje);
 	}
 }
 
@@ -503,7 +527,7 @@ int *generateSocket(int* portInt, int *scheduler_port) {
 	return listen_sd;
 }
 
-char* stringRecursos(t_list *simbolos, t_dictionary *recursosDisponibles){
+char* stringRecursos(t_list *simbolos, t_dictionary *recursosDisponibles) {
 
 	char* stringRecursos = (char*) malloc(MAXSIZE);
 
@@ -514,8 +538,11 @@ char* stringRecursos(t_list *simbolos, t_dictionary *recursosDisponibles){
 	int a = 0;
 	char* b;
 
-	for(k = 0 ; k < list_size(simbolos) ; k++){
-		string_append(&stringRecursos, string_from_format("%s:%d,",list_get(simbolos, k),dictionary_get(recursosDisponibles, list_get(simbolos, k))));
+	for (k = 0; k < list_size(simbolos); k++) {
+		string_append(&stringRecursos,
+				string_from_format("%s:%d,", list_get(simbolos, k),
+						dictionary_get(recursosDisponibles,
+								list_get(simbolos, k))));
 	}
 
 	return stringRecursos;
