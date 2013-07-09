@@ -76,7 +76,6 @@ void muerePersonaje(t_Nivel* nivel, t_link_element** pRecursoActual,
 void term(int signum);
 void sum(int signum);
 
-
 int main(int argc, char **argv) {
 
 	log = log_create("/home/lucas/log.txt", "Personaje", 1, LOG_LEVEL_DEBUG);
@@ -119,8 +118,6 @@ int main(int argc, char **argv) {
 	personaje = getCharacter(argv[1]);
 //		personaje = getCharacter("/home/tp/config/personajes/personaje1.config");
 
-
-
 //	personaje = getCharacter("/home/tp/config/personajes/personaje1.config");
 	log_debug(log, personaje->nombre);
 	ipOrquestador = extraerIp(personaje->orquestador);
@@ -157,7 +154,6 @@ int main(int argc, char **argv) {
 		inicializarNivel(nivel, miPos, posRec, &pRecursoActual, &bloqueado,
 				personaje);
 
-		sendMessage(sockfdPlanif, personaje->nombre);
 		vivo = TRUE;
 
 		while (vivo) { //Comienzo Nivel
@@ -216,7 +212,7 @@ int main(int argc, char **argv) {
 					log_debug(log, mensajeBloqueado);
 					free(mensajeBloqueado);
 
-					bloqueado = TRUE;
+//					bloqueado = TRUE;
 
 					/**********************************************************/
 					/* Copy the master fd_set over to the working fd_set.     */
@@ -286,8 +282,6 @@ int main(int argc, char **argv) {
 
 		close(nivel->sockfdNivel);
 		log_debug(log, "Me desconecto con el Nivel");
-
-		sendMessage(sockfdPlanif, TERMINE_NIVEL);
 
 		close(sockfdPlanif);
 		log_debug(log, "Me desconecto con el Planificador");
@@ -436,7 +430,6 @@ bool sonPosicionesIguales(t_posicion* pos1, t_posicion* pos2) {
 
 void muerePersonaje(t_Nivel* nivel, t_link_element** pRecursoActual,
 		t_character* personaje) {
-	log_debug(log, nivel->pNivelActual->data);
 
 	if ((vidas--) == 0) {
 		nivel->pNivelActual = ((personaje->planDeNiveles)->head);
@@ -497,13 +490,19 @@ int conectarseAlNivelActual(t_Nivel* nivel, int sockfdOrquestador,
 		//Envio mi simbolo al nivel
 		mensaje2 = string_from_format("START:Simbolo:%s|%s|",
 				personaje->simbolo, personaje->nombre);
-		if (string_equals_ignore_case(sendMessage(nivel->sockfdNivel, mensaje2), "BROKEN")){
+		if (string_equals_ignore_case(sendMessage(nivel->sockfdNivel, mensaje2),
+				"BROKEN")) {
 			log_debug(log, "BROKEN");
 			return 0;
 		}
 		log_debug(log, mensaje2);
 
 		recieveMessage(nivel->sockfdNivel);
+
+//		Le envio mi nombre al Planificador
+		sendMessage(*sockfdPlanif, personaje->nombre);
+		log_debug(log, personaje->nombre);
+
 	}
 
 	free(ipPlanificador);
