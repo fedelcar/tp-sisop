@@ -104,13 +104,14 @@ void restarRecursos(t_posicion* posicion, ITEM_NIVEL* listaItems, int* sockfd,
 	if (evaluarPosicion(posicion, listaItems) == 1) {
 		if (listaItems->quantity > 0) {
 			msjMovimiento = string_from_format("%s", CONFIRMACION);
+			restarRecurso(listaItems, listaItems->id);
+			pasarLista(recursos, recurso);
 
 		} else {
 			msjMovimiento = string_from_format("%s", RECHAZO);
 			resources->recursoBloqueado = recurso;
 		}
-		restarRecurso(listaItems, listaItems->id);
-		pasarLista(recursos, recurso);
+
 	}
 
 	if (string_equals_ignore_case(msjMovimiento, "EMPTY")) {
