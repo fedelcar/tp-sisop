@@ -260,6 +260,7 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 			string_append(&socketsToGo,
 					((t_level_address*) (dictionary_get(levelsMap,
 							(string_split(response, PIPE))[0])))->nivel);
+			string_append(&socketsToGo, COMA);
 			sendMessage(fd, socketsToGo);
 		}
 		FD_CLR(fd, socks);
