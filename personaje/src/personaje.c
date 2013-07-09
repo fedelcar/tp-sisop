@@ -62,7 +62,6 @@ char* extraerIp(char* direccion);
 char* extraerPuerto(char* direccion);
 t_posicion stringToPosicion(char* buffer);
 t_posicion calcularMovimiento(t_posicion* miPos, t_posicion* posRec);
-//bool termineNivel(t_link_element* recursosNivel, int cantRecAcum);
 char* posicionToString(t_posicion* miPos);
 t_posicion setPosicion(int x, int y);
 bool sonPosicionesIguales(t_posicion* pos1, t_posicion* pos2);
@@ -77,7 +76,8 @@ void muerePersonaje(t_Nivel* nivel, t_link_element** pRecursoActual,
 void term(int signum);
 void sum(int signum);
 
-int main(char* character) {
+
+int main(int argc, char **argv) {
 
 	log = log_create("/home/lucas/log.txt", "Personaje", 1, LOG_LEVEL_DEBUG);
 //---------- Inicializar Punteros ------------
@@ -115,7 +115,13 @@ int main(char* character) {
 //	---------------------------------------------
 
 //	cargo archivo de config
-	personaje = getCharacter("/home/tp/config/personajes/personaje1.config");
+
+	personaje = getCharacter(argv[1]);
+//		personaje = getCharacter("/home/tp/config/personajes/personaje1.config");
+
+
+
+//	personaje = getCharacter("/home/tp/config/personajes/personaje1.config");
 	log_debug(log, personaje->nombre);
 	ipOrquestador = extraerIp(personaje->orquestador);
 	puertoOrquestador = extraerPuerto(personaje->orquestador);
@@ -280,6 +286,8 @@ int main(char* character) {
 
 		close(nivel->sockfdNivel);
 		log_debug(log, "Me desconecto con el Nivel");
+
+		sendMessage(sockfdPlanif, TERMINE_NIVEL);
 
 		close(sockfdPlanif);
 		log_debug(log, "Me desconecto con el Planificador");
@@ -447,6 +455,7 @@ int conectarseAlNivelActual(t_Nivel* nivel, int sockfdOrquestador,
 	char* puertoNivel = (char*) malloc(MAXSIZE);
 	char* mensaje2 = (char*) malloc(MAXSIZE);
 	char* buff2 = (char*) malloc(MAXSIZE);
+	int sockNivel;
 
 	//Pedir direccion de planificador y nivel
 	mensaje2 = string_from_format("LVL,%s", nivel->pNivelActual->data);
@@ -471,11 +480,9 @@ int conectarseAlNivelActual(t_Nivel* nivel, int sockfdOrquestador,
 		ipNivel = extraerIpNivel(buff2);
 		puertoPlanificador = extraerPuertoPlanificador(buff2);
 		puertoNivel = extraerPuertoNivel(buff2);
-//
-//		memset(nivel->sockfdNivel,0,sizeof(nivel->sockfdNivel));
-//		memset(*sockfdPlanif,0,sizeof(*sockfdPlanif));
 
 		nivel->sockfdNivel = openSocketClient(puertoNivel, ipNivel);
+
 		mensaje2 = string_from_format(
 				"Me conecto con el Nivel. IP:%s Puerto:%s", ipNivel,
 				puertoNivel);
