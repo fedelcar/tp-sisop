@@ -50,15 +50,16 @@
 #define TIEMPOCHEQUEODEADLOCK "TiempoChequeoDeadlock"
 
 //void openListener(char* argv, queue_n_locks *queue);
-void agregarRecursos(char* buffer, ITEM_NIVEL *listaItems);
+void agregarRecursos(t_dictionary *recursosAt, ITEM_NIVEL *listaItems, t_list *listasSimbolos);
 void saveList(resource_struct *resourceStruct, t_list *threads);
 void deteccionInterbloqueo(deadlock_struct *deadlockStruct);
 void analize_response(int fd, t_list *threads, t_level_config *nivel,
 		ITEM_NIVEL *listaItems, t_dictionary *listaPersonajes, int rows,
-		int cols, fd_set *master_set, int socketOrquestador);
+		int cols, fd_set *master_set, int socketOrquestador, t_list *listaSimbolos);
 resource_struct *getLevelStructure(t_level_config *level_config, int *fd);
+void agregarRecursosOrquestador(char *bufferSocket, ITEM_NIVEL *listaItems, t_list *listaSimbolos);
 
-ITEM_NIVEL* cambiarEstructura(t_level_config* levelConfig);
+ITEM_NIVEL* cambiarEstructura(t_level_config* levelConfig, t_list *listaSimbolos);
 
 int id;
 
@@ -66,11 +67,13 @@ int main(int argc, char **argv) {
 
 	id = 0;
 
+	t_list *listaSimbolos = list_create();
+
 	t_level_config *nivel = (t_level_config*) malloc(sizeof(t_level_config));
 
 	char* path = "/home/tp/config/niveles/nivel1.config";
 
-	nivel = getLevel(path); //argv[0]
+	nivel = getLevel(path, listaSimbolos); //argv[0]
 
 	//Creo el thread nesesario para el inotify
 
@@ -90,7 +93,7 @@ int main(int argc, char **argv) {
 
 
 
-	ITEM_NIVEL *listaItems = cambiarEstructura(nivel);
+	ITEM_NIVEL *listaItems = cambiarEstructura(nivel, listaSimbolos);
 
 	t_dictionary *listaPersonajes = dictionary_create();
 
@@ -109,9 +112,9 @@ int main(int argc, char **argv) {
 	rows = (int*) 10;
 	cols = (int*) 10;
 
-	//nivel_gui_inicializar();
+	nivel_gui_inicializar();
 
-	//nivel_gui_get_area_nivel(&rows, &cols);
+	nivel_gui_get_area_nivel(&rows, &cols);
 
 	int j, len, rc, on = 1;
 	int listen_sd, max_sd, new_sd;
@@ -194,10 +197,23 @@ int main(int argc, char **argv) {
 
 	struct sockaddr_in *s = (struct sockaddr_in *) &addr;
 
-	sendMessage(socketOrquestador,
-			string_from_format("NEWLVL,%d,%s,", ntohs(s->sin_port),
-					nivel->nombre));
+	char *simbolos = (char*) malloc(MAXSIZE);
 
+	int k = 0;
+
+	simbolos = string_from_format("%d:", list_size(listaSimbolos));
+
+	for(k = 0 ; k < list_size(listaSimbolos) ; k++){
+		string_append(&simbolos, string_from_format("%s:", list_get(listaSimbolos, k)));
+
+	}
+
+
+	sendMessage(socketOrquestador,
+			string_from_format("NEWLVL,%d,%s,%s,", ntohs(s->sin_port),
+					nivel->nombre, simbolos));
+
+	free(simbolos);
 
 	pthread_t detectionThread;
 
@@ -209,7 +225,7 @@ int main(int argc, char **argv) {
 	deadlockStruct->socket = socketOrquestador;
 	deadlockStruct->puerto = portForLevel;
 	deadlockStruct->recovery = nivel->recovery;
-	deadlockStruct->checkDeadlock = &(nivel->tiempoChequeoDeadlock);
+	deadlockStruct->checkDeadlock = nivel->tiempoChequeoDeadlock;
 	deadlockStruct->path = "/home/tp/config/niveles/nivel1.config"; //argv[0]
 
 	pthread_create(&detectionThread, NULL, (void*) deteccionInterbloqueo,
@@ -357,7 +373,7 @@ int main(int argc, char **argv) {
 					/**********************************************/
 					analize_response(j, threads, nivel, listaItems,
 							listaPersonajes, rows, cols, &master_set,
-							socketOrquestador);
+							socketOrquestador, listaSimbolos);
 					//	                  rc = send(i, buffer, len, 0);
 					//	                  if (rc < 0)
 					//	                  {
@@ -393,7 +409,7 @@ int main(int argc, char **argv) {
 
 void analize_response(int fd, t_list *threads, t_level_config *nivel,
 		ITEM_NIVEL *listaItems, t_dictionary *listaPersonajes, int rows,
-		int cols, fd_set *master_set, int socketOrquestador) {
+		int cols, fd_set *master_set, int socketOrquestador, t_list *listaSimbolos) {
 
 	char* bufferSocket = (char*) malloc(MAXSIZE);
 	memset(bufferSocket, 0, sizeof(bufferSocket));
@@ -402,11 +418,7 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 		if (dictionary_has_key(listaPersonajes, string_from_format("%d", fd))) {
 			resource_struct *personajeABorrar = dictionary_get(listaPersonajes,
 					string_from_format("%d", fd));
-			agregarRecursos(
-					string_from_format("RSC,%d,%d,%d",
-							personajeABorrar->recursosAt->F,
-							personajeABorrar->recursosAt->M,
-							personajeABorrar->recursosAt->H), listaItems);
+			agregarRecursos(personajeABorrar->recursosAt, listaItems, listaSimbolos);
 			nivel_gui_dibujar(listaItems);
 			dictionary_remove(listaPersonajes, string_from_format("%d", fd));
 			free(personajeABorrar);
@@ -419,11 +431,13 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 		bufferSocket = string_substring_from(bufferSocket, sizeof(START));
 		bufferSocket = string_substring_from(bufferSocket, sizeof(SIMBOLO));
 		char** split = string_split(bufferSocket, PIPE);
-		recursos_otorgados * recursosAt = (recursos_otorgados*) malloc(
-				sizeof(recursos_otorgados));
-		recursosAt->F = 0;
-		recursosAt->H = 0;
-		recursosAt->M = 0;
+		t_dictionary *recursosAt = dictionary_create();
+
+		int i = 0;
+
+		for(i = 0 ; i < list_size(listaSimbolos) ; i++){
+			dictionary_put(recursosAt, list_get(listaSimbolos, i), 0);
+		}
 
 		resource_struct *resourceStruct = getLevelStructure(nivel, fd);
 
@@ -453,14 +467,14 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 
 		id++;
 	} else if (string_starts_with(bufferSocket, RESOURCES)) {
-		agregarRecursos(bufferSocket, listaItems);
+		agregarRecursosOrquestador(bufferSocket, listaItems, listaSimbolos);
 		nivel_gui_dibujar(listaItems);
 	} else if (string_starts_with(bufferSocket, MOVIMIENTO)) {
 		bufferSocket = string_substring_from(bufferSocket, sizeof(MOVIMIENTO));
 		resource_struct *personaje = (resource_struct*) dictionary_get(
 				listaPersonajes, string_from_format("%d", fd));
 		movimientoPersonaje(personaje, rows, cols, bufferSocket, master_set, fd,
-				socketOrquestador);
+				socketOrquestador, listaSimbolos);
 	} else if (string_starts_with(bufferSocket, DEATH)){
 		bufferSocket = string_substring_from(bufferSocket, sizeof(DEATH));
 		char** split = string_split(bufferSocket, COMA);
@@ -471,24 +485,17 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 
 //TODO PENDIENTE BORRAR ITEMS
 
-void agregarRecursos(char* buffer, ITEM_NIVEL *listaItems) {
-
-	buffer = string_substring_from(buffer, sizeof(RESOURCES));
-
-	char** data = string_split(buffer, COMA);
+void agregarRecursos(t_dictionary *recursosAt, ITEM_NIVEL *listaItems, t_list *listaSimbolos) {
 
 	ITEM_NIVEL* temp;
 
-	temp = buscarRecurso(listaItems, 'F');
-	temp->quantity = temp->quantity + atoi(data[0]);
+	int i = 0;
 
-	temp = buscarRecurso(listaItems, 'M');
-	temp->quantity = temp->quantity + atoi(data[1]);
+	for(i = 0 ; i < list_size(listaSimbolos) ; i++){
+		temp = buscarRecurso(listaItems, ((char*) list_get(listaSimbolos, i))[0]);
+		temp->quantity = temp->quantity + (int) dictionary_get(recursosAt, list_get(listaSimbolos, i));
+	}
 
-	temp = buscarRecurso(listaItems, 'H');
-	temp->quantity = temp->quantity + atoi(data[2]);
-
-	free(data);
 }
 
 void openListener(char* mensaje, queue_n_locks *queue) {
@@ -526,31 +533,22 @@ resource_struct *getLevelStructure(t_level_config *level_config, int *fd) {
 	return resources;
 }
 
-ITEM_NIVEL* cambiarEstructura(t_level_config* levelConfig) {
+ITEM_NIVEL* cambiarEstructura(t_level_config* levelConfig, t_list *listaSimbolos) {
 
-	char simbolo;
+
 	ITEM_NIVEL* listaItems = (ITEM_NIVEL*) malloc(sizeof(ITEM_NIVEL));
 	listaItems = NULL;
 
-	if (dictionary_has_key(levelConfig->cajas, FLOR)) {
-		t_caja *caja = dictionary_get(levelConfig->cajas, FLOR);
-		simbolo = 'F';
-		CrearCaja(&listaItems, simbolo, (int) caja->posX, (int) caja->posY,
-				(int) caja->instancias);
-	}
+	int i = 0;
 
-	if (dictionary_has_key(levelConfig->cajas, MONEDA)) {
-		t_caja *caja = dictionary_get(levelConfig->cajas, MONEDA);
-		simbolo = 'M';
-		CrearCaja(&listaItems, simbolo, (int) caja->posX, (int) caja->posY,
-				(int) caja->instancias);
-	}
+	for(i = 0 ; i < list_size(listaSimbolos) ; i++){
 
-	if (dictionary_has_key(levelConfig->cajas, HONGO)) {
-		t_caja *caja = dictionary_get(levelConfig->cajas, HONGO);
-		simbolo = 'H';
-		CrearCaja(&listaItems, simbolo, (int) caja->posX, (int) caja->posY,
-				(int) caja->instancias);
+		if (dictionary_has_key(levelConfig->cajas, list_get(listaSimbolos, i))) {
+			t_caja *caja = dictionary_get(levelConfig->cajas, list_get(listaSimbolos, i));
+			CrearCaja(&listaItems, ((char*) list_get(listaSimbolos, i))[0], (int) caja->posX, (int) caja->posY,
+					(int) caja->instancias);
+		}
+
 	}
 
 	return listaItems;
@@ -570,13 +568,13 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 	t_list *deadlockList;
 	while (1) {
 
-		sleep(*(deadlockStruct->checkDeadlock)); //levantar de archivo de configuracion, inotify
+		sleep(deadlockStruct->checkDeadlock); //levantar de archivo de configuracion, inotify
 
 		deadlockList = detectionAlgorithm(deadlockStruct->items,
 				deadlockStruct->list);
 
 		if (list_size(deadlockList) > 1
-				&& atoi(deadlockStruct->recovery) == 1) {
+				&& deadlockStruct->recovery == 1) {
 
 			deadlockMessage = string_from_format("DEADLOCK,%d,",
 					list_size(deadlockList));
@@ -609,7 +607,7 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 			}
 
 		} else if (list_size(deadlockList) > 1
-				&& atoi(deadlockStruct->recovery) == 0) {
+				&& deadlockStruct->recovery == 0) {
 			printf("DEADLOCK\n");
 			printf("DEADLOCK\n");
 			printf("DEADLOCK\n");
@@ -630,14 +628,37 @@ void saveList(resource_struct *resourceStruct, t_list *threads) {
 
 	datos_personaje *datos = (datos_personaje*) malloc(sizeof(datos_personaje));
 
-	datos->F = &(resourceStruct->recursosAt->F);
-	datos->H = &(resourceStruct->recursosAt->H);
-	datos->M = &(resourceStruct->recursosAt->M);
+	datos->recursosAt = resourceStruct->recursosAt;
 	datos->recurso = &(resourceStruct->recursoBloqueado);
 	datos->id = id;
 	datos->fd = &resourceStruct->fd;
 	datos->nombre = resourceStruct->nombre;
 
 	list_add(threads, datos);
+
+}
+
+void agregarRecursosOrquestador(char *bufferSocket, ITEM_NIVEL *listaItems, t_list *listaSimbolos){
+
+	bufferSocket = string_substring_from(bufferSocket, sizeof(RESOURCES));
+
+	char** data = (char*) malloc(MAXSIZE);
+
+	data = string_split(bufferSocket, COMA);
+
+	char** simbolos;
+
+	int j = 0;
+
+	t_dictionary *recursosDisponibles = dictionary_create();
+
+	for (j = 0; j < list_size(listaSimbolos); j++) {
+		simbolos = string_split(data[j], DOSPUNTOS);
+		dictionary_put(recursosDisponibles, simbolos[0], atoi(simbolos[1]));
+	}
+
+	agregarRecursos(recursosDisponibles, listaItems, listaSimbolos);
+
+	free(recursosDisponibles);
 
 }

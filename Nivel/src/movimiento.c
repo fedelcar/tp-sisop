@@ -23,7 +23,7 @@
 #define FREERESC "FREERESC,"
 #define PIPE "|"
 
-char* endingString(recursos_otorgados * recursosAt, char* nivel);
+char* endingString(t_dictionary * recursosAt, char* nivel, t_list *listaSimbolos);
 
 mensaje_t* interpretarMensaje(char* mensaje) {
 
@@ -80,22 +80,20 @@ int evaluarPosicion(t_posicion* posicion, ITEM_NIVEL *item) {
 	}
 }
 
-void pasarLista(recursos_otorgados*recursos, char recurso){
-	switch (recurso){
-	case 'H':
-		recursos->H++;
-		break;
-	case 'F':
-		recursos->F++;
-		break;
-	case 'M':
-		recursos->M++;
-		break;
-	}
+void pasarLista(t_dictionary *recursos, char recurso){
+
+	int cantidad = dictionary_get(recursos, &recurso);
+
+	dictionary_remove(recursos, &recurso);
+
+	cantidad = cantidad + 1;
+
+	dictionary_put(recursos, &recurso, cantidad);
+
 }
 
 void restarRecursos(t_posicion* posicion, ITEM_NIVEL* listaItems, int* sockfd,
-		char recurso, recursos_otorgados* recursos, resource_struct* resources) {
+		char recurso, t_dictionary* recursos, resource_struct* resources) {
 
 	char* msjMovimiento = (char*) malloc(MAXSIZE);
 	msjMovimiento = EMPTYSTRING;
@@ -132,23 +130,22 @@ ITEM_NIVEL* buscarRecurso(ITEM_NIVEL* listaItems, char recurso){
 	return listaItems;
 }
 
-void restaurarRecursos(recursos_otorgados* recursos, ITEM_NIVEL* listaItems){
+void restaurarRecursos(t_dictionary *recursosAt, ITEM_NIVEL* listaItems, t_list *listaSimbolos){
+
 	ITEM_NIVEL* temp;
 
-	temp = buscarRecurso(listaItems, 'H');
-	temp->quantity= temp->quantity + recursos->H;
+	int i = 0;
 
-	temp = buscarRecurso(listaItems, 'F');
-	temp->quantity= temp->quantity + recursos->F;
-
-	temp = buscarRecurso(listaItems, 'M');
-	temp->quantity= temp->quantity + recursos->M;
+	for(i = 0 ; i < list_size(listaSimbolos) ; i++){
+		temp = buscarRecurso(listaItems, list_get(listaSimbolos, i));
+		temp->quantity = temp->quantity + (int) dictionary_get(recursosAt, list_get(listaSimbolos, i));
+	}
 
 }
 
 
 //Funcion Principal
-void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* mensaje, fd_set *master_set, int fileDescriptorPj, int socketOrquestador) {
+void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* mensaje, fd_set *master_set, int fileDescriptorPj, int socketOrquestador, t_list *listaSimbolos) {
 
 	ITEM_NIVEL* listaItems = resources->listaItems;
 
@@ -174,13 +171,8 @@ void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* m
 			char** socket = (char*) malloc(MAXSIZE);
 			socket = string_split(resources->level_config->orquestador, DOSPUNTOS);
 			fileDescriptor = openSocketClient(socket[1], socket[0]);
-			char* mensaje = endingString(resources->recursosAt, resources->level_config->nombre);
+			char* mensaje = endingString(resources->recursosAt, resources->level_config->nombre, listaSimbolos);
 			sendMessage(fileDescriptor, mensaje);
-//			mensaje = recieveMessage(fileDescriptor);
-//			if (string_equals_ignore_case(mensaje, OKEY)) {
-//				restaurarRecursos(resources->recursosAt, listaItems);
-//				nivel_gui_dibujar(listaItems);
-//			}
 			BorrarItem(&listaItems, resources->simbolo);
 			FD_CLR(fileDescriptorPj, master_set);
 			free(mensaje);
@@ -224,7 +216,7 @@ void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* m
 }
 
 
-char* endingString(recursos_otorgados *recursosAt, char* nivel){
+char* endingString(t_dictionary *recursosAt, char* nivel, t_list *listaSimbolos){
 
 	char* lastString = (char*) malloc(MAXSIZE);
 
@@ -234,9 +226,17 @@ char* endingString(recursos_otorgados *recursosAt, char* nivel){
 
 	string_append(&lastString, FREERESC);
 
-	string_append(&lastString, nivel);
+	string_append(&lastString, string_from_format("%s," ,nivel));
 
-	string_append(&lastString, string_from_format(",%d,%d,%d,", recursosAt->F, recursosAt->M, recursosAt->H));
+//	char *recursos = (char*) malloc(MAXSIZE);
+
+	int k = 0;
+
+	for(k = 0 ; k < list_size(listaSimbolos) ; k++){
+
+		string_append(&lastString, string_from_format("%s:%d,",list_get(listaSimbolos, k), dictionary_get(recursosAt, list_get(listaSimbolos, k)) ));
+
+	}
 
 	return lastString;
 }

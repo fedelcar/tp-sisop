@@ -25,7 +25,7 @@ typedef struct {
 	int id;
 	t_level_config *level_config;
 	ITEM_NIVEL * listaItems;
-	recursos_otorgados *recursosAt;
+	t_dictionary *recursosAt;
 	char recursoBloqueado;
 	int *fd;
 	char simbolo;
@@ -37,9 +37,7 @@ typedef struct {
 typedef struct {
 	int id;
 	pthread_t *thread;
-	int *F;
-	int *H;
-	int *M;
+	t_dictionary *recursosAt;
 	char *recurso;
 	int *fd;
 	char *nombre;
@@ -49,8 +47,8 @@ typedef struct {
 	t_list *list;
 	ITEM_NIVEL *items;
 	int socket;
-	int *recovery;
-	int* checkDeadlock;
+	int recovery;
+	int checkDeadlock;
 	char *path;
 	int puerto;
 }deadlock_struct;
