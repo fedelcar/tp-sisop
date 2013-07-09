@@ -68,7 +68,7 @@ t_posicion setPosicion(int x, int y);
 bool sonPosicionesIguales(t_posicion* pos1, t_posicion* pos2);
 void pedirPosicionRecurso(t_Nivel* nivel, t_posicion* posRec,
 		t_link_element* pRecursoActual);
-int conectarseAlNivelActual(t_Nivel* nivel, int* sockfdOrquestador,
+int conectarseAlNivelActual(t_Nivel* nivel, int sockfdOrquestador,
 		int* sockfdPlanif, t_character* personaje);
 void inicializarNivel(t_Nivel* nivel, t_posicion* miPos, t_posicion* posRec,
 		t_link_element** pRecursoActual, int* bloqueado, t_character* personaje);
@@ -471,9 +471,9 @@ int conectarseAlNivelActual(t_Nivel* nivel, int sockfdOrquestador,
 		ipNivel = extraerIpNivel(buff2);
 		puertoPlanificador = extraerPuertoPlanificador(buff2);
 		puertoNivel = extraerPuertoNivel(buff2);
-
-		memset(nivel->sockfdNivel,0,sizeof(nivel->sockfdNivel));
-		memset(*sockfdPlanif,0,sizeof(*sockfdPlanif));
+//
+//		memset(nivel->sockfdNivel,0,sizeof(nivel->sockfdNivel));
+//		memset(*sockfdPlanif,0,sizeof(*sockfdPlanif));
 
 		nivel->sockfdNivel = openSocketClient(puertoNivel, ipNivel);
 		mensaje2 = string_from_format(
