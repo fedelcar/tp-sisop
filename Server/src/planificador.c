@@ -31,7 +31,7 @@
 #include <netinet/in.h>
 
 //TODO CHANGE SIGNALS VALUES AND RESPONSE LENGTH
-#define SIGNAL_OK "OK"
+#define SIGNAL_OK "ok"
 #define SIGNAL_BLOCKED "BLOCKED"
 #define MAXDATASIZE 1024
 #define MAXSIZE 1024
@@ -86,6 +86,8 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 
 			response = recieveMessage(personaje->fd);
 
+			printf(response);
+
 			if (string_starts_with(response, BROKEN)) {
 				break;
 			}
@@ -98,7 +100,7 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 			free(response);
 			turno++;
 		}
-		if (string_equals_ignore_case(response, SIGNAL_OK) && breakIt == 0) {
+		if (string_starts_with(response, SIGNAL_OK) && breakIt == 0) {
 			queue_push(scheduler_queue->character_queue, personaje);
 		}
 	}
@@ -274,7 +276,7 @@ void analize_response(char *response, t_scheduler_queue *scheduler_queue,
 		queue_push(scheduler_queue->blocked_queue, blockedCharacter);
 	} else if (string_equals_ignore_case(response, TERMINE_NIVEL)) {
 		close(personaje->fd);
-	} else if (string_equals_ignore_case(response, PEDIR)) {
+	} else if (string_starts_with(response, PEDIR)) {
 		*breakIt = TRUE;
 		queue_push(scheduler_queue->character_queue, personaje);
 	}
