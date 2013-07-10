@@ -8,6 +8,7 @@
 #include <uncommons/SocketsBasic.h>
 #include "nivelBase.h"
 #include <uncommons/SocketsCliente.h>
+#include <commons/log.h>
 
 #define BROKEN "BROKEN"
 #define DOSPUNTOS ":"
@@ -22,6 +23,8 @@
 #define OKEY "ok"
 #define FREERESC "FREERESC,"
 #define PIPE "|"
+
+t_log* log;
 
 char* endingString(t_dictionary * recursosAt, char* nivel, t_list *listaSimbolos);
 
@@ -146,7 +149,9 @@ void restaurarRecursos(t_dictionary *recursosAt, ITEM_NIVEL* listaItems, t_list 
 
 
 //Funcion Principal
-void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* mensaje, fd_set *master_set, int fileDescriptorPj, int socketOrquestador, t_list *listaSimbolos) {
+void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* mensaje, fd_set *master_set, int fileDescriptorPj, int socketOrquestador, t_list *listaSimbolos, t_log* logEntrante) {
+
+	log = logEntrante;
 
 	ITEM_NIVEL* listaItems = resources->listaItems;
 

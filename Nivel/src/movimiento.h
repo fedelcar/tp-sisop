@@ -6,5 +6,7 @@
  *      Author: lucas
  */
 
-void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* mensaje, fd_set *master_set, int fileDescriptorPj, int socketOrquestador, t_list *listaSimbolos);
+#include <commons/log.h>
+
+void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* mensaje, fd_set *master_set, int fileDescriptorPj, int socketOrquestador, t_list *listaSimbolos, t_log* logEntrante);
 

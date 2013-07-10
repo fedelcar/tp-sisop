@@ -62,8 +62,11 @@ void agregarRecursosOrquestador(char *bufferSocket, ITEM_NIVEL *listaItems, t_li
 ITEM_NIVEL* cambiarEstructura(t_level_config* levelConfig, t_list *listaSimbolos);
 
 int id;
+t_log* log;
 
 int main(int argc, char **argv) {
+
+	log = log_create("/home/lucas/log.txt", "Nivel", 1, LOG_LEVEL_DEBUG);
 
 	id = 0;
 
@@ -474,7 +477,7 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 		resource_struct *personaje = (resource_struct*) dictionary_get(
 				listaPersonajes, string_from_format("%d", fd));
 		movimientoPersonaje(personaje, rows, cols, bufferSocket, master_set, fd,
-				socketOrquestador, listaSimbolos);
+				socketOrquestador, listaSimbolos, log);
 	} else if (string_starts_with(bufferSocket, DEATH)){
 		bufferSocket = string_substring_from(bufferSocket, sizeof(DEATH));
 		char** split = string_split(bufferSocket, COMA);
