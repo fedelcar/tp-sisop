@@ -49,7 +49,7 @@
 #define FALSE            0
 #define NEWLVL "NEWLVL"
 
-char* stringRecursos(t_list *simbolos, t_dictionary *recursosDisponibles);
+char* stringRecursos(t_list *simbolos, t_dictionary *recursosDisponibles, int fd);
 void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		t_dictionary *levels_queues, fd_set *socks,
 		t_orquestador *orquestador_config, char* path, t_list *niveles);
@@ -339,7 +339,7 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 
 		t_dictionary *recursosDisponibles = dictionary_create();
 
-		for (j = 1; j < list_size(queues->simbolos) + 1; j++) {
+		for (j = 2; j < list_size(queues->simbolos) + 2; j++) {
 			simbolos = string_split(data[j], DOSPUNTOS);
 			dictionary_put(recursosDisponibles, simbolos[0], atoi(simbolos[1]));
 		}
@@ -382,7 +382,7 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		int fdNivel = openSocketClient(levelSocket[1], levelSocket[0]);
 
 		sendMessage(fdNivel,
-				stringRecursos(queues->simbolos, recursosDisponibles));
+				stringRecursos(queues->simbolos, recursosDisponibles, atoi(data[1])));
 
 		free(data);
 
@@ -528,11 +528,11 @@ int *generateSocket(int* portInt, int *scheduler_port) {
 	return listen_sd;
 }
 
-char* stringRecursos(t_list *simbolos, t_dictionary *recursosDisponibles) {
+char* stringRecursos(t_list *simbolos, t_dictionary *recursosDisponibles, int fd) {
 
 	char* stringRecursos = (char*) malloc(MAXSIZE);
 
-	string_append(&stringRecursos, "RSC,");
+	string_append(&stringRecursos, string_from_format("RSC,%d,", fd));
 
 	int k = 0;
 
