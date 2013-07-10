@@ -66,7 +66,7 @@ t_log* log;
 
 int main(int argc, char **argv) {
 
-	log = log_create("/home/lucas/log.txt", "Nivel", 1, LOG_LEVEL_DEBUG);
+	log = log_create("/home/utnso/log.txt", "Nivel", 1, LOG_LEVEL_DEBUG);
 
 	id = 0;
 
@@ -115,9 +115,9 @@ int main(int argc, char **argv) {
 	rows = (int*) 10;
 	cols = (int*) 10;
 
-	nivel_gui_inicializar();
-
-	nivel_gui_get_area_nivel(&rows, &cols);
+//	nivel_gui_inicializar();
+//
+//	nivel_gui_get_area_nivel(&rows, &cols);
 
 	int j, len, rc, on = 1;
 	int listen_sd, max_sd, new_sd;
@@ -228,7 +228,7 @@ int main(int argc, char **argv) {
 	deadlockStruct->socket = socketOrquestador;
 	deadlockStruct->puerto = portForLevel;
 	deadlockStruct->recovery = nivel->recovery;
-	deadlockStruct->checkDeadlock = nivel->tiempoChequeoDeadlock;
+	deadlockStruct->checkDeadlock = &(nivel->tiempoChequeoDeadlock);
 	deadlockStruct->path = "/home/tp/config/niveles/nivel1.config"; //argv[0]
 
 	pthread_create(&detectionThread, NULL, (void*) deteccionInterbloqueo,
@@ -571,7 +571,7 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 	t_list *deadlockList;
 	while (1) {
 
-		sleep(deadlockStruct->checkDeadlock); //levantar de archivo de configuracion, inotify
+		sleep(*(deadlockStruct->checkDeadlock)); //levantar de archivo de configuracion, inotify
 
 		deadlockList = detectionAlgorithm(deadlockStruct->items,
 				deadlockStruct->list);
