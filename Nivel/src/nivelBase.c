@@ -66,7 +66,7 @@ t_log* log;
 
 int main(int argc, char **argv) {
 
-	log = log_create("/home/utnso/log.txt", "Nivel", 1, LOG_LEVEL_DEBUG);
+	log = log_create("/home/lucas/log.txt", "Nivel", 1, LOG_LEVEL_DEBUG);
 
 	id = 0;
 
@@ -115,9 +115,9 @@ int main(int argc, char **argv) {
 	rows = (int*) 10;
 	cols = (int*) 10;
 
-//	nivel_gui_inicializar();
-//
-//	nivel_gui_get_area_nivel(&rows, &cols);
+	nivel_gui_inicializar();
+
+	nivel_gui_get_area_nivel(&rows, &cols);
 
 	int j, len, rc, on = 1;
 	int listen_sd, max_sd, new_sd;
@@ -470,8 +470,15 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 
 		id++;
 	} else if (string_starts_with(bufferSocket, RESOURCES)) {
+		char **split = string_split(bufferSocket, COMA);
+		int i = 0;
 		agregarRecursosOrquestador(bufferSocket, listaItems, listaSimbolos);
 		nivel_gui_dibujar(listaItems);
+		for(i = 0 ; i < list_size(threads) ; i++){
+			if(atoi(split[1]) == *(((datos_personaje*) list_get(threads, i))->fd) ){
+				list_remove(threads, i);
+			}
+		}
 	} else if (string_starts_with(bufferSocket, MOVIMIENTO)) {
 		bufferSocket = string_substring_from(bufferSocket, sizeof(MOVIMIENTO));
 		resource_struct *personaje = (resource_struct*) dictionary_get(
@@ -598,13 +605,12 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 
 			char** response = string_split(bufferDeadlock, COMA);
 
-			for (j = 0; j < list_size(deadlockList); j++) {
+			for (j = 0; j < list_size(deadlockStruct->list); j++) {
 
-				datos = (datos_personaje*) list_get(deadlockList, j);
+				datos = (datos_personaje*) list_get(deadlockStruct->list, j);
 
 				if (datos->id == atoi(response[0])) {
 					sendMessage(fdNivel, string_from_format("DEATH,%d,", *(datos->fd)));
-					list_remove(deadlockList, j);
 				}
 
 			}
@@ -655,7 +661,7 @@ void agregarRecursosOrquestador(char *bufferSocket, ITEM_NIVEL *listaItems, t_li
 
 	t_dictionary *recursosDisponibles = dictionary_create();
 
-	for (j = 0; j < list_size(listaSimbolos); j++) {
+	for (j = 1; j < list_size(listaSimbolos) + 1; j++) {
 		simbolos = string_split(data[j], DOSPUNTOS);
 		dictionary_put(recursosDisponibles, simbolos[0], atoi(simbolos[1]));
 	}

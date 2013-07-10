@@ -26,7 +26,7 @@
 
 t_log* log;
 
-char* endingString(t_dictionary * recursosAt, char* nivel, t_list *listaSimbolos);
+char* endingString(t_dictionary * recursosAt, char* nivel, t_list *listaSimbolos, int fd);
 
 mensaje_t* interpretarMensaje(char* mensaje) {
 
@@ -155,7 +155,7 @@ void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* m
 
 	ITEM_NIVEL* listaItems = resources->listaItems;
 
-	int *sockfd = resources->fd;
+	int sockfd = resources->fd;
 
 	char** splitMessage = (char*) malloc(MAXSIZE);
 
@@ -177,7 +177,7 @@ void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* m
 			char** socket = (char*) malloc(MAXSIZE);
 			socket = string_split(resources->level_config->orquestador, DOSPUNTOS);
 			fileDescriptor = openSocketClient(socket[1], socket[0]);
-			char* mensaje = endingString(resources->recursosAt, resources->level_config->nombre, listaSimbolos);
+			char* mensaje = endingString(resources->recursosAt, resources->level_config->nombre, listaSimbolos, sockfd);
 			sendMessage(fileDescriptor, mensaje);
 			BorrarItem(&listaItems, resources->simbolo);
 			FD_CLR(fileDescriptorPj, master_set);
@@ -222,7 +222,7 @@ void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* m
 }
 
 
-char* endingString(t_dictionary *recursosAt, char* nivel, t_list *listaSimbolos){
+char* endingString(t_dictionary *recursosAt, char* nivel, t_list *listaSimbolos, int fd){
 
 	char* lastString = (char*) malloc(MAXSIZE);
 
@@ -232,7 +232,7 @@ char* endingString(t_dictionary *recursosAt, char* nivel, t_list *listaSimbolos)
 
 	string_append(&lastString, FREERESC);
 
-	string_append(&lastString, string_from_format("%s," ,nivel));
+	string_append(&lastString, string_from_format("%s,%d," ,nivel, fd));
 
 //	char *recursos = (char*) malloc(MAXSIZE);
 
