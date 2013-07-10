@@ -115,9 +115,9 @@ int main(int argc, char **argv) {
 	rows = (int*) 10;
 	cols = (int*) 10;
 
-	nivel_gui_inicializar();
-
-	nivel_gui_get_area_nivel(&rows, &cols);
+//	nivel_gui_inicializar();
+//
+//	nivel_gui_get_area_nivel(&rows, &cols);
 
 	int j, len, rc, on = 1;
 	int listen_sd, max_sd, new_sd;
@@ -129,19 +129,13 @@ int main(int argc, char **argv) {
 	fd_set master_set;
 	fd_set working_set;
 
-	/*************************************************************/
-	/* Create an AF_INET stream socket to receive incoming       */
-	/* connections on                                            */
-	/*************************************************************/
 	listen_sd = socket(AF_INET, SOCK_STREAM, 0);
 	if (listen_sd < 0) {
 		perror("socket() failed");
 		exit(-1);
 	}
 
-	/*************************************************************/
-	/* Allow socket descriptor to be reuseable                   */
-	/*************************************************************/
+
 	rc = setsockopt(listen_sd, SOL_SOCKET, SO_REUSEADDR, (char *) &on,
 			sizeof(on));
 	if (rc < 0) {
@@ -150,11 +144,7 @@ int main(int argc, char **argv) {
 		exit(-1);
 	}
 
-	/*************************************************************/
-	/* Set socket to be non-blocking.  All of the sockets for    */
-	/* the incoming connections will also be non-blocking since  */
-	/* they will inherit that state from the listening socket.   */
-	/*************************************************************/
+
 	rc = ioctl(listen_sd, FIONBIO, (char *) &on);
 	if (rc < 0) {
 		perror("ioctl() failed");
@@ -242,67 +232,33 @@ int main(int argc, char **argv) {
 	FD_SET(listen_sd, &master_set);
 
 	do {
-		/**********************************************************/
-		/* Copy the master fd_set over to the working fd_set.     */
-		/**********************************************************/
+
 		memcpy(&working_set, &master_set, sizeof(master_set));
 
-//		      printf("Waiting on select()...\n");
 		rc = select(FD_SETSIZE, &working_set, NULL, NULL, NULL );
 
-		/**********************************************************/
-		/* Check to see if the select call failed.                */
-		/**********************************************************/
+
 		if (rc < 0) {
 			perror("  select() failed");
 			break;
 		}
 
-		/**********************************************************/
-		/* Check to see if the 5 minute time out expired.         */
-		/**********************************************************/
 		if (rc == 0) {
 			printf("  select() timed out.  End program.\n");
 			break;
 		}
 
-		/**********************************************************/
-		/* One or more descriptors are readable.  Need to         */
-		/* determine which ones they are.                         */
-		/**********************************************************/
 		desc_ready = rc;
 		for (j = 0; j <= max_sd && desc_ready > 0; ++j) {
-			/*******************************************************/
-			/* Check to see if this descriptor is ready            */
-			/*******************************************************/
+
 			if (FD_ISSET(j, &working_set)) {
-				/****************************************************/
-				/* A descriptor was found that was readable - one   */
-				/* less has to be looked for.  This is being done   */
-				/* so that we can stop looking at the working set   */
-				/* once we have found all of the descriptors that   */
-				/* were ready.                                      */
-				/****************************************************/
+
 				desc_ready -= 1;
 
-				/****************************************************/
-				/* Check to see if this is the listening socket     */
-				/****************************************************/
 				if (j == listen_sd) {
-					//printf("  Listening socket is readable\n");
-					/*************************************************/
-					/* Accept all incoming connections that are      */
-					/* queued up on the listening socket before we   */
-					/* loop back and call select again.              */
-					/*************************************************/
+
 					do {
-						/**********************************************/
-						/* Accept each incoming connection.  If       */
-						/* accept fails with EWOULDBLOCK, then we     */
-						/* have accepted all of them.  Any other      */
-						/* failure on accept will cause us to end the */
-						/* server.                                    */
-						/**********************************************/
+
 						new_sd = accept(listen_sd, NULL, NULL );
 						if (new_sd < 0) {
 							if (errno != EWOULDBLOCK) {
@@ -312,88 +268,20 @@ int main(int argc, char **argv) {
 							break;
 						}
 
-						/**********************************************/
-						/* Add the new incoming connection to the     */
-						/* master read set                            */
-						/**********************************************/
-						//printf("  New incoming connection - %d\n", new_sd);
 						FD_SET(new_sd, &master_set);
 						if (new_sd > max_sd)
 							max_sd = new_sd;
 
-						/**********************************************/
-						/* Loop back up and accept another incoming   */
-						/* connection                                 */
-						/**********************************************/
 					} while (new_sd != -1);
 				}
 
-				/****************************************************/
-				/* This is not the listening socket, therefore an   */
-				/* existing connection must be readable             */
-				/****************************************************/
 				else {
-					// printf("  Descriptor %d is readable\n", j);
-					close_conn = FALSE;
-					/*************************************************/
-					/* Receive all incoming data on this socket      */
-					/* before we loop back and call select again.    */
-					/*************************************************/
 
-					/**********************************************/
-					/* Receive data on this connection until the  */
-					/* recv fails with EWOULDBLOCK.  If any other */
-					/* failure occurs, we will close the          */
-					/* connection.                                */
-					/**********************************************/
-					//	                  rc = recv(j, buffer, sizeof(buffer), 0);
-					//	                  if (rc < 0)
-					//	                  {
-					//	                     if (errno != EWOULDBLOCK)
-					//	                     {
-					//	                        perror("  recv() failed");
-					//	                        close_conn = TRUE;
-					//	                     }
-					//	                     break;
-					//	                  }
-					/**********************************************/
-					/* Check to see if the connection has been    */
-					/* closed by the client                       */
-					/**********************************************/
-					//	                  if (rc == 0)
-					//	                  {
-					//	                     printf("  Connection closed\n");
-					//	                     close_conn = TRUE;
-					//	                     break;
-					//	                  }
-					/**********************************************/
-					/* Data was recevied                          */
-					/**********************************************/
-					//	                  len = rc;
-					//	                  printf("  %d bytes received\n", len);
-					/**********************************************/
-					/* Echo the data back to the client           */
-					/**********************************************/
+					close_conn = FALSE;
+
 					analize_response(j, threads, nivel, listaItems,
 							listaPersonajes, rows, cols, &master_set,
 							socketOrquestador, listaSimbolos);
-					//	                  rc = send(i, buffer, len, 0);
-					//	                  if (rc < 0)
-					//	                  {
-					//	                     perror("  send() failed");
-					//	                     close_conn = TRUE;
-					//	                     break;
-					//	                  }
-
-					/*************************************************/
-					/* If the close_conn flag was turned on, we need */
-					/* to clean up this active connection.  This     */
-					/* clean up process includes removing the        */
-					/* descriptor from the master set and            */
-					/* determining the new maximum descriptor value  */
-					/* based on the bits that are still turned on in */
-					/* the master set.                               */
-					/*************************************************/
 					if (close_conn) {
 						close(j);
 						FD_CLR(j, &master_set);
@@ -402,9 +290,9 @@ int main(int argc, char **argv) {
 								max_sd -= 1;
 						}
 					}
-				} /* End of existing connection is readable */
-			} /* End of if (FD_ISSET(i, &working_set)) */
-		} /* End of loop through selectable descriptors */
+				}
+			}
+		}
 
 	} while (end_server == FALSE);
 
@@ -424,7 +312,13 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 			agregarRecursos(personajeABorrar->recursosAt, listaItems, listaSimbolos);
 			nivel_gui_dibujar(listaItems);
 			dictionary_remove(listaPersonajes, string_from_format("%d", fd));
+			int i = 0;
+			for(i = 0 ; i < list_size(threads) ; i++){
+				if(fd == *(((datos_personaje*) list_get(threads, i))->fd)){
+					list_remove(threads, i);
+				}
 			free(personajeABorrar);
+		}
 		}
 		FD_CLR(fd, master_set);
 		return;
@@ -478,6 +372,7 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 			if(atoi(split[1]) == *(((datos_personaje*) list_get(threads, i))->fd) ){
 				list_remove(threads, i);
 			}
+			FD_CLR(atoi(split[1]), master_set);
 		}
 	} else if (string_starts_with(bufferSocket, MOVIMIENTO)) {
 		bufferSocket = string_substring_from(bufferSocket, sizeof(MOVIMIENTO));
