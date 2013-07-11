@@ -68,7 +68,7 @@ bool sonPosicionesIguales(t_posicion* pos1, t_posicion* pos2);
 void pedirPosicionRecurso(t_Nivel* nivel, t_posicion* posRec,
 		t_link_element* pRecursoActual);
 int conectarseAlNivelActual(t_Nivel* nivel, int sockfdOrquestador,
-		int* sockfdPlanif, t_character* personaje);
+		int* sockfdPlanif, t_character* personaje, char* ipOrquestador);
 void inicializarNivel(t_Nivel* nivel, t_posicion* miPos, t_posicion* posRec,
 		t_link_element** pRecursoActual, t_character* personaje);
 void muerePersonaje(t_Nivel* nivel, t_link_element** pRecursoActual,
@@ -143,7 +143,7 @@ int main(int argc, char **argv) {
 		log_debug(log, mensaje);
 
 		if (!(conectarseAlNivelActual(nivel, sockfdOrquestador, &sockfdPlanif,
-				personaje))) {
+				personaje, ipOrquestador))) {
 			break;
 		}
 
@@ -434,7 +434,7 @@ void muerePersonaje(t_Nivel* nivel, t_link_element** pRecursoActual,
 }
 
 int conectarseAlNivelActual(t_Nivel* nivel, int sockfdOrquestador,
-		int* sockfdPlanif, t_character* personaje) {
+		int* sockfdPlanif, t_character* personaje, char* ipOrquestador) {
 	char* ipPlanificador = (char*) malloc(MAXSIZE);
 	char* ipNivel = (char*) malloc(MAXSIZE);
 	char* puertoPlanificador = (char*) malloc(MAXSIZE);
@@ -474,7 +474,7 @@ int conectarseAlNivelActual(t_Nivel* nivel, int sockfdOrquestador,
 				puertoNivel);
 		log_debug(log, mensaje2);
 
-		*sockfdPlanif = openSocketClient(puertoPlanificador, ipPlanificador);
+		*sockfdPlanif = openSocketClient(puertoPlanificador, ipOrquestador);
 		mensaje2 = string_from_format(
 				"Me conecto con el Planificador. IP:%s Puerto:%s",
 				ipPlanificador, puertoPlanificador);
