@@ -59,6 +59,8 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 resource_struct *getLevelStructure(t_level_config *level_config, int *fd);
 void agregarRecursosOrquestador(char *bufferSocket, ITEM_NIVEL *listaItems, t_list *listaSimbolos);
 
+char* endingStringBroken(t_dictionary *recursosAt, char* nivel, t_list *listaSimbolos, int fd);
+
 ITEM_NIVEL* cambiarEstructura(t_level_config* levelConfig, t_list *listaSimbolos);
 
 int id;
@@ -115,9 +117,9 @@ int main(int argc, char **argv) {
 	rows = (int*) 10;
 	cols = (int*) 10;
 
-//	nivel_gui_inicializar();
-//
-//	nivel_gui_get_area_nivel(&rows, &cols);
+	nivel_gui_inicializar();
+
+	nivel_gui_get_area_nivel(&rows, &cols);
 
 	int j, len, rc, on = 1;
 	int listen_sd, max_sd, new_sd;
@@ -309,7 +311,9 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 		if (dictionary_has_key(listaPersonajes, string_from_format("%d", fd))) {
 			resource_struct *personajeABorrar = dictionary_get(listaPersonajes,
 					string_from_format("%d", fd));
-			agregarRecursos(personajeABorrar->recursosAt, listaItems, listaSimbolos);
+//			agregarRecursos(personajeABorrar->recursosAt, listaItems, listaSimbolos);
+			sleep(1);
+			sendMessage(socketOrquestador ,endingStringBroken(personajeABorrar->recursosAt, nivel->nombre, listaSimbolos, fd));
 			nivel_gui_dibujar(listaItems);
 			dictionary_remove(listaPersonajes, string_from_format("%d", fd));
 			int i = 0;
@@ -566,3 +570,29 @@ void agregarRecursosOrquestador(char *bufferSocket, ITEM_NIVEL *listaItems, t_li
 	free(recursosDisponibles);
 
 }
+
+char* endingStringBroken(t_dictionary *recursosAt, char* nivel, t_list *listaSimbolos, int fd){
+
+	char* lastString = (char*) malloc(MAXSIZE);
+
+	char* nivelLocal = (char*) malloc(MAXSIZE);
+
+	strcpy(nivelLocal, nivel);
+
+	string_append(&lastString, "FREERESC,");
+
+	string_append(&lastString, string_from_format("%s,%d," ,nivel, fd));
+
+//	char *recursos = (char*) malloc(MAXSIZE);
+
+	int k = 0;
+
+	for(k = 0 ; k < list_size(listaSimbolos) ; k++){
+
+		string_append(&lastString, string_from_format("%s:%d,",list_get(listaSimbolos, k), dictionary_get(recursosAt, list_get(listaSimbolos, k)) ));
+
+	}
+
+	return lastString;
+}
+
