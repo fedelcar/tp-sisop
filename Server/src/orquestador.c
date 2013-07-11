@@ -281,15 +281,32 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		char** split = string_split(response, COMA);
 
 		socklen_t len;
-		struct sockaddr_storage addr;
+		struct sockaddr_storage* addr;
 		char ipstr[INET_ADDRSTRLEN];
+
+
+
 
 		len = sizeof addr;
 		getpeername(fd, (struct sockaddr*) &addr, &len);
-
 		struct sockaddr_in *s = (struct sockaddr_in *) &addr;
-
 		inet_ntop(AF_INET, &s->sin_addr, ipstr, sizeof ipstr);
+
+		if (strcmp(ipstr, "127.0.0.1") == 0) {
+		    len = sizeof(addr);
+		    getsockname(fd, (struct sockaddr *)addr, &len);
+		    inet_ntop(AF_INET, &s->sin_addr, ipstr, sizeof ipstr);
+		}
+
+
+
+
+//		len = sizeof addr;
+//		getpeername(fd, (struct sockaddr*) &addr, &len);
+//
+//		struct sockaddr_in *s = (struct sockaddr_in *) &addr;
+//
+//		inet_ntop(AF_INET, &s->sin_addr, ipstr, sizeof ipstr);
 
 		pthread_t *t = (pthread_t*) malloc(sizeof(pthread_t));
 
