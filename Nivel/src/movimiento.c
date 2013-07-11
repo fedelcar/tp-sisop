@@ -178,6 +178,7 @@ void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* m
 			socket = string_split(resources->level_config->orquestador, DOSPUNTOS);
 			fileDescriptor = openSocketClient(socket[1], socket[0]);
 			char* mensaje = endingString(resources->recursosAt, resources->level_config->nombre, listaSimbolos, sockfd);
+			sleep(1);
 			sendMessage(fileDescriptor, mensaje);
 			BorrarItem(&listaItems, resources->simbolo);
 			FD_CLR(fileDescriptorPj, master_set);
