@@ -60,7 +60,7 @@ void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues,
 		fd_set *socks, t_orquestador *orquestador_config, char* path,
 		t_list *niveles);
 int *generateSocket(int* portInt, int *scheduler_port);
-void executeKoopa(t_list *niveles, t_dictionary* levels_queues);
+void executeKoopa(t_list *niveles, t_dictionary* levels_queues, t_orquestador *orquestador_config);
 
 int flagTerminoUnPersonaje;
 
@@ -395,7 +395,7 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 
 
 		if(flagTerminoUnPersonaje == TRUE){
-			executeKoopa(niveles, levels_queues);
+			executeKoopa(niveles, levels_queues, orquestador_config);
 		}
 
 
@@ -446,7 +446,7 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 
 		flagTerminoUnPersonaje = TRUE;
 
-		executeKoopa(niveles, levels_queues);
+		executeKoopa(niveles, levels_queues, orquestador_config);
 
 	}
 
@@ -549,7 +549,7 @@ char* stringRecursos(t_list *simbolos, t_dictionary *recursosDisponibles, int fd
 	return stringRecursos;
 }
 
-void executeKoopa(t_list *niveles, t_dictionary* levels_queues){
+void executeKoopa(t_list *niveles, t_dictionary* levels_queues, t_orquestador *orquestador_config){
 
 	int i = 0;
 	char* nivel;
@@ -564,10 +564,10 @@ void executeKoopa(t_list *niveles, t_dictionary* levels_queues){
 	}
 	if (final == TRUE) {
 		printf("KOOPA");
-//			char * arg1 = orquestador_config->argumento1;
-//			char * arg2[] = { "koopa", orquestador_config->argumento2, NULL };
-//			char * arg3[] = { orquestador_config->argumento3, "TERM=xterm", NULL };
-//			int ejecKoopa = execve(arg1, arg2, arg3);
+			char * arg1 = orquestador_config->argumento1;
+			char * arg2[] = { "koopa", orquestador_config->argumento2, NULL };
+			char * arg3[] = { orquestador_config->argumento3, "TERM=xterm", NULL };
+			int ejecKoopa = execve(arg1, arg2, arg3);
 	}
 
 }
