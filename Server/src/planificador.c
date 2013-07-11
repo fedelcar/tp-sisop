@@ -102,10 +102,13 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 
 			if (string_starts_with(response, BROKEN)) {
 				int j = 0;
-				if (string_equals_ignore_case(personaje->nombre,
-						((personaje_planificador*) list_get(
-								scheduler_queue->pjList, j))->nombre)) {
-					list_remove(scheduler_queue->pjList, j);
+
+				for (j = 0; j < list_size(scheduler_queue->pjList); j++) {
+					if (string_equals_ignore_case(personaje->nombre,
+							((personaje_planificador*) list_get(
+									scheduler_queue->pjList, j))->nombre)) {
+						list_remove(scheduler_queue->pjList, j);
+					}
 				}
 				break;
 			}

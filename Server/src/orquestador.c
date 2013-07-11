@@ -60,8 +60,15 @@ void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues,
 		fd_set *socks, t_orquestador *orquestador_config, char* path,
 		t_list *niveles);
 int *generateSocket(int* portInt, int *scheduler_port);
+void executeKoopa(t_list *niveles, t_dictionary* levels_queues);
+
+int flagTerminoUnPersonaje;
+
 
 int main(int argc, char **argv) {
+
+	flagTerminoUnPersonaje = FALSE;
+
 
 	/**
 	 * Lista de niveles
@@ -386,6 +393,12 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 
 		free(data);
 
+
+		if(flagTerminoUnPersonaje == TRUE){
+			executeKoopa(niveles, levels_queues);
+		}
+
+
 	} else if (string_starts_with(response, DEADLOCK)) {
 
 		response = string_substring_from(response, sizeof(DEADLOCK));
@@ -430,24 +443,11 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		}
 
 	} else if (string_starts_with(response, "Termine todo")) {
-		int i = 0;
-		char* nivel;
-		t_scheduler_queue *scheduler;
-		int final = TRUE;
-		for (i = 0; i < list_size(niveles); i++) {
-			nivel = (char*) list_get(niveles, i);
-			scheduler = dictionary_get(levels_queues, nivel);
-			if (list_size(scheduler->pjList) > 0) {
-				final = FALSE;
-			}
-		}
-		if (final == TRUE) {
-			printf("KOOPA");
-//			char * arg1 = orquestador_config->argumento1;
-//			char * arg2[] = { "koopa", orquestador_config->argumento2, NULL };
-//			char * arg3[] = { orquestador_config->argumento3, "TERM=xterm", NULL };
-//			int ejecKoopa = execve(arg1, arg2, arg3);
-		}
+
+		flagTerminoUnPersonaje = TRUE;
+
+		executeKoopa(niveles, levels_queues);
+
 	}
 
 //	FD_CLR(fd, socks);
@@ -547,4 +547,27 @@ char* stringRecursos(t_list *simbolos, t_dictionary *recursosDisponibles, int fd
 	}
 
 	return stringRecursos;
+}
+
+void executeKoopa(t_list *niveles, t_dictionary* levels_queues){
+
+	int i = 0;
+	char* nivel;
+	t_scheduler_queue *scheduler;
+	int final = TRUE;
+	for (i = 0; i < list_size(niveles); i++) {
+		nivel = (char*) list_get(niveles, i);
+		scheduler = dictionary_get(levels_queues, nivel);
+		if (list_size(scheduler->pjList) > 0) {
+			final = FALSE;
+		}
+	}
+	if (final == TRUE) {
+		printf("KOOPA");
+//			char * arg1 = orquestador_config->argumento1;
+//			char * arg2[] = { "koopa", orquestador_config->argumento2, NULL };
+//			char * arg3[] = { orquestador_config->argumento3, "TERM=xterm", NULL };
+//			int ejecKoopa = execve(arg1, arg2, arg3);
+	}
+
 }
