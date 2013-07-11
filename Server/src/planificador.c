@@ -46,7 +46,7 @@
 #define INTERVALO "intervalo"
 
 void analize_response(char *response, t_scheduler_queue *scheduler_queue,
-		personaje_planificador *personaje , int *breakIt);
+		personaje_planificador *personaje, int *breakIt);
 
 void planificar(t_scheduler_queue *scheduler_queue) {
 
@@ -70,7 +70,8 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 
 		printf("Entro al while\n");
 
-		personaje_planificador *personaje = (personaje_planificador*) queue_pop(scheduler_queue->character_queue);
+		personaje_planificador *personaje = (personaje_planificador*) queue_pop(
+				scheduler_queue->character_queue);
 
 		while (turno < turnoActual && breakIt == FALSE) {
 
@@ -79,6 +80,17 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 			response = sendMessage(personaje->fd, "Paso por el planificador\n");
 
 			if (string_starts_with(response, BROKEN)) {
+
+				int j = 0;
+
+				for (j = 0; j < list_size(scheduler_queue->pjList); j++) {
+					if (string_equals_ignore_case(personaje->nombre,
+							((personaje_planificador*) list_get(
+									scheduler_queue->pjList, j))->nombre)) {
+						list_remove(scheduler_queue->pjList, j);
+					}
+				}
+
 				break;
 			}
 
@@ -89,6 +101,12 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 			printf(response);
 
 			if (string_starts_with(response, BROKEN)) {
+				int j = 0;
+				if (string_equals_ignore_case(personaje->nombre,
+						((personaje_planificador*) list_get(
+								scheduler_queue->pjList, j))->nombre)) {
+					list_remove(scheduler_queue->pjList, j);
+				}
 				break;
 			}
 
@@ -115,12 +133,13 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 	fd_set master_set;
 	fd_set working_set;
 
-
 	//Declaro las estructuras nesesarias para el inotify
 
-	inotify_struct *datos = (inotify_struct*)malloc(sizeof(inotify_struct));
-	inotify_list_struct* data = (inotify_list_struct*)malloc(sizeof(inotify_list_struct));
-	inotify_list_struct* data2 = (inotify_list_struct*)malloc(sizeof(inotify_list_struct));
+	inotify_struct *datos = (inotify_struct*) malloc(sizeof(inotify_struct));
+	inotify_list_struct* data = (inotify_list_struct*) malloc(
+			sizeof(inotify_list_struct));
+	inotify_list_struct* data2 = (inotify_list_struct*) malloc(
+			sizeof(inotify_list_struct));
 	datos->path = scheduler_queue->path;
 	datos->lista = list_create();
 
@@ -135,10 +154,6 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 	pthread_t *thread_inot = (pthread_t*) malloc(sizeof(pthread_t));
 	pthread_create(thread_inot, NULL, (void *) inotify,
 			(inotify_struct *) datos);
-
-
-
-
 
 	scheduler_queue->master_set = &master_set;
 	/*************************************************************/
@@ -234,7 +249,9 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 							/* master read set                            */
 							/**********************************************/
 							printf("  New incoming connection - %d\n", new_sd);
-							personaje_planificador *personaje = (personaje_planificador*) malloc(sizeof(personaje_planificador));
+							personaje_planificador *personaje =
+									(personaje_planificador*) malloc(
+											sizeof(personaje_planificador));
 							personaje->fd = new_sd;
 							personaje->respondio = 1;
 							personaje->nombre = recieveMessage(new_sd);
@@ -264,7 +281,7 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 }
 
 void analize_response(char *response, t_scheduler_queue *scheduler_queue,
-		personaje_planificador *personaje , int *breakIt) {
+		personaje_planificador *personaje, int *breakIt) {
 
 	if (string_starts_with(response, SIGNAL_BLOCKED)) {
 		response = string_substring_from(response, sizeof(SIGNAL_BLOCKED));
