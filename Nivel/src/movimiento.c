@@ -61,7 +61,6 @@ void mandarPosRecurso(char recurso, ITEM_NIVEL* temp, int* sockfd) {
 
 int validarPos(t_posicion * Npos, t_posicion * Apos, int rows, int cols,
 		ITEM_NIVEL* ListaItems, char simbolo) {
-	printf("entro a la funcion");
 	if (Npos->posX > cols) {
 	} else {
 		if (Npos->posY > rows) {
@@ -172,6 +171,7 @@ void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* m
 			fileDescriptor = openSocketClient(socket[1], socket[0]);
 			char* mensaje = endingString(resources->recursosAt, resources->level_config->nombre, listaSimbolos, sockfd);
 			sleep(1);
+			log_info(log, string_from_format("Desconexión del personaje %s y peticion de liberación de recursos al Orquestador", resources->nombre));
 			sendMessage(fileDescriptor, mensaje);
 			BorrarItem(&listaItems, resources->simbolo);
 			FD_CLR(fileDescriptorPj, master_set);
@@ -187,7 +187,6 @@ void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* m
 			mandarPosRecurso(mens->caracter, listaItems, sockfd);
 		}
 		if (string_equals_ignore_case(mens->nombre, MOVER)) {
-			printf("validar pos");
 			int valor = validarPos(mens->pos, resources->posicion, rows, cols, listaItems,
 					resources->simbolo);
 			char* msjMovimiento = (char*) malloc(MAXSIZE);
@@ -227,8 +226,6 @@ char* endingString(t_dictionary *recursosAt, char* nivel, t_list *listaSimbolos,
 	string_append(&lastString, FREERESC);
 
 	string_append(&lastString, string_from_format("%s,%d," ,nivel, fd));
-
-//	char *recursos = (char*) malloc(MAXSIZE);
 
 	int k = 0;
 

@@ -111,6 +111,9 @@ int main(int argc, char **argv) {
 	char **ipPuerto = string_split(nivel->orquestador, DOSPUNTOS);
 
 	int socketOrquestador = openSocketClient(ipPuerto[1], ipPuerto[0]);
+	log_debug(log, string_from_format(
+			"Me conecto con el Orquestador. IP:%s Puerto:%s",
+			ipPuerto[0], ipPuerto[1]));
 
 	t_list *threads = list_create();
 
@@ -139,7 +142,7 @@ int main(int argc, char **argv) {
 
 	listen_sd = socket(AF_INET, SOCK_STREAM, 0);
 	if (listen_sd < 0) {
-		perror("socket() failed");
+		log_error(log, "socket() failed");
 		exit(-1);
 	}
 
@@ -147,7 +150,7 @@ int main(int argc, char **argv) {
 	rc = setsockopt(listen_sd, SOL_SOCKET, SO_REUSEADDR, (char *) &on,
 			sizeof(on));
 	if (rc < 0) {
-		perror("setsockopt() failed");
+		log_error(log, "setsockopt() failed");
 		close(listen_sd);
 		exit(-1);
 	}
@@ -155,7 +158,7 @@ int main(int argc, char **argv) {
 
 	rc = ioctl(listen_sd, FIONBIO, (char *) &on);
 	if (rc < 0) {
-		perror("ioctl() failed");
+		log_error(log, "ioctl() failed");
 		close(listen_sd);
 		exit(-1);
 	}
@@ -183,7 +186,7 @@ int main(int argc, char **argv) {
 	/*************************************************************/
 	rc = listen(listen_sd, 32);
 	if (rc < 0) {
-		perror("listen() failed");
+		log_error(log, "listen() failed");
 		close(listen_sd);
 		exit(-1);
 	}
@@ -213,7 +216,7 @@ int main(int argc, char **argv) {
 	sendMessage(socketOrquestador,
 			string_from_format("NEWLVL,%d,%s,%s,%s", ntohs(s->sin_port),
 					nivel->nombre, simbolos, nivel->localIp));
-
+	log_info(log, "Hand shake con Orquestador");
 	free(simbolos);
 
 	pthread_t detectionThread;
@@ -247,12 +250,7 @@ int main(int argc, char **argv) {
 
 
 		if (rc < 0) {
-			perror("  select() failed");
-			break;
-		}
-
-		if (rc == 0) {
-			printf("  select() timed out.  End program.\n");
+			log_error(log, "select() failed");
 			break;
 		}
 
@@ -270,7 +268,7 @@ int main(int argc, char **argv) {
 						new_sd = accept(listen_sd, NULL, NULL );
 						if (new_sd < 0) {
 							if (errno != EWOULDBLOCK) {
-								perror("  accept() failed");
+								log_error(log, "accept() failed");
 								end_server = TRUE;
 							}
 							break;
@@ -317,9 +315,10 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 		if (dictionary_has_key(listaPersonajes, string_from_format("%d", fd))) {
 			resource_struct *personajeABorrar = dictionary_get(listaPersonajes,
 					string_from_format("%d", fd));
-//			agregarRecursos(personajeABorrar->recursosAt, listaItems, listaSimbolos);
+			log_info(log, string_from_format("Desconexión repentina de: %s."), personajeABorrar->nombre);
 			sleep(1);
 			sendMessage(socketOrquestador ,endingStringBroken(personajeABorrar->recursosAt, nivel->nombre, listaSimbolos, fd));
+			log_info(log, "Peticion de liberación de recursos");
 			nivel_gui_dibujar(listaItems);
 			dictionary_remove(listaPersonajes, string_from_format("%d", fd));
 			int i = 0;
@@ -362,7 +361,7 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 		resourceStruct->posicion->posY = 1;
 
 		resourceStruct->nombre = split[1];
-
+		log_info(log, string_from_format("Conexión del personaje %s", resourceStruct->nombre));
 		CrearPersonaje(&listaItems, resourceStruct->simbolo, 1, 1);
 
 		resourceStruct->listaItems = listaItems;
@@ -378,6 +377,7 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 	} else if (string_starts_with(bufferSocket, RESOURCES)) {
 		char **split = string_split(bufferSocket, COMA);
 		int i = 0;
+		log_info(log, "Liberando recursos indicados por el Orquestador");
 		agregarRecursosOrquestador(bufferSocket, listaItems, listaSimbolos);
 		nivel_gui_dibujar(listaItems);
 		for(i = 0 ; i < list_size(threads) ; i++){
@@ -390,6 +390,7 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 		bufferSocket = string_substring_from(bufferSocket, sizeof(MOVIMIENTO));
 		resource_struct *personaje = (resource_struct*) dictionary_get(
 				listaPersonajes, string_from_format("%d", fd));
+		log_info(log, string_from_format("Petición del personaje: %s", personaje->nombre));
 		movimientoPersonaje(personaje, rows, cols, bufferSocket, master_set, fd,
 				socketOrquestador, listaSimbolos, log);
 	} else if (string_starts_with(bufferSocket, DEATH)){
