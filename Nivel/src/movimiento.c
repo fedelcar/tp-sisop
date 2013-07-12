@@ -234,7 +234,7 @@ char* endingString(t_dictionary *recursosAt, char* nivel, t_list *listaSimbolos,
 
 	for(k = 0 ; k < list_size(listaSimbolos) ; k++){
 
-		string_append(&lastString, string_from_format("%s:%d,",list_get(listaSimbolos, k), *((int*) dictionary_get(recursosAt, list_get(listaSimbolos, k))) ));
+		string_append(&lastString, string_from_format("%s:%d,",list_get(listaSimbolos, k), *((uint32_t *) dictionary_get(recursosAt, list_get(listaSimbolos, k))) ));
 
 	}
 

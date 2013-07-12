@@ -210,8 +210,8 @@ int main(int argc, char **argv) {
 
 
 	sendMessage(socketOrquestador,
-			string_from_format("NEWLVL,%d,%s,%s,", ntohs(s->sin_port),
-					nivel->nombre, simbolos));
+			string_from_format("NEWLVL,%d,%s,%s,%s", ntohs(s->sin_port),
+					nivel->nombre, simbolos, nivel->localIp));
 
 	free(simbolos);
 
@@ -596,7 +596,7 @@ char* endingStringBroken(t_dictionary *recursosAt, char* nivel, t_list *listaSim
 
 	for(k = 0 ; k < list_size(listaSimbolos) ; k++){
 
-		string_append(&lastString, string_from_format("%s:%d,",list_get(listaSimbolos, k), dictionary_get(recursosAt, list_get(listaSimbolos, k)) ));
+		string_append(&lastString, string_from_format("%s:%d,",list_get(listaSimbolos, k), *((uint32_t *) dictionary_get(recursosAt, list_get(listaSimbolos, k))) ));
 
 	}
 
