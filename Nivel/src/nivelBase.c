@@ -91,6 +91,7 @@ int main(int argc, char **argv) {
 	inotify_list_struct* data = (inotify_list_struct*)malloc(sizeof(inotify_list_struct));
 	datos->path = argv[1];
 	datos->lista = list_create();
+	datos->log = log;
 
 	data->nombre = TIEMPOCHEQUEODEADLOCK;
 	data->valor = &(nivel->tiempoChequeoDeadlock);
