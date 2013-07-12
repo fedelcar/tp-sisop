@@ -65,6 +65,7 @@ void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues,
 		t_list *niveles);
 int *generateSocket(int* portInt, int *scheduler_port);
 void executeKoopa(t_list *niveles, t_dictionary* levels_queues, t_orquestador *orquestador_config);
+void showLogBlocked(t_scheduler_queue *scheduler_queue);
 
 int flagTerminoUnPersonaje;
 t_log *log;
@@ -398,6 +399,7 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 								blockedCharacter) == 1) {
 							queue_push(queues->character_queue,
 									blockedCharacter->personaje);
+							//TODO log
 						} else {
 							queue_push(queues->blocked_queue,
 									blockedCharacter->personaje);
@@ -583,4 +585,39 @@ void executeKoopa(t_list *niveles, t_dictionary* levels_queues, t_orquestador *o
 			int ejecKoopa = execve(arg1, arg2, arg3);
 	}
 
+}
+
+
+void showLogBlocked(t_scheduler_queue *scheduler_queue) {
+
+	char* myLog = (char*) malloc(MAXSIZE * 3);
+
+	string_append(&myLog, "Listos:");
+
+	int i = 0;
+
+	for (i = 0; i < queue_size(scheduler_queue->character_queue); i++) {
+		personaje_planificador *personaje_temporal = queue_pop(
+				scheduler_queue->character_queue);
+		string_append(&myLog,
+				string_from_format("<-%s", personaje_temporal->nombre));
+		queue_push(scheduler_queue->character_queue, personaje_temporal);
+	}
+
+	string_append(&myLog, ";Bloqueados:");
+	if (queue_size(scheduler_queue->blocked_queue) > 0) {
+		for (i = 0; i < queue_size(scheduler_queue->blocked_queue); i++) {
+			blocked_character *personaje_temporal = queue_pop(
+					scheduler_queue->blocked_queue);
+			string_append(&myLog,
+					string_from_format("<-%s",
+							personaje_temporal->personaje->nombre));
+			queue_push(scheduler_queue->blocked_queue, personaje_temporal);
+		}
+	}
+
+	string_append(&myLog,
+			string_from_format(";Ejecutando: %s", ((personaje_planificador*)scheduler_queue->personajeCorriendo)->nombre));
+
+	log_info(log, myLog);
 }

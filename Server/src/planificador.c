@@ -46,6 +46,7 @@ void analize_response(char *response, t_scheduler_queue *scheduler_queue,
 		personaje_planificador *personaje, int *breakIt);
 void showLog(t_scheduler_queue *scheduler_queue,
 		personaje_planificador *personaje);
+void showLogNew(t_scheduler_queue *scheduler_queue);
 
 t_log *log;
 
@@ -71,6 +72,7 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 		personaje_planificador *personaje = (personaje_planificador*) queue_pop(
 				scheduler_queue->character_queue);
 
+		scheduler_queue->personajeCorriendo = (personaje_planificador*) personaje;
 		showLog(scheduler_queue, personaje);
 
 
@@ -117,6 +119,7 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 		}
 		if (string_starts_with(response, SIGNAL_OK) && breakIt == 0) {
 			queue_push(scheduler_queue->character_queue, personaje);
+			showLog(scheduler_queue, personaje);
 		}
 	}
 }
@@ -130,8 +133,6 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 	struct timeval timeout;
 	fd_set master_set;
 	fd_set working_set;
-
-	//Declaro las estructuras nesesarias para el inotify
 
 	scheduler_queue->master_set = &master_set;
 
@@ -188,16 +189,20 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 								break;
 							}
 
-
 							personaje_planificador *personaje =
 									(personaje_planificador*) malloc(
 											sizeof(personaje_planificador));
 							personaje->fd = new_sd;
 							personaje->respondio = 1;
 							personaje->nombre = recieveMessage(new_sd);
+
+							showLogNew(scheduler_queue);
+
 							list_add(scheduler_queue->pjList, personaje);
+
 							queue_push(scheduler_queue->character_queue,
 									personaje);
+
 							if (new_sd > max_sd)
 								max_sd = new_sd;
 
@@ -224,11 +229,13 @@ void analize_response(char *response, t_scheduler_queue *scheduler_queue,
 		blockedCharacter->recurso = response[0];
 		*breakIt = TRUE;
 		queue_push(scheduler_queue->blocked_queue, blockedCharacter);
+		showLog(scheduler_queue, personaje);
 	} else if (string_equals_ignore_case(response, TERMINE_NIVEL)) {
 		close(personaje->fd);
 	} else if (string_starts_with(response, PEDIR)) {
 		*breakIt = TRUE;
 		queue_push(scheduler_queue->character_queue, personaje);
+		showLog(scheduler_queue, personaje);
 	}
 }
 
@@ -263,6 +270,45 @@ void showLog(t_scheduler_queue *scheduler_queue,
 
 	string_append(&myLog,
 			string_from_format(";Ejecutando: %s", personaje->nombre));
+
+	log_info(log, myLog);
+}
+
+
+void showLogNew(t_scheduler_queue *scheduler_queue) {
+
+	char* myLog = (char*) malloc(MAXSIZE * 3);
+
+	string_append(&myLog, "Listos:");
+
+	int i = 0;
+
+	for (i = 0; i < queue_size(scheduler_queue->character_queue); i++) {
+		personaje_planificador *personaje_temporal = queue_pop(
+				scheduler_queue->character_queue);
+		string_append(&myLog,
+				string_from_format("<-%s", personaje_temporal->nombre));
+		queue_push(scheduler_queue->character_queue, personaje_temporal);
+	}
+
+	string_append(&myLog, ";Bloqueados:");
+	if (queue_size(scheduler_queue->blocked_queue) > 0) {
+		for (i = 0; i < queue_size(scheduler_queue->blocked_queue); i++) {
+			blocked_character *personaje_temporal = queue_pop(
+					scheduler_queue->blocked_queue);
+			string_append(&myLog,
+					string_from_format("<-%s",
+							personaje_temporal->personaje->nombre));
+			queue_push(scheduler_queue->blocked_queue, personaje_temporal);
+		}
+	}
+
+	string_append(&myLog, ";Ejecutando: ");
+
+	if(list_size(scheduler_queue->pjList) > 0){
+		string_append(&myLog,
+				string_from_format("%s", ((personaje_planificador*)scheduler_queue->personajeCorriendo)->nombre));
+	}
 
 	log_info(log, myLog);
 }
