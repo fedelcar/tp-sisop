@@ -78,8 +78,7 @@ int main(int argc, char **argv) {
 	/**
 	 * Lista de niveles
 	 */
-	t_orquestador *orquestador_config = getOrquestador(
-			"/home/tp/config/orquestador/orquestador.config"); //argv[0]
+	t_orquestador *orquestador_config = getOrquestador(argv[1]);
 
 
 	char* pathLog = (char*) malloc(MAXSIZE);
@@ -213,7 +212,7 @@ int main(int argc, char **argv) {
 
 					orquestador(levelsMap, j, levels_queues, &master_set,
 							orquestador_config,
-							"/home/tp/config/orquestador/orquestador.config",
+							argv[1],
 							niveles); //argv[0]
 
 					if (close_conn) {
