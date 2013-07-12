@@ -17,6 +17,7 @@
 #include "uncommons/SocketsServer.h"
 #include "uncommons/SocketsCliente.h"
 #include "commons/string.h"
+#include "uncommons/inotify.h"
 #include <unistd.h>
 
 #include <string.h>
@@ -48,6 +49,9 @@
 #define TRUE             1
 #define FALSE            0
 #define NEWLVL "NEWLVL"
+#define TIEMPOCHEQUEODEADLOCK "TiempoChequeoDeadlock"
+#define TURNOS "turnos"
+#define INTERVALO "intervalo"
 
 char* stringRecursos(t_list *simbolos, t_dictionary *recursosDisponibles, int fd);
 void executeResponse(char* response, t_dictionary *levelsMap, int fd,
@@ -294,6 +298,10 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 
 		int *scheduler_port = (int*) malloc(sizeof(int));
 
+
+
+
+
 		scheduler_queue->blocked_queue = queue_create();
 		scheduler_queue->character_queue = queue_create();
 		scheduler_queue->listen_sd = generateSocket(DEFAULTPORT,
@@ -302,6 +310,31 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		scheduler_queue->path = path; //argv[0]
 		scheduler_queue->pjList = list_create();
 		scheduler_queue->simbolos = list_create();
+
+
+		inotify_struct *datos = (inotify_struct*) malloc(sizeof(inotify_struct));
+		inotify_list_struct* data = (inotify_list_struct*) malloc(
+				sizeof(inotify_list_struct));
+		inotify_list_struct* data2 = (inotify_list_struct*) malloc(
+				sizeof(inotify_list_struct));
+
+		datos->path = path;
+		datos->lista = list_create();
+
+		data->nombre = TURNOS;
+		data->valor = &(orquestador_config->turnos);
+		list_add(datos->lista, data);
+
+		data2->nombre = INTERVALO;
+		data2->valor = &(orquestador_config->intervalo);
+		list_add(datos->lista, data2);
+
+		pthread_t *thread_inot = (pthread_t*) malloc(sizeof(pthread_t));
+
+		pthread_create(thread_inot, NULL, (void *) inotify,
+				(inotify_struct *) datos);
+
+
 
 		char** simbolos = string_split(split[2], DOSPUNTOS);
 
