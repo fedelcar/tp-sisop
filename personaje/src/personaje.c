@@ -484,7 +484,7 @@ int conectarseAlNivelActual(t_Nivel* nivel, int sockfdOrquestador,
 		*sockfdPlanif = openSocketClient(puertoPlanificador, ipOrquestador);
 		mensaje2 = string_from_format(
 				"Me conecto con el Planificador. IP:%s Puerto:%s",
-				ipPlanificador, puertoPlanificador);
+				ipOrquestador, puertoPlanificador);
 		log_debug(log, mensaje2);
 
 		//Envio mi simbolo al nivel
