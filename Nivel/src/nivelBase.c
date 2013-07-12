@@ -503,10 +503,11 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 			}
 		}
 
-		log_debug(log, "Recovery: %d", deadlockStruct->recovery);
-
+		
 		if (list_size(deadlockList) > 1
 				&& deadlockStruct->recovery == 1) {
+					
+			log_debug(log, "Recovery: %d", deadlockStruct->recovery);
 
 
 			deadlockMessage = string_from_format("DEADLOCK,%d,",
