@@ -68,23 +68,28 @@ t_log* log;
 
 int main(int argc, char **argv) {
 
-	log = log_create("/home/lucas/log.txt", "Nivel", 1, LOG_LEVEL_DEBUG);
-
 	id = 0;
 
 	t_list *listaSimbolos = list_create();
 
 	t_level_config *nivel = (t_level_config*) malloc(sizeof(t_level_config));
 
-	char* path = "/home/tp/config/niveles/nivel1.config";
+	nivel = getLevel(argv[1], listaSimbolos); //argv[0]
 
-	nivel = getLevel(path, listaSimbolos); //argv[0]
+	char* pathLog = (char*) malloc(MAXSIZE);
+	memset(pathLog, 0, sizeof(pathLog));
+	string_append(&pathLog, "/home/tp/config/logs/");
+	string_append(&pathLog, nivel->nombre);
+	string_append(&pathLog, ".txt");
+
+	log = log_create(pathLog, "Nivel", 1, LOG_LEVEL_DEBUG);
+
 
 	//Creo el thread nesesario para el inotify
 
 	inotify_struct *datos = (inotify_struct*)malloc(sizeof(inotify_struct));
 	inotify_list_struct* data = (inotify_list_struct*)malloc(sizeof(inotify_list_struct));
-	datos->path = path;
+	datos->path = argv[1];
 	datos->lista = list_create();
 
 	data->nombre = TIEMPOCHEQUEODEADLOCK;
@@ -221,7 +226,7 @@ int main(int argc, char **argv) {
 	deadlockStruct->puerto = portForLevel;
 	deadlockStruct->recovery = nivel->recovery;
 	deadlockStruct->checkDeadlock = &(nivel->tiempoChequeoDeadlock);
-	deadlockStruct->path = "/home/tp/config/niveles/nivel1.config"; //argv[0]
+	deadlockStruct->path = argv[1];
 
 	pthread_create(&detectionThread, NULL, (void*) deteccionInterbloqueo,
 			(deadlock_struct*) deadlockStruct);
