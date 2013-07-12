@@ -337,7 +337,9 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 		int i = 0;
 
 		for(i = 0 ; i < list_size(listaSimbolos) ; i++){
-			dictionary_put(recursosAt, list_get(listaSimbolos, i), 0);
+			uint32_t *zero = (uint32_t*) malloc(sizeof(int));
+			*zero = 0;
+			dictionary_put(recursosAt, list_get(listaSimbolos, i),zero);
 		}
 
 		resource_struct *resourceStruct = getLevelStructure(nivel, fd);

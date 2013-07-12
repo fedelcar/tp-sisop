@@ -7,6 +7,7 @@
 #include <commons/collections/dictionary.h>
 #include <uncommons/SocketsBasic.h>
 #include "nivelBase.h"
+#include <stdint.h>
 #include <uncommons/SocketsCliente.h>
 #include <commons/log.h>
 
@@ -83,17 +84,6 @@ int evaluarPosicion(t_posicion* posicion, ITEM_NIVEL *item) {
 	}
 }
 
-void pasarLista(t_dictionary *recursos, char recurso){
-
-	int cantidad = dictionary_get(recursos, &recurso);
-
-	dictionary_remove(recursos, &recurso);
-
-	cantidad = cantidad + 1;
-
-	dictionary_put(recursos, &recurso, cantidad);
-
-}
 
 void restarRecursos(t_posicion* posicion, ITEM_NIVEL* listaItems, int* sockfd,
 		char recurso, t_dictionary* recursos, resource_struct* resources) {
@@ -108,7 +98,10 @@ void restarRecursos(t_posicion* posicion, ITEM_NIVEL* listaItems, int* sockfd,
 		if (listaItems->quantity > 0) {
 			msjMovimiento = string_from_format("%s", CONFIRMACION);
 			restarRecurso(listaItems, listaItems->id);
-			pasarLista(recursos, recurso);
+			char *aString = string_from_format("%c", recurso);
+			uint32_t *cantidad = (uint32_t*) dictionary_get(recursos, aString);
+
+			*cantidad = *cantidad + 1;
 
 		} else {
 			msjMovimiento = string_from_format("%s", RECHAZO);
@@ -241,7 +234,7 @@ char* endingString(t_dictionary *recursosAt, char* nivel, t_list *listaSimbolos,
 
 	for(k = 0 ; k < list_size(listaSimbolos) ; k++){
 
-		string_append(&lastString, string_from_format("%s:%d,",list_get(listaSimbolos, k), dictionary_get(recursosAt, list_get(listaSimbolos, k)) ));
+		string_append(&lastString, string_from_format("%s:%d,",list_get(listaSimbolos, k), *((int*) dictionary_get(recursosAt, list_get(listaSimbolos, k))) ));
 
 	}
 
