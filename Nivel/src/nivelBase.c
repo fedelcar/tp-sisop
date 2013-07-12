@@ -593,12 +593,10 @@ char* endingStringBroken(t_dictionary *recursosAt, char* nivel, t_list *listaSim
 	char* nivelLocal = (char*) malloc(MAXSIZE);
 
 	strcpy(nivelLocal, nivel);
-
+	memset(lastString, 0, sizeof(lastString));
 	string_append(&lastString, "FREERESC,");
 
 	string_append(&lastString, string_from_format("%s,%d," ,nivel, fd));
-
-//	char *recursos = (char*) malloc(MAXSIZE);
 
 	int k = 0;
 
