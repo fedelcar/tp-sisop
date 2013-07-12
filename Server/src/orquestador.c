@@ -280,27 +280,6 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		response = string_substring_from(response, sizeof(NEWLVL));
 		char** split = string_split(response, COMA);
 
-		socklen_t len;
-		struct sockaddr_storage* addr;
-		char ipstr[INET_ADDRSTRLEN];
-
-
-
-
-		len = sizeof addr;
-		getpeername(fd, (struct sockaddr*) &addr, &len);
-		struct sockaddr_in *s = (struct sockaddr_in *) &addr;
-		inet_ntop(AF_INET, &s->sin_addr, ipstr, sizeof ipstr);
-
-		if (strcmp(ipstr, "127.0.0.1") == 0) {
-		    len = sizeof(addr);
-		    getsockname(fd, (struct sockaddr *)addr, &len);
-		    inet_ntop(AF_INET, &s->sin_addr, ipstr, sizeof ipstr);
-		}
-
-
-
-
 //		len = sizeof addr;
 //		getpeername(fd, (struct sockaddr*) &addr, &len);
 //
@@ -335,8 +314,8 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		t_level_address *level = (t_level_address *) malloc(
 				sizeof(t_level_address));
 
-		level->nivel = string_from_format("%s:%s", ipstr, split[0]);
-		level->planificador = string_from_format("%s:%d", ipstr,
+		level->nivel = string_from_format("%s:%s", split[3], split[0]);
+		level->planificador = string_from_format("%s:%d", "127.0.0.1",
 				*scheduler_port);
 
 		list_add(niveles, split[1]);
