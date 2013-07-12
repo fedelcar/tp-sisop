@@ -78,7 +78,6 @@ void sum(int signum);
 
 int main(int argc, char **argv) {
 
-	log = log_create("/home/lucas/log.txt", "Personaje", 1, LOG_LEVEL_DEBUG);
 //---------- Inicializar Punteros ------------
 	t_Nivel* nivel = (t_Nivel*) malloc(sizeof(t_Nivel));
 	t_character *personaje = (t_character *) malloc(sizeof(t_character));
@@ -117,6 +116,14 @@ int main(int argc, char **argv) {
 	personaje = getCharacter(argv[1]);
 //		personaje = getCharacter("/home/tp/config/personajes/personaje1.config");
 
+	char* pathLog = (char*) malloc(MAXSIZE);
+	memset(pathLog, 0, sizeof(pathLog));
+	string_append(&pathLog, "/home/tp/config/logs/");
+	string_append(&pathLog, personaje->nombre);
+	string_append(&pathLog, ".txt");
+
+
+	log = log_create(pathLog, "Personaje", 1, LOG_LEVEL_DEBUG);
 //	personaje = getCharacter("/home/tp/config/personajes/personaje1.config");
 	log_debug(log, personaje->nombre);
 	ipOrquestador = extraerIp(personaje->orquestador);
