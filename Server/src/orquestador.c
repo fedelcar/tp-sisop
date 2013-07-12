@@ -169,6 +169,29 @@ int main(int argc, char **argv) {
 	max_sd = listen_sd;
 	FD_SET(listen_sd, &master_set);
 
+
+	inotify_struct *datos = (inotify_struct*) malloc(sizeof(inotify_struct));
+	inotify_list_struct* data = (inotify_list_struct*) malloc(
+			sizeof(inotify_list_struct));
+	inotify_list_struct* data2 = (inotify_list_struct*) malloc(
+			sizeof(inotify_list_struct));
+
+	datos->path = argv[1];
+	datos->lista = list_create();
+
+	data->nombre = TURNOS;
+	data->valor = &(orquestador_config->turnos);
+	list_add(datos->lista, data);
+
+	data2->nombre = INTERVALO;
+	data2->valor = &(orquestador_config->intervalo);
+	list_add(datos->lista, data2);
+
+	pthread_t *thread_inot = (pthread_t*) malloc(sizeof(pthread_t));
+
+	pthread_create(thread_inot, NULL, (void *) inotify,
+			(inotify_struct *) datos);
+
 	do {
 
 		memcpy(&working_set, &master_set, sizeof(master_set));
@@ -305,31 +328,6 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		scheduler_queue->pjList = list_create();
 		scheduler_queue->simbolos = list_create();
 		scheduler_queue->log = log;
-
-
-		inotify_struct *datos = (inotify_struct*) malloc(sizeof(inotify_struct));
-		inotify_list_struct* data = (inotify_list_struct*) malloc(
-				sizeof(inotify_list_struct));
-		inotify_list_struct* data2 = (inotify_list_struct*) malloc(
-				sizeof(inotify_list_struct));
-
-		datos->path = path;
-		datos->lista = list_create();
-
-		data->nombre = TURNOS;
-		data->valor = &(orquestador_config->turnos);
-		list_add(datos->lista, data);
-
-		data2->nombre = INTERVALO;
-		data2->valor = &(orquestador_config->intervalo);
-		list_add(datos->lista, data2);
-
-		pthread_t *thread_inot = (pthread_t*) malloc(sizeof(pthread_t));
-
-		pthread_create(thread_inot, NULL, (void *) inotify,
-				(inotify_struct *) datos);
-
-
 
 		char** simbolos = string_split(split[2], DOSPUNTOS);
 
