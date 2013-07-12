@@ -30,7 +30,6 @@
 #include <errno.h>
 #include <netinet/in.h>
 
-
 #define SIGNAL_OK "ok"
 #define SIGNAL_BLOCKED "BLOCKED"
 #define MAXDATASIZE 1024
@@ -72,12 +71,11 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 		personaje_planificador *personaje = (personaje_planificador*) queue_pop(
 				scheduler_queue->character_queue);
 
-		scheduler_queue->personajeCorriendo = (personaje_planificador*) personaje;
+		scheduler_queue->personajeCorriendo =
+				(personaje_planificador*) personaje;
 		showLog(scheduler_queue, personaje);
 
-
 		while (turno < turnoActual && breakIt == FALSE) {
-
 
 			response = sendMessage(personaje->fd, "Tu turno");
 
@@ -119,7 +117,7 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 		}
 		if (string_starts_with(response, SIGNAL_OK) && breakIt == 0) {
 			queue_push(scheduler_queue->character_queue, personaje);
-			showLog(scheduler_queue, personaje);
+			showLog(scheduler_queue, NULL );
 		}
 	}
 }
@@ -151,13 +149,10 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 
 		memcpy(&working_set, &master_set, sizeof(master_set));
 
-
 		timeout.tv_sec = 0;
 		timeout.tv_usec = 0;
 
 		rc = select(FD_SETSIZE, &working_set, NULL, NULL, &timeout);
-
-
 
 		if (rc < 0) {
 			log_error(log, "  select() failed");
@@ -173,7 +168,6 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 				if (FD_ISSET(j, &working_set)) {
 
 					desc_ready -= 1;
-
 
 					if (j == scheduler_queue->listen_sd) {
 
@@ -196,19 +190,18 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 							personaje->respondio = 1;
 							personaje->nombre = recieveMessage(new_sd);
 
+							queue_push(scheduler_queue->character_queue,
+									personaje);
+
 							showLogNew(scheduler_queue);
 
 							list_add(scheduler_queue->pjList, personaje);
-
-							queue_push(scheduler_queue->character_queue,
-									personaje);
 
 							if (new_sd > max_sd)
 								max_sd = new_sd;
 
 						} while (new_sd != -1);
 					}
-
 
 				}
 			}
@@ -229,13 +222,13 @@ void analize_response(char *response, t_scheduler_queue *scheduler_queue,
 		blockedCharacter->recurso = response[0];
 		*breakIt = TRUE;
 		queue_push(scheduler_queue->blocked_queue, blockedCharacter);
-		showLog(scheduler_queue, personaje);
+		showLog(scheduler_queue, NULL );
 	} else if (string_equals_ignore_case(response, TERMINE_NIVEL)) {
 		close(personaje->fd);
 	} else if (string_starts_with(response, PEDIR)) {
 		*breakIt = TRUE;
-		queue_push(scheduler_queue->character_queue, personaje);
-		showLog(scheduler_queue, personaje);
+		queue_push(scheduler_queue->character_queue, personaje );
+		showLog(scheduler_queue, NULL);
 	}
 }
 
@@ -248,12 +241,14 @@ void showLog(t_scheduler_queue *scheduler_queue,
 
 	int i = 0;
 
+	if(queue_size(scheduler_queue->character_queue) > 0){
 	for (i = 0; i < queue_size(scheduler_queue->character_queue); i++) {
 		personaje_planificador *personaje_temporal = queue_pop(
 				scheduler_queue->character_queue);
 		string_append(&myLog,
 				string_from_format("<-%s", personaje_temporal->nombre));
 		queue_push(scheduler_queue->character_queue, personaje_temporal);
+	}
 	}
 
 	string_append(&myLog, ";Bloqueados:");
@@ -267,13 +262,16 @@ void showLog(t_scheduler_queue *scheduler_queue,
 			queue_push(scheduler_queue->blocked_queue, personaje_temporal);
 		}
 	}
+	if (personaje == NULL ) {
+		string_append(&myLog, ";Ejecutando:");
+	} else {
+		string_append(&myLog,
+				string_from_format(";Ejecutando: %s", personaje->nombre));
 
-	string_append(&myLog,
-			string_from_format(";Ejecutando: %s", personaje->nombre));
+	}
 
 	log_info(log, myLog);
 }
-
 
 void showLogNew(t_scheduler_queue *scheduler_queue) {
 
@@ -305,9 +303,10 @@ void showLogNew(t_scheduler_queue *scheduler_queue) {
 
 	string_append(&myLog, ";Ejecutando: ");
 
-	if(list_size(scheduler_queue->pjList) > 0){
+	if (list_size(scheduler_queue->pjList) > 0) {
 		string_append(&myLog,
-				string_from_format("%s", ((personaje_planificador*)scheduler_queue->personajeCorriendo)->nombre));
+				string_from_format("%s",
+						((personaje_planificador*) scheduler_queue->personajeCorriendo)->nombre));
 	}
 
 	log_info(log, myLog);
