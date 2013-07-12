@@ -30,7 +30,7 @@
 #include <errno.h>
 #include <netinet/in.h>
 
-//TODO CHANGE SIGNALS VALUES AND RESPONSE LENGTH
+
 #define SIGNAL_OK "ok"
 #define SIGNAL_BLOCKED "BLOCKED"
 #define MAXDATASIZE 1024
@@ -42,16 +42,18 @@
 #define BROKEN "BROKEN"
 #define SETNAME "SETNAME"
 
-
 void analize_response(char *response, t_scheduler_queue *scheduler_queue,
 		personaje_planificador *personaje, int *breakIt);
+void showLog(t_scheduler_queue *scheduler_queue,
+		personaje_planificador *personaje);
+
+t_log *log;
 
 void planificar(t_scheduler_queue *scheduler_queue) {
 
 	if (queue_size(scheduler_queue->character_queue) > 0) {
 
-		char *response = (char *) malloc(MAXDATASIZE); //CHECK LENGTH
-
+		char *response = (char *) malloc(MAXDATASIZE);
 		int turno = 0;
 
 		int *breakIt;
@@ -66,16 +68,17 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 
 		breakIt = FALSE;
 
-		printf("Entro al while\n");
-
 		personaje_planificador *personaje = (personaje_planificador*) queue_pop(
 				scheduler_queue->character_queue);
+
+		showLog(scheduler_queue, personaje);
+
 
 		while (turno < turnoActual && breakIt == FALSE) {
 
 			printf("Realizo el pop\n");
 
-			response = sendMessage(personaje->fd, "Paso por el planificador\n");
+			response = sendMessage(personaje->fd, "Tu turno");
 
 			if (string_starts_with(response, BROKEN)) {
 
@@ -127,6 +130,7 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 
 void planificador(t_scheduler_queue *scheduler_queue) {
 
+	log = scheduler_queue->log;
 	int j, rc = 1;
 	int max_sd, new_sd;
 	int desc_ready, end_server = FALSE;
@@ -137,9 +141,7 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 	//Declaro las estructuras nesesarias para el inotify
 
 	scheduler_queue->master_set = &master_set;
-	/*************************************************************/
-	/* Set the listen back log                                   */
-	/*************************************************************/
+
 	rc = listen(scheduler_queue->listen_sd, 32);
 	if (rc < 0) {
 		perror("listen() failed");
@@ -147,74 +149,43 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 		exit(-1);
 	}
 
-	/*************************************************************/
-	/* Initialize the master fd_set                              */
-	/*************************************************************/
 	FD_ZERO(&master_set);
 	max_sd = scheduler_queue->listen_sd;
 	FD_SET(scheduler_queue->listen_sd, &master_set);
 
 	do {
-		/**********************************************************/
-		/* Copy the master fd_set over to the working fd_set.     */
-		/**********************************************************/
+
 		memcpy(&working_set, &master_set, sizeof(master_set));
 
-		/**********************************************************/
-		/* Call select() and wait 5 minutes for it to complete.   */
-		/**********************************************************/
+
 		timeout.tv_sec = 0;
 		timeout.tv_usec = 0;
 
 		rc = select(FD_SETSIZE, &working_set, NULL, NULL, &timeout);
 
-		/**********************************************************/
-		/* Check to see if the select call failed.                */
-		/**********************************************************/
+
+
 		if (rc < 0) {
 			perror("  select() failed");
 			break;
 		}
 
-		/**********************************************************/
-		/* Check to see if the 5 minute time out expired.         */
-		/**********************************************************/
 		if (rc == 0 && queue_size(scheduler_queue->character_queue) > 0) {
 			planificar(scheduler_queue);
 		} else if (rc > 0) {
 			desc_ready = rc;
 			for (j = 0; j <= max_sd && desc_ready > 0; ++j) {
-				/*******************************************************/
-				/* Check to see if this descriptor is ready            */
-				/*******************************************************/
+
 				if (FD_ISSET(j, &working_set)) {
-					/****************************************************/
-					/* A descriptor was found that was readable - one   */
-					/* less has to be looked for.  This is being done   */
-					/* so that we can stop looking at the working set   */
-					/* once we have found all of the descriptors that   */
-					/* were ready.                                      */
-					/****************************************************/
+
 					desc_ready -= 1;
 
-					/****************************************************/
-					/* Check to see if this is the listening socket     */
-					/****************************************************/
+
 					if (j == scheduler_queue->listen_sd) {
 						printf("  Listening socket is readable\n");
-						/*************************************************/
-						/* Accept all incoming connections that are      */
-						/* queued up on the listening socket before we   */
-						/* loop back and call select again.              */
-						/*************************************************/
+
 						do {
-							/**********************************************/
-							/* Accept each incoming connection.  If       */
-							/* accept fails with EWOULDBLOCK, then we     */
-							/* have accepted all of them.  Any other      */
-							/* failure on accept will cause us to end the */
-							/* server.                                    */
-							/**********************************************/
+
 							new_sd = accept(scheduler_queue->listen_sd, NULL,
 									NULL );
 							if (new_sd < 0) {
@@ -225,10 +196,7 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 								break;
 							}
 
-							/**********************************************/
-							/* Add the new incoming connection to the     */
-							/* master read set                            */
-							/**********************************************/
+
 							printf("  New incoming connection - %d\n", new_sd);
 							personaje_planificador *personaje =
 									(personaje_planificador*) malloc(
@@ -242,20 +210,13 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 							if (new_sd > max_sd)
 								max_sd = new_sd;
 
-							/**********************************************/
-							/* Loop back up and accept another incoming   */
-							/* connection                                 */
-							/**********************************************/
 						} while (new_sd != -1);
 					}
 
-					/****************************************************/
-					/* This is not the listening socket, therefore an   */
-					/* existing connection must be readable             */
-					/****************************************************/
+
 				}
-			} /* End of if (FD_ISSET(i, &working_set)) */
-		} /* End of loop through selectable descriptors */
+			}
+		}
 
 	} while (end_server == FALSE);
 
@@ -278,4 +239,39 @@ void analize_response(char *response, t_scheduler_queue *scheduler_queue,
 		*breakIt = TRUE;
 		queue_push(scheduler_queue->character_queue, personaje);
 	}
+}
+
+void showLog(t_scheduler_queue *scheduler_queue,
+		personaje_planificador *personaje) {
+
+	char* myLog = (char*) malloc(MAXSIZE * 3);
+
+	string_append(&myLog, "Listos:");
+
+	int i = 0;
+
+	for (i = 0; i < queue_size(scheduler_queue->character_queue); i++) {
+		personaje_planificador *personaje_temporal = queue_pop(
+				scheduler_queue->character_queue);
+		string_append(&myLog,
+				string_from_format("<-%s", personaje_temporal->nombre));
+		queue_push(scheduler_queue->character_queue, personaje_temporal);
+	}
+
+	string_append(&myLog, ";Bloqueados:");
+	if (queue_size(scheduler_queue->blocked_queue) > 0) {
+		for (i = 0; i < queue_size(scheduler_queue->blocked_queue); i++) {
+			blocked_character *personaje_temporal = queue_pop(
+					scheduler_queue->blocked_queue);
+			string_append(&myLog,
+					string_from_format("<-%s",
+							personaje_temporal->personaje->nombre));
+			queue_push(scheduler_queue->blocked_queue, personaje_temporal);
+		}
+	}
+
+	string_append(&myLog,
+			string_from_format(";Ejecutando: %s", personaje->nombre));
+
+	log_info(log, myLog);
 }

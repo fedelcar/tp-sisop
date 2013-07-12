@@ -67,7 +67,7 @@ int *generateSocket(int* portInt, int *scheduler_port);
 void executeKoopa(t_list *niveles, t_dictionary* levels_queues, t_orquestador *orquestador_config);
 
 int flagTerminoUnPersonaje;
-
+t_log *log;
 
 int main(int argc, char **argv) {
 
@@ -79,6 +79,14 @@ int main(int argc, char **argv) {
 	 */
 	t_orquestador *orquestador_config = getOrquestador(
 			"/home/tp/config/orquestador/orquestador.config"); //argv[0]
+
+
+	char* pathLog = (char*) malloc(MAXSIZE);
+	memset(pathLog, 0, sizeof(pathLog));
+	string_append(&pathLog, "/home/tp/config/logs/orquestador.txt");
+
+
+	log = log_create(pathLog, "Plataforma", 1, LOG_LEVEL_DEBUG);
 
 	/**
 	 * Usado para retener nombres de niveles
@@ -310,6 +318,7 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		scheduler_queue->path = path; //argv[0]
 		scheduler_queue->pjList = list_create();
 		scheduler_queue->simbolos = list_create();
+		scheduler_queue->log = log;
 
 
 		inotify_struct *datos = (inotify_struct*) malloc(sizeof(inotify_struct));
