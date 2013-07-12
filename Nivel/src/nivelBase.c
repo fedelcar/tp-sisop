@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
 	string_append(&pathLog, nivel->nombre);
 	string_append(&pathLog, ".txt");
 
-	log = log_create(pathLog, "Nivel", 1, LOG_LEVEL_DEBUG);
+	log = log_create(pathLog, "Nivel", 0, LOG_LEVEL_DEBUG);
 
 
 	//Creo el thread nesesario para el inotify
@@ -320,7 +320,7 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 		if (dictionary_has_key(listaPersonajes, string_from_format("%d", fd))) {
 			resource_struct *personajeABorrar = dictionary_get(listaPersonajes,
 					string_from_format("%d", fd));
-			log_info(log, string_from_format("Desconexión repentina de: %s."), personajeABorrar->nombre);
+			log_info(log, string_from_format("Desconexión repentina de: %s.", personajeABorrar->nombre));
 			sleep(1);
 			sendMessage(socketOrquestador ,endingStringBroken(personajeABorrar->recursosAt, nivel->nombre, listaSimbolos, fd));
 			log_info(log, "Peticion de liberación de recursos");
