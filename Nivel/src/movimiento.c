@@ -145,7 +145,17 @@ void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* m
 
 	log = logEntrante;
 
-	ITEM_NIVEL* listaItems = resources->listaItems;
+	ITEM_NIVEL* listaItems = *resources->listaItems;
+
+	ITEM_NIVEL* temp = listaItems;
+	while(temp!=NULL){
+		char id ;
+		id = temp->id;
+
+		temp = temp->next;
+
+	}
+
 
 	int sockfd = resources->fd;
 

@@ -24,7 +24,7 @@ typedef struct {
 typedef struct {
 	int id;
 	t_level_config *level_config;
-	ITEM_NIVEL * listaItems;
+	ITEM_NIVEL **listaItems;
 	t_dictionary *recursosAt;
 	char recursoBloqueado;
 	int *fd;

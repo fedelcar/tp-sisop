@@ -54,7 +54,7 @@ void agregarRecursos(t_dictionary *recursosAt, ITEM_NIVEL *listaItems, t_list *l
 void saveList(resource_struct *resourceStruct, t_list *threads);
 void deteccionInterbloqueo(deadlock_struct *deadlockStruct);
 void analize_response(int fd, t_list *threads, t_level_config *nivel,
-		ITEM_NIVEL *listaItems, t_dictionary *listaPersonajes, int rows,
+		ITEM_NIVEL **listaItems, t_dictionary *listaPersonajes, int rows,
 		int cols, fd_set *master_set, int socketOrquestador, t_list *listaSimbolos);
 resource_struct *getLevelStructure(t_level_config *level_config, int *fd);
 void agregarRecursosOrquestador(char *bufferSocket, ITEM_NIVEL *listaItems, t_list *listaSimbolos);
@@ -285,7 +285,7 @@ int main(int argc, char **argv) {
 
 					close_conn = FALSE;
 
-					analize_response(j, threads, nivel, listaItems,
+					analize_response(j, threads, nivel, &listaItems,
 							listaPersonajes, rows, cols, &master_set,
 							socketOrquestador, listaSimbolos);
 					if (close_conn) {
@@ -310,7 +310,7 @@ int main(int argc, char **argv) {
 }
 
 void analize_response(int fd, t_list *threads, t_level_config *nivel,
-		ITEM_NIVEL *listaItems, t_dictionary *listaPersonajes, int rows,
+		ITEM_NIVEL **listaItems, t_dictionary *listaPersonajes, int rows,
 		int cols, fd_set *master_set, int socketOrquestador, t_list *listaSimbolos) {
 
 	char* bufferSocket = (char*) malloc(MAXSIZE);
@@ -321,10 +321,11 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 			resource_struct *personajeABorrar = dictionary_get(listaPersonajes,
 					string_from_format("%d", fd));
 			log_info(log, string_from_format("Desconexión repentina de: %s.", personajeABorrar->nombre));
+			BorrarItem(listaItems, personajeABorrar->simbolo);
 			sleep(1);
 			sendMessage(socketOrquestador ,endingStringBroken(personajeABorrar->recursosAt, nivel->nombre, listaSimbolos, fd));
 			log_info(log, "Peticion de liberación de recursos");
-			nivel_gui_dibujar(listaItems);
+			nivel_gui_dibujar(*listaItems);
 			dictionary_remove(listaPersonajes, string_from_format("%d", fd));
 			int i = 0;
 			for(i = 0 ; i < list_size(threads) ; i++){
@@ -367,7 +368,7 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 
 		resourceStruct->nombre = split[1];
 		log_info(log, string_from_format("Conexión del personaje %s", resourceStruct->nombre));
-		CrearPersonaje(&listaItems, resourceStruct->simbolo, 1, 1);
+		CrearPersonaje(listaItems, resourceStruct->simbolo, 1, 1);
 
 		resourceStruct->listaItems = listaItems;
 
@@ -383,8 +384,8 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 		char **split = string_split(bufferSocket, COMA);
 		int i = 0;
 		log_info(log, "Liberando recursos indicados por el Orquestador");
-		agregarRecursosOrquestador(bufferSocket, listaItems, listaSimbolos);
-		nivel_gui_dibujar(listaItems);
+		agregarRecursosOrquestador(bufferSocket, *listaItems, listaSimbolos);
+		nivel_gui_dibujar(*listaItems);
 		for(i = 0 ; i < list_size(threads) ; i++){
 			if(atoi(split[1]) == *(((datos_personaje*) list_get(threads, i))->fd) ){
 				list_remove(threads, i);
