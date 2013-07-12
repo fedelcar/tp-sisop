@@ -106,8 +106,6 @@ int main(int argc, char **argv) {
 	 */
 	t_dictionary *levelsMap = dictionary_create();
 
-//	levelsMap = getLevelsMap();
-
 	char** port = (char*) malloc(MAXSIZE);
 
 	int i;
@@ -130,21 +128,21 @@ int main(int argc, char **argv) {
 
 	listen_sd = socket(AF_INET, SOCK_STREAM, 0);
 	if (listen_sd < 0) {
-		perror("socket() failed");
+		log_error(log, "socket() failed");
 		exit(-1);
 	}
 
 	rc = setsockopt(listen_sd, SOL_SOCKET, SO_REUSEADDR, (char *) &on,
 			sizeof(on));
 	if (rc < 0) {
-		perror("setsockopt() failed");
+		log_error(log, "setsockopt() failed");
 		close(listen_sd);
 		exit(-1);
 	}
 
 	rc = ioctl(listen_sd, FIONBIO, (char *) &on);
 	if (rc < 0) {
-		perror("ioctl() failed");
+		log_error(log, "ioctl() failed");
 		close(listen_sd);
 		exit(-1);
 	}
@@ -155,14 +153,14 @@ int main(int argc, char **argv) {
 	addr.sin_port = htons(orquestador_config->puerto);
 	rc = bind(listen_sd, (struct sockaddr *) &addr, sizeof(addr));
 	if (rc < 0) {
-		perror("bind() failed");
+		log_error(log, "bind() failed");
 		close(listen_sd);
 		exit(-1);
 	}
 
 	rc = listen(listen_sd, 32);
 	if (rc < 0) {
-		perror("listen() failed");
+		log_error(log, "listen() failed");
 		close(listen_sd);
 		exit(-1);
 	}
@@ -175,16 +173,11 @@ int main(int argc, char **argv) {
 
 		memcpy(&working_set, &master_set, sizeof(master_set));
 
-		printf("Waiting on select()...\n");
+
 		rc = select(FD_SETSIZE, &working_set, NULL, NULL, NULL );
 
 		if (rc < 0) {
-			perror("  select() failed");
-			break;
-		}
-
-		if (rc == 0) {
-			printf("  select() timed out.  End program.\n");
+			log_error(log, "  select() failed");
 			break;
 		}
 
@@ -196,19 +189,16 @@ int main(int argc, char **argv) {
 				desc_ready -= 1;
 
 				if (j == listen_sd) {
-					printf("  Listening socket is readable\n");
 
 					do {
 						new_sd = accept(listen_sd, NULL, NULL );
 						if (new_sd < 0) {
 							if (errno != EWOULDBLOCK) {
-								perror("  accept() failed");
+								log_error(log, "  accept() failed");
 								end_server = TRUE;
 							}
 							break;
 						}
-
-						printf("  New incoming connection - %d\n", new_sd);
 
 						FD_SET(new_sd, &master_set);
 						if (new_sd > max_sd)
@@ -218,7 +208,6 @@ int main(int argc, char **argv) {
 				}
 
 				else {
-					printf("  Descriptor %d is readable\n", j);
 					close_conn = FALSE;
 
 					orquestador(levelsMap, j, levels_queues, &master_set,
@@ -517,7 +506,7 @@ int *generateSocket(int* portInt, int *scheduler_port) {
 	/*************************************************************/
 	listen_sd = socket(AF_INET, SOCK_STREAM, 0);
 	if (listen_sd < 0) {
-		perror("socket() failed");
+		log_error(log, "socket() failed");
 		exit(-1);
 	}
 
@@ -527,7 +516,7 @@ int *generateSocket(int* portInt, int *scheduler_port) {
 	rc = setsockopt(listen_sd, SOL_SOCKET, SO_REUSEADDR, (char *) &on,
 			sizeof(on));
 	if (rc < 0) {
-		perror("setsockopt() failed");
+		log_error(log, "setsockopt() failed");
 		close(listen_sd);
 		exit(-1);
 	}
@@ -539,7 +528,7 @@ int *generateSocket(int* portInt, int *scheduler_port) {
 	/*************************************************************/
 	rc = ioctl(listen_sd, FIONBIO, (char *) &on);
 	if (rc < 0) {
-		perror("ioctl() failed");
+		log_error(log, "ioctl() failed");
 		close(listen_sd);
 		exit(-1);
 	}
@@ -601,7 +590,7 @@ void executeKoopa(t_list *niveles, t_dictionary* levels_queues, t_orquestador *o
 		}
 	}
 	if (final == TRUE) {
-		printf("KOOPA");
+		log_info(log, "Ejecutando Koopa");
 			char * arg1 = orquestador_config->argumento1;
 			char * arg2[] = { "koopa", orquestador_config->argumento2, NULL };
 			char * arg3[] = { orquestador_config->argumento3, "TERM=xterm", NULL };

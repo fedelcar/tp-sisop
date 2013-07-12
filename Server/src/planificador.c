@@ -76,7 +76,6 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 
 		while (turno < turnoActual && breakIt == FALSE) {
 
-			printf("Realizo el pop\n");
 
 			response = sendMessage(personaje->fd, "Tu turno");
 
@@ -95,11 +94,7 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 				break;
 			}
 
-			printf("Mando mensaje\n");
-
 			response = recieveMessage(personaje->fd);
-
-			printf(response);
 
 			if (string_starts_with(response, BROKEN)) {
 				int j = 0;
@@ -113,8 +108,6 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 				}
 				break;
 			}
-
-			printf("Respondio mensaje\n");
 
 			analize_response(response, scheduler_queue, personaje, &breakIt);
 
@@ -144,7 +137,7 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 
 	rc = listen(scheduler_queue->listen_sd, 32);
 	if (rc < 0) {
-		perror("listen() failed");
+		log_error(log, "listen() failed");
 		close(scheduler_queue->listen_sd);
 		exit(-1);
 	}
@@ -166,7 +159,7 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 
 
 		if (rc < 0) {
-			perror("  select() failed");
+			log_error(log, "  select() failed");
 			break;
 		}
 
@@ -182,7 +175,6 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 
 
 					if (j == scheduler_queue->listen_sd) {
-						printf("  Listening socket is readable\n");
 
 						do {
 
@@ -190,14 +182,13 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 									NULL );
 							if (new_sd < 0) {
 								if (errno != EWOULDBLOCK) {
-									perror("  accept() failed");
+									log_error(log, "  accept() failed");
 									end_server = TRUE;
 								}
 								break;
 							}
 
 
-							printf("  New incoming connection - %d\n", new_sd);
 							personaje_planificador *personaje =
 									(personaje_planificador*) malloc(
 											sizeof(personaje_planificador));
