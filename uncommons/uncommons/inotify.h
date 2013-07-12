@@ -5,10 +5,12 @@
  *      Author: utnso
  */
 #include<commons/collections/list.h>
+#include<commons/log.h>
 
 typedef struct {
 	char* path;
 	t_list* lista;
+	t_log *log;
 } inotify_struct;
 
 typedef struct{

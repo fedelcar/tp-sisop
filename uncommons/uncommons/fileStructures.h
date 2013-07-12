@@ -9,6 +9,7 @@
 #include <commons/collections/list.h>
 #include <commons/collections/dictionary.h>
 #include <commons/collections/queue.h>
+#include <commons/log.h>
 
 #define NOMBRE "nombre"
 #define CAJA "Caja"
@@ -84,6 +85,7 @@ typedef struct{
 	fd_set *master_set;
 	t_list *pjList;
 	t_list *simbolos;
+	t_log *log;
 }t_scheduler_queue;
 
 t_dictionary* getCharacters();
