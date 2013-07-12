@@ -38,6 +38,7 @@
 
 char* getFullKey(char *nivel, char *key);
 t_caja* getBox(t_config *configFile, int *boxNumber, t_list *listaSimbolos);
+int boxExists(t_config *configFile, int *boxNumber, t_list *listaSimbolos);
 
 t_dictionary* getCharacters() {
 
@@ -455,13 +456,22 @@ t_level_config* getLevel(char* finalPath, t_list *listaSimbolos) {
 	level_config->nombre = config_get_string_value(configFile, "Nombre");
 	level_config->orquestador = config_get_string_value(configFile,
 			"orquestador");
-	level_config->recovery = atoi(config_get_string_value(configFile, RECOVERY));
-	level_config->tiempoChequeoDeadlock = atoi(config_get_string_value(configFile,
-			TIEMPOCHEQUEODEADLOCK));
+	level_config->recovery = atoi(
+			config_get_string_value(configFile, RECOVERY));
+	level_config->tiempoChequeoDeadlock = atoi(
+			config_get_string_value(configFile, TIEMPOCHEQUEODEADLOCK));
 
-	for (box = 1; box <= CAJASMAXIMAS; box++) {
-		t_caja *caja = getBox(configFile, box, listaSimbolos);
-		dictionary_put(level_config->cajas, caja->simbolo, caja);
+	box = 1;
+
+	while (1) {
+		if (boxExists(configFile, box, listaSimbolos) == 1) {
+			t_caja *caja = getBox(configFile, box, listaSimbolos);
+			dictionary_put(level_config->cajas, caja->simbolo, caja);
+			box++;
+		} else {
+			break;
+		}
+
 	}
 
 	return level_config;
@@ -491,4 +501,20 @@ t_orquestador* getOrquestador(char* finalPath) {
 	orquestador->argumento3 = config_get_string_value(configFile, "argumento2");
 
 	return orquestador;
+}
+
+int boxExists(t_config *configFile, int *boxNumber, t_list *listaSimbolos) {
+
+	char *msg = (char*) malloc(MAXSIZE);
+	sprintf(msg, "%d", boxNumber);
+
+	char *oneBox = (char*) malloc(MAXSIZE);
+
+	string_append(&oneBox, CAJA);
+	string_append(&oneBox, msg);
+
+	if (config_has_property(configFile, oneBox)) {
+		return 1;
+	}
+	return 0;
 }
