@@ -489,9 +489,17 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 
 		deadlockList = detectionAlgorithm(deadlockStruct->items,
 				deadlockStruct->list);
+		int x;
+		for (x=0;x<list_size(deadlockStruct);x++){
+			datos_personaje* pers = list_get(deadlockStruct,x);
+			log_debug(log,"Personaje involucrado en deadlock: %s", pers->fd);
+		}
+
+		log_debug(log, "Recovery: %d", deadlockStruct->recovery);
 
 		if (list_size(deadlockList) > 1
 				&& deadlockStruct->recovery == 1) {
+
 
 			deadlockMessage = string_from_format("DEADLOCK,%d,",
 					list_size(deadlockList));
@@ -518,22 +526,12 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 
 				if (datos->id == atoi(response[0])) {
 					sendMessage(fdNivel, string_from_format("DEATH,%d,", *(datos->fd)));
+					log_debug(log, "Victima: %s" , datos->nombre);
 				}
 
 			}
 
-		} else if (list_size(deadlockList) > 1
-				&& deadlockStruct->recovery == 0) {
-			printf("DEADLOCK\n");
-			printf("DEADLOCK\n");
-			printf("DEADLOCK\n");
-			printf("DEADLOCK\n");
-			printf("DEADLOCK\n");
-			//TODO logear que hubo interbloqueo, pero como recovery == 0 no se hace nada
-		} else {
-			//TODO loguear que no hubo interbloqueo
 		}
-
 	}
 
 	free(bufferDeadlock);
