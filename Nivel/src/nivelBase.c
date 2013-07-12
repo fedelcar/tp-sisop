@@ -303,7 +303,7 @@ int main(int argc, char **argv) {
 	} while (end_server == FALSE);
 	
 		while (listaItems!=NULL){
-		BorrarItems(&listaItems,listaItems->id);
+		BorrarItem(&listaItems,listaItems->id);
 		listaItems =listaItems->next;
 		}
 
