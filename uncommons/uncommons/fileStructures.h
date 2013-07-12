@@ -86,6 +86,7 @@ typedef struct{
 	t_list *pjList;
 	t_list *simbolos;
 	t_log *log;
+	void *personajeCorriendo;
 }t_scheduler_queue;
 
 t_dictionary* getCharacters();
