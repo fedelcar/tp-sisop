@@ -491,9 +491,11 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 		deadlockList = detectionAlgorithm(deadlockStruct->items,
 				deadlockStruct->list);
 		int x;
-		for (x=0;x<list_size(deadlockStruct);x++){
-			datos_personaje* pers = list_get(deadlockStruct,x);
-			log_debug(log,"Personaje involucrado en deadlock: %s", pers->fd);
+		for (x=0;x<list_size(deadlockList);x++){
+			if (list_size(deadlockList)>1){
+			datos_personaje* pers = list_get(deadlockList,x);
+			log_debug(log,"Personaje involucrado en deadlock: %s", pers->nombre);
+			}
 		}
 
 		log_debug(log, "Recovery: %d", deadlockStruct->recovery);
