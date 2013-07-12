@@ -271,6 +271,7 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 			string_append(&socketsToGo, COMA);
 			sendMessage(fd, socketsToGo);
 		}
+		log_info(log, "Conexión de personaje recibida, petición de IP y Puerto de nivel.");
 		FD_CLR(fd, socks);
 		free(socketsToGo);
 		free(response);
@@ -294,10 +295,6 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 				sizeof(t_scheduler_queue));
 
 		int *scheduler_port = (int*) malloc(sizeof(int));
-
-
-
-
 
 		scheduler_queue->blocked_queue = queue_create();
 		scheduler_queue->character_queue = queue_create();
@@ -353,6 +350,8 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 
 		dictionary_put(levelsMap, split[1], level);
 		dictionary_put(levels_queues, split[1], scheduler_queue);
+
+		log_info(log, "Conexión de nuevo nivel: %s", split[1]);
 
 		pthread_create(t, NULL, (void *) planificador,
 				(t_scheduler_queue*) scheduler_queue);
@@ -420,7 +419,7 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 
 		free(data);
 
-
+		log_info(log, "Liberar recursos.");
 		if(flagTerminoUnPersonaje == TRUE){
 			executeKoopa(niveles, levels_queues, orquestador_config);
 		}
@@ -440,13 +439,13 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 				selected = atoi(deadlockPointer[i]);
 			}
 		}
-
+		log_info(log, "Resolviendo deadlock");
 		sendMessage(fd, string_from_format("%d,", selected));
 
 	} else if (string_starts_with(response, "TNIVEL")) {
 		response = string_substring_from(response, sizeof("TNIVEL"));
 		char** split = string_split(response, COMA);
-		char* ressssponse = split[1];
+
 		t_scheduler_queue *scheduler_queue = dictionary_get(levels_queues,
 				split[1]);
 		int i = 0;
@@ -468,7 +467,7 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 				list_remove(scheduler_queue->pjList, i);
 			}
 		}
-
+		log_info(log, "Un personaje finalizo su plan de niveles");
 	} else if (string_starts_with(response, "Termine todo")) {
 
 		flagTerminoUnPersonaje = TRUE;
@@ -476,8 +475,6 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		executeKoopa(niveles, levels_queues, orquestador_config);
 
 	}
-
-//	FD_CLR(fd, socks);
 
 }
 
@@ -487,10 +484,8 @@ int giveResource(t_scheduler_queue *queues, int *recurso,
 		int value = recurso;
 		recurso = value - 1;
 		return 1;
-//		queue_push(queues->character_queue, blockedCharacter->personaje);
 	} else {
 		return 0;
-//		queue_push(queues->blocked_queue, blockedCharacter->personaje);
 	}
 }
 
@@ -500,10 +495,6 @@ int *generateSocket(int* portInt, int *scheduler_port) {
 	int *listen_sd = (int*) malloc(sizeof(int));
 	struct sockaddr_in addr;
 
-	/*************************************************************/
-	/* Create an AF_INET stream socket to receive incoming       */
-	/* connections on                                            */
-	/*************************************************************/
 	listen_sd = socket(AF_INET, SOCK_STREAM, 0);
 	if (listen_sd < 0) {
 		log_error(log, "socket() failed");
@@ -521,11 +512,6 @@ int *generateSocket(int* portInt, int *scheduler_port) {
 		exit(-1);
 	}
 
-	/*************************************************************/
-	/* Set socket to be non-blocking.  All of the sockets for    */
-	/* the incoming connections will also be non-blocking since  */
-	/* they will inherit that state from the listening socket.   */
-	/*************************************************************/
 	rc = ioctl(listen_sd, FIONBIO, (char *) &on);
 	if (rc < 0) {
 		log_error(log, "ioctl() failed");
