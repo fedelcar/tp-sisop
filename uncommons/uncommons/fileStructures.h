@@ -27,6 +27,7 @@ typedef struct {
 	char *orquestador;
 	int tiempoChequeoDeadlock;
 	int recovery;
+	char* localIp;
 } t_level_config;
 
 typedef struct{

@@ -451,6 +451,7 @@ t_level_config* getLevel(char* finalPath, t_list *listaSimbolos) {
 
 	configFile = config_create(finalPath);
 
+	level_config->localIp = config_get_string_value(configFile, "localIp");
 	level_config->nombre = config_get_string_value(configFile, "Nombre");
 	level_config->orquestador = config_get_string_value(configFile,
 			"orquestador");
