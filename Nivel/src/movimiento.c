@@ -145,9 +145,9 @@ void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* m
 
 	log = logEntrante;
 
-	ITEM_NIVEL* listaItems = *resources->listaItems;
+	ITEM_NIVEL** listaItems = resources->listaItems;
 
-	ITEM_NIVEL* temp = listaItems;
+	ITEM_NIVEL* temp = *listaItems;
 	while(temp!=NULL){
 		char id ;
 		id = temp->id;
@@ -183,7 +183,7 @@ void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* m
 			sleep(1);
 			log_info(log, string_from_format("Desconexión del personaje %s y peticion de liberación de recursos al Orquestador", resources->nombre));
 			sendMessage(fileDescriptor, mensaje);
-			BorrarItem(&listaItems, resources->simbolo);
+			BorrarItem(listaItems, resources->simbolo);
 			FD_CLR(fileDescriptorPj, master_set);
 			free(mensaje);
 			close(fileDescriptor);
@@ -194,10 +194,10 @@ void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* m
 		mensaje_t * mens = interpretarMensaje(mensaje);
 
 		if (string_equals_ignore_case(mens->nombre, POSRECURSO)) {
-			mandarPosRecurso(mens->caracter, listaItems, sockfd);
+			mandarPosRecurso(mens->caracter, *listaItems, sockfd);
 		}
 		if (string_equals_ignore_case(mens->nombre, MOVER)) {
-			int valor = validarPos(mens->pos, resources->posicion, rows, cols, listaItems,
+			int valor = validarPos(mens->pos, resources->posicion, rows, cols, *listaItems,
 					resources->simbolo);
 			char* msjMovimiento = (char*) malloc(MAXSIZE);
 
@@ -216,9 +216,9 @@ void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* m
 		}
 
 		if (string_equals_ignore_case(mens->nombre, RECURSO)) {
-			restarRecursos(resources->posicion, listaItems, sockfd, mens->caracter, resources->recursosAt, resources);
+			restarRecursos(resources->posicion, *listaItems, sockfd, mens->caracter, resources->recursosAt, resources);
 		}
-		nivel_gui_dibujar(listaItems);
+		nivel_gui_dibujar(*listaItems);
 
 		free(splitMessage);
 
