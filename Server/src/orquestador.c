@@ -399,7 +399,7 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 							//TODO log
 						} else {
 							queue_push(queues->blocked_queue,
-									blockedCharacter->personaje);
+									blockedCharacter);
 						}
 					}
 				}
