@@ -10,5 +10,3 @@
 *.dylib
 
 # Executables
-*.out
-*.app
