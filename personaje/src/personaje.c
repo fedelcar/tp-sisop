@@ -114,7 +114,6 @@ int main(int argc, char **argv) {
 //	cargo archivo de config
 
 	personaje = getCharacter(argv[1]);
-//		personaje = getCharacter("/home/tp/config/personajes/personaje1.config");
 
 	char* pathLog = (char*) malloc(MAXSIZE);
 	memset(pathLog, 0, sizeof(pathLog));
@@ -122,16 +121,18 @@ int main(int argc, char **argv) {
 	string_append(&pathLog, personaje->nombre);
 	string_append(&pathLog, ".txt");
 
-
 	log = log_create(pathLog, "Personaje", 1, LOG_LEVEL_DEBUG);
-//	personaje = getCharacter("/home/tp/config/personajes/personaje1.config");
-	log_debug(log, personaje->nombre);
+
+
 	ipOrquestador = extraerIp(personaje->orquestador);
 	puertoOrquestador = extraerPuerto(personaje->orquestador);
 
-//	comienzoPlanDeNiveles
+//	Comienzo
+
 	nivel->pNivelActual = ((personaje->planDeNiveles)->head);
 	vidas = personaje->vidas;
+	log_debug(log, personaje->nombre);
+	log_debug(log, string_from_format("Cantidad de vidas:%d",vidas));
 
 //	Configuro select
 	int rc = 1;
@@ -431,7 +432,9 @@ bool sonPosicionesIguales(t_posicion* pos1, t_posicion* pos2) {
 void muerePersonaje(t_Nivel* nivel, t_link_element** pRecursoActual,
 		t_character* personaje) {
 
-	if ((vidas--) == 0) {
+	vidas--;
+	log_debug(log, string_from_format("Cantidad de vidas:%d",vidas));
+	if (vidas == 0) {
 		nivel->pNivelActual = ((personaje->planDeNiveles)->head);
 		vidas = personaje->vidas;
 		log_debug(log, "Reinicio Plan de Niveles");
@@ -555,4 +558,5 @@ void term(int signum) {
 void sum(int signum) {
 	log_debug(log, "Gracias por la vida!");
 	vidas++;
+	log_debug(log, string_from_format("Cantidad de vidas:%d",vidas));
 }
