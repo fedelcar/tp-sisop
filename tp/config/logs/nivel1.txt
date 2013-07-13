@@ -1,0 +1,1713 @@
+[DEBUG] 09:27:28:593 Nivel/(3077:3077): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 09:27:28:596 Nivel/(3077:3077): Hand shake con Orquestador
+[INFO] 09:27:31:31 Nivel/(3077:3077): Conexión del personaje Mario
+[INFO] 09:27:31:31 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:31:32 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:32:32 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:33:33 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:34:33 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:35:34 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:35:34 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:36:35 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:36:35 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:37:36 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:38:36 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:39:37 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:40:37 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:41:38 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:41:67 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:42:69 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:42:69 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:43:70 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:44:70 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:45:71 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:46:71 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:47:74 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:47:74 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:48:75 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:48:75 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:49:75 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:50:76 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:50:76 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:50:76 Nivel/(3077:3077): Petición del personaje: Mario
+[INFO] 09:27:51:76 Nivel/(3077:3077): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[INFO] 09:27:51:77 Nivel/(3077:3077): Liberando recursos indicados por el Orquestador
+[DEBUG] 10:02:56:169 Nivel/(3606:3606): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 10:02:56:172 Nivel/(3606:3606): Hand shake con Orquestador
+[DEBUG] 10:03:04:8 Nivel/(3745:3745): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 10:03:04:9 Nivel/(3745:3745): Hand shake con Orquestador
+[INFO] 10:03:04:958 Nivel/(3745:3745): Conexión del personaje Mario
+[INFO] 10:03:04:958 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:04:958 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:05:959 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:06:959 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:07:992 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:08:992 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:08:993 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:09:993 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:09:994 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:10:994 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:11:995 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:13:18 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:14:19 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:15:20 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:15:20 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:16:20 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:16:21 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:17:21 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:18:22 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:19:22 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:20:23 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:21:23 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:21:23 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:22:24 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:22:46 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:23:47 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:24:47 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:24:47 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:24:48 Nivel/(3745:3745): Petición del personaje: Mario
+[INFO] 10:03:25:48 Nivel/(3745:3745): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[INFO] 10:03:25:48 Nivel/(3745:3745): Liberando recursos indicados por el Orquestador
+[DEBUG] 10:21:51:268 Nivel/(4382:4382): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 10:21:51:270 Nivel/(4382:4382): Hand shake con Orquestador
+[INFO] 10:21:52:346 Nivel/(4382:4382): Conexión del personaje Mario
+[INFO] 10:21:52:346 Nivel/(4382:4382): Petición del personaje: Mario
+[INFO] 10:21:52:347 Nivel/(4382:4382): Petición del personaje: Mario
+[INFO] 10:21:53:347 Nivel/(4382:4382): Petición del personaje: Mario
+[INFO] 10:21:54:348 Nivel/(4382:4382): Petición del personaje: Mario
+[INFO] 10:21:55:348 Nivel/(4382:4382): Petición del personaje: Mario
+[INFO] 10:21:56:349 Nivel/(4382:4382): Petición del personaje: Mario
+[INFO] 10:21:56:349 Nivel/(4382:4382): Petición del personaje: Mario
+[INFO] 10:21:57:350 Nivel/(4382:4382): Petición del personaje: Mario
+[INFO] 10:21:57:431 Nivel/(4382:4382): Petición del personaje: Mario
+[INFO] 10:21:58:431 Nivel/(4382:4382): Petición del personaje: Mario
+[INFO] 10:21:59:432 Nivel/(4382:4382): Petición del personaje: Mario
+[INFO] 10:22:00:432 Nivel/(4382:4382): Petición del personaje: Mario
+[INFO] 10:22:01:433 Nivel/(4382:4382): Petición del personaje: Mario
+[DEBUG] 10:22:55:897 Nivel/(4811:4811): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 10:22:55:899 Nivel/(4811:4811): Hand shake con Orquestador
+[DEBUG] 10:23:00:466 Nivel/(5055:5055): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 10:23:00:468 Nivel/(5055:5055): Hand shake con Orquestador
+[INFO] 10:23:02:492 Nivel/(5055:5055): Conexión del personaje Mario
+[INFO] 10:23:02:568 Nivel/(5055:5055): Petición del personaje: Mario
+[INFO] 10:23:02:570 Nivel/(5055:5055): Petición del personaje: Mario
+[INFO] 10:23:02:570 Nivel/(5055:5055): Petición del personaje: Mario
+[DEBUG] 10:23:47:482 Nivel/(5348:5348): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 10:23:47:485 Nivel/(5348:5348): Hand shake con Orquestador
+[INFO] 10:23:49:504 Nivel/(5348:5348): Conexión del personaje Mario
+[INFO] 10:24:11:855 Nivel/(5348:5348): Petición del personaje: Mario
+[INFO] 10:24:11:857 Nivel/(5348:5348): Petición del personaje: Mario
+[INFO] 10:24:11:857 Nivel/(5348:5348): Petición del personaje: Mario
+[DEBUG] 10:25:02:974 Nivel/(5828:5828): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 10:25:02:977 Nivel/(5828:5828): Hand shake con Orquestador
+[INFO] 10:25:03:986 Nivel/(5828:5828): Conexión del personaje Mario
+[INFO] 10:25:10:942 Nivel/(5828:5828): Petición del personaje: Mario
+[INFO] 10:25:10:943 Nivel/(5828:5828): Petición del personaje: Mario
+[INFO] 10:25:10:944 Nivel/(5828:5828): Petición del personaje: Mario
+[DEBUG] 10:25:15:787 Nivel/(6090:6090): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 10:25:15:790 Nivel/(6090:6090): Hand shake con Orquestador
+[DEBUG] 11:00:07:991 Nivel/(7049:7049): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 11:00:07:994 Nivel/(7049:7049): Hand shake con Orquestador
+[INFO] 11:00:12:487 Nivel/(7049:7049): Conexión del personaje Mario
+[INFO] 11:00:12:564 Nivel/(7049:7049): Petición del personaje: Mario
+[INFO] 11:00:12:566 Nivel/(7049:7049): Petición del personaje: Mario
+[INFO] 11:00:12:566 Nivel/(7049:7049): Petición del personaje: Mario
+[DEBUG] 11:00:32:40 Nivel/(7340:7340): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 11:00:32:43 Nivel/(7340:7340): Hand shake con Orquestador
+[INFO] 11:00:34:117 Nivel/(7340:7340): Conexión del personaje Mario
+[INFO] 11:00:45:637 Nivel/(7340:7340): Petición del personaje: Mario
+[INFO] 11:00:45:639 Nivel/(7340:7340): Petición del personaje: Mario
+[INFO] 11:00:45:640 Nivel/(7340:7340): Petición del personaje: Mario
+[DEBUG] 11:02:54:13 Nivel/(8033:8033): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 11:02:54:16 Nivel/(8033:8033): Hand shake con Orquestador
+[INFO] 11:02:55:357 Nivel/(8033:8033): Conexión del personaje Mario
+[INFO] 11:02:55:358 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:02:55:358 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:02:56:359 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:02:57:359 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:02:58:361 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:02:59:361 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:02:59:362 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:00:362 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:00:363 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:01:363 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:02:364 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:03:377 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:04:377 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:05:378 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:05:378 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:06:379 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:06:379 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:07:380 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:08:505 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:09:506 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:10:506 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:11:507 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:11:507 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:12:508 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:12:508 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:13:509 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:14:510 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:14:510 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:14:510 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:15:510 Nivel/(8033:8033): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[INFO] 11:03:15:511 Nivel/(8033:8033): Liberando recursos indicados por el Orquestador
+[INFO] 11:03:31:564 Nivel/(8033:8033): Conexión del personaje Mario
+[INFO] 11:03:31:564 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:31:564 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:32:565 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:32:781 Nivel/(8033:8033): Conexión del personaje Lucas
+[INFO] 11:03:33:565 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:34:566 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:35:567 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:35:567 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:36:568 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:03:36:568 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:03:37:569 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:03:38:569 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:03:39:570 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:39:570 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:40:571 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:41:585 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:42:586 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:03:43:587 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:03:43:587 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:03:44:588 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:45:588 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:46:601 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:46:601 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:47:602 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:03:47:602 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:03:48:603 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:03:49:603 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:03:50:604 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:50:608 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:51:608 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:52:609 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:53:610 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:03:54:610 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:03:55:611 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:03:55:619 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:03:56:620 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:57:621 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:58:621 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:03:58:621 Nivel/(8033:8033): Petición del personaje: Mario
+[DEBUG] 11:04:00:20 Nivel/(8033:8035): Personaje involucrado en deadlock: Mario
+[DEBUG] 11:04:00:20 Nivel/(8033:8035): Personaje involucrado en deadlock: Lucas
+[DEBUG] 11:04:00:20 Nivel/(8033:8035): Recovery: 1
+[DEBUG] 11:04:00:21 Nivel/(8033:8035): Victima: Mario
+[INFO] 11:04:00:21 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:04:01:21 Nivel/(8033:8033): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[INFO] 11:04:01:22 Nivel/(8033:8033): Conexión del personaje Mario
+[INFO] 11:04:01:45 Nivel/(8033:8033): Liberando recursos indicados por el Orquestador
+[INFO] 11:04:01:48 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:04:01:49 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:04:02:49 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:04:03:50 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:04:04:51 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:04:04:51 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:04:05:51 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:04:06:52 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:04:07:53 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:04:08:53 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:04:09:54 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:04:09:54 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:04:10:55 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:04:11:56 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:04:11:61 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:04:12:63 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:04:12:64 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:04:13:64 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:04:14:65 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:04:14:65 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:04:14:65 Nivel/(8033:8033): Petición del personaje: Lucas
+[INFO] 11:04:15:66 Nivel/(8033:8033): Desconexión del personaje Lucas y peticion de liberación de recursos al Orquestador
+[INFO] 11:04:15:66 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:04:15:67 Nivel/(8033:8033): Liberando recursos indicados por el Orquestador
+[INFO] 11:04:15:67 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:04:16:67 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:04:17:91 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:04:18:91 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:04:19:92 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:04:20:93 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:04:20:93 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:04:21:94 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:04:21:95 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:04:22:96 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:04:23:97 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:04:24:97 Nivel/(8033:8033): Petición del personaje: Mario
+[INFO] 11:04:25:98 Nivel/(8033:8033): Petición del personaje: Mario
+[DEBUG] 11:04:37:426 Nivel/(8692:8692): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 11:04:37:429 Nivel/(8692:8692): Hand shake con Orquestador
+[INFO] 11:04:39:143 Nivel/(8692:8692): Conexión del personaje Mario
+[INFO] 11:04:39:143 Nivel/(8692:8692): Petición del personaje: Mario
+[INFO] 11:04:39:143 Nivel/(8692:8692): Petición del personaje: Mario
+[INFO] 11:04:40:143 Nivel/(8692:8692): Petición del personaje: Mario
+[INFO] 11:04:41:144 Nivel/(8692:8692): Petición del personaje: Mario
+[DEBUG] 11:04:49:997 Nivel/(9033:9033): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 11:04:49:998 Nivel/(9033:9033): Hand shake con Orquestador
+[INFO] 11:04:52:235 Nivel/(9033:9033): Conexión del personaje Mario
+[INFO] 11:04:52:236 Nivel/(9033:9033): Petición del personaje: Mario
+[INFO] 11:04:52:237 Nivel/(9033:9033): Petición del personaje: Mario
+[DEBUG] 11:05:14:974 Nivel/(9263:9263): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 11:05:14:974 Nivel/(9263:9263): Hand shake con Orquestador
+[INFO] 11:05:18:856 Nivel/(9263:9263): Conexión del personaje Mario
+[INFO] 11:05:18:856 Nivel/(9263:9263): Petición del personaje: Mario
+[INFO] 11:05:18:856 Nivel/(9263:9263): Petición del personaje: Mario
+[INFO] 11:05:19:856 Nivel/(9263:9263): Petición del personaje: Mario
+[INFO] 11:05:20:857 Nivel/(9263:9263): Petición del personaje: Mario
+[INFO] 11:05:21:857 Nivel/(9263:9263): Petición del personaje: Mario
+[INFO] 11:05:22:858 Nivel/(9263:9263): Petición del personaje: Mario
+[INFO] 11:05:22:858 Nivel/(9263:9263): Petición del personaje: Mario
+[INFO] 11:05:23:858 Nivel/(9263:9263): Petición del personaje: Mario
+[INFO] 11:05:23:858 Nivel/(9263:9263): Petición del personaje: Mario
+[INFO] 11:05:24:859 Nivel/(9263:9263): Petición del personaje: Mario
+[INFO] 11:05:25:859 Nivel/(9263:9263): Petición del personaje: Mario
+[INFO] 11:05:26:859 Nivel/(9263:9263): Petición del personaje: Mario
+[INFO] 11:05:27:859 Nivel/(9263:9263): Petición del personaje: Mario
+[DEBUG] 11:06:29:106 Nivel/(9678:9678): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 11:06:29:107 Nivel/(9678:9678): Hand shake con Orquestador
+[INFO] 11:06:30:69 Nivel/(9678:9678): Conexión del personaje Mario
+[INFO] 11:06:30:69 Nivel/(9678:9678): Petición del personaje: Mario
+[INFO] 11:06:30:69 Nivel/(9678:9678): Petición del personaje: Mario
+[INFO] 11:06:31:70 Nivel/(9678:9678): Petición del personaje: Mario
+[INFO] 11:06:32:16 Nivel/(9678:9678): Desconexión repentina de: Mario.
+[INFO] 11:06:33:16 Nivel/(9678:9678): Peticion de liberación de recursos
+[DEBUG] 11:12:55:245 Nivel/(10272:10272): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 11:12:55:248 Nivel/(10272:10272): Hand shake con Orquestador
+[INFO] 11:12:56:313 Nivel/(10272:10272): Conexión del personaje Mario
+[INFO] 11:12:56:412 Nivel/(10272:10272): Petición del personaje: Mario
+[INFO] 11:12:56:414 Nivel/(10272:10272): Petición del personaje: Mario
+[INFO] 11:12:57:414 Nivel/(10272:10272): Petición del personaje: Mario
+[INFO] 11:12:58:415 Nivel/(10272:10272): Petición del personaje: Mario
+[INFO] 11:12:59:416 Nivel/(10272:10272): Petición del personaje: Mario
+[INFO] 11:13:00:416 Nivel/(10272:10272): Petición del personaje: Mario
+[INFO] 11:13:00:417 Nivel/(10272:10272): Petición del personaje: Mario
+[INFO] 11:13:01:450 Nivel/(10272:10272): Petición del personaje: Mario
+[INFO] 11:13:01:456 Nivel/(10272:10272): Petición del personaje: Mario
+[INFO] 11:13:02:457 Nivel/(10272:10272): Petición del personaje: Mario
+[INFO] 11:13:03:457 Nivel/(10272:10272): Petición del personaje: Mario
+[INFO] 11:13:04:458 Nivel/(10272:10272): Petición del personaje: Mario
+[INFO] 11:13:05:459 Nivel/(10272:10272): Petición del personaje: Mario
+[INFO] 11:13:06:184 Nivel/(10272:10272): Desconexión repentina de: Mario.
+[DEBUG] 11:19:19:571 Nivel/(10865:10865): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 11:19:19:572 Nivel/(10865:10865): Hand shake con Orquestador
+[INFO] 11:19:20:538 Nivel/(10865:10865): Conexión del personaje Mario
+[INFO] 11:19:20:538 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:20:540 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:21:540 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:22:541 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:23:741 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:24:742 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:24:742 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:25:743 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:25:743 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:26:743 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:27:744 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:28:774 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:29:774 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:30:775 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:30:775 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:31:776 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:31:776 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:32:777 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:33:799 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:34:800 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:35:800 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:36:801 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:36:801 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:37:802 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:37:828 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:38:828 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:39:829 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:39:829 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:39:830 Nivel/(10865:10865): Petición del personaje: Mario
+[INFO] 11:19:40:830 Nivel/(10865:10865): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[INFO] 11:19:40:830 Nivel/(10865:10865): Liberando recursos indicados por el Orquestador
+[DEBUG] 11:31:40:285 Nivel/(11684:11684): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 11:31:40:287 Nivel/(11684:11684): Hand shake con Orquestador
+[INFO] 11:31:41:366 Nivel/(11684:11684): Conexión del personaje Mario
+[INFO] 11:31:41:367 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:31:41:368 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:31:42:369 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:31:43:369 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:31:44:370 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:31:45:371 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:31:45:371 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:31:46:372 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:31:46:394 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:31:47:394 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:31:48:395 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:31:49:396 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:31:50:396 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:31:51:397 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:31:51:397 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:31:52:398 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:31:52:398 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:31:53:399 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:31:53:611 Nivel/(11684:11684): Desconexión repentina de: Mario.
+[INFO] 11:31:54:612 Nivel/(11684:11684): Peticion de liberación de recursos
+[INFO] 11:32:14:9 Nivel/(11684:11684): Conexión del personaje Mario
+[INFO] 11:32:14:9 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:32:14:9 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:32:15:9 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:32:16:10 Nivel/(11684:11684): Petición del personaje: Mario
+[INFO] 11:32:16:135 Nivel/(11684:11684): Desconexión repentina de: Mario.
+[INFO] 11:32:17:135 Nivel/(11684:11684): Peticion de liberación de recursos
+[DEBUG] 11:32:20:967 Nivel/(12093:12093): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 11:32:20:969 Nivel/(12093:12093): Hand shake con Orquestador
+[INFO] 11:32:21:614 Nivel/(12093:12093): Conexión del personaje Mario
+[INFO] 11:32:21:615 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:32:21:615 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:32:22:616 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:32:23:616 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:32:24:617 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:32:25:617 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:32:25:618 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:32:26:636 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:32:26:636 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:32:27:637 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:32:27:953 Nivel/(12093:12093): Desconexión repentina de: Mario.
+[INFO] 11:32:28:953 Nivel/(12093:12093): Peticion de liberación de recursos
+[INFO] 11:32:47:422 Nivel/(12093:12093): Conexión del personaje Mario
+[INFO] 11:32:47:422 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:32:47:422 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:32:48:423 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:32:48:521 Nivel/(12093:12093): Conexión del personaje Lucas
+[INFO] 11:32:49:423 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:32:50:540 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:32:51:549 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:32:51:549 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:32:52:550 Nivel/(12093:12093): Petición del personaje: Lucas
+[INFO] 11:32:52:550 Nivel/(12093:12093): Petición del personaje: Lucas
+[INFO] 11:32:53:551 Nivel/(12093:12093): Petición del personaje: Lucas
+[INFO] 11:32:54:551 Nivel/(12093:12093): Petición del personaje: Lucas
+[INFO] 11:32:55:552 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:32:55:552 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:32:56:553 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:32:57:554 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:32:58:554 Nivel/(12093:12093): Petición del personaje: Lucas
+[INFO] 11:32:59:555 Nivel/(12093:12093): Petición del personaje: Lucas
+[INFO] 11:32:59:555 Nivel/(12093:12093): Petición del personaje: Lucas
+[INFO] 11:33:00:556 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:33:01:557 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:33:02:557 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:33:02:558 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:33:03:558 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:33:03:559 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:33:04:559 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:33:05:560 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:33:06:562 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:33:07:563 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:33:08:563 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:33:08:564 Nivel/(12093:12093): Petición del personaje: Mario
+[DEBUG] 11:33:08:971 Nivel/(12093:12097): Personaje involucrado en deadlock: Mario
+[DEBUG] 11:33:08:971 Nivel/(12093:12097): Personaje involucrado en deadlock: Lucas
+[DEBUG] 11:33:08:971 Nivel/(12093:12097): Recovery: 1
+[DEBUG] 11:33:08:971 Nivel/(12093:12097): Victima: Mario
+[INFO] 11:33:08:971 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:33:09:972 Nivel/(12093:12093): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[INFO] 11:33:09:972 Nivel/(12093:12093): Conexión del personaje Mario
+[INFO] 11:33:09:973 Nivel/(12093:12093): Liberando recursos indicados por el Orquestador
+[INFO] 11:33:09:973 Nivel/(12093:12093): Petición del personaje: Lucas
+[INFO] 11:33:09:973 Nivel/(12093:12093): Petición del personaje: Lucas
+[INFO] 11:33:10:973 Nivel/(12093:12093): Petición del personaje: Lucas
+[INFO] 11:33:12:7 Nivel/(12093:12093): Petición del personaje: Lucas
+[INFO] 11:33:13:8 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:33:13:8 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:33:14:8 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:33:15:9 Nivel/(12093:12093): Petición del personaje: Mario
+[INFO] 11:33:16:20 Nivel/(12093:12093): Petición del personaje: Lucas
+[INFO] 11:33:17:23 Nivel/(12093:12093): Petición del personaje: Lucas
+[INFO] 11:33:18:24 Nivel/(12093:12093): Petición del personaje: Lucas
+[INFO] 11:33:18:24 Nivel/(12093:12093): Petición del personaje: Lucas
+[INFO] 11:33:18:962 Nivel/(12093:12093): Desconexión repentina de: Mario.
+[DEBUG] 11:34:03:190 Nivel/(12603:12603): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 11:34:03:192 Nivel/(12603:12603): Hand shake con Orquestador
+[INFO] 11:34:05:959 Nivel/(12603:12603): Conexión del personaje Mario
+[INFO] 11:34:11:776 Nivel/(12603:12603): Petición del personaje: Mario
+[INFO] 11:34:11:778 Nivel/(12603:12603): Petición del personaje: Mario
+[INFO] 11:34:12:779 Nivel/(12603:12603): Petición del personaje: Mario
+[INFO] 11:34:13:779 Nivel/(12603:12603): Petición del personaje: Mario
+[INFO] 11:34:14:780 Nivel/(12603:12603): Petición del personaje: Mario
+[INFO] 11:34:15:780 Nivel/(12603:12603): Petición del personaje: Mario
+[INFO] 11:34:15:781 Nivel/(12603:12603): Petición del personaje: Mario
+[INFO] 11:34:16:781 Nivel/(12603:12603): Petición del personaje: Mario
+[INFO] 11:34:16:792 Nivel/(12603:12603): Petición del personaje: Mario
+[INFO] 11:34:17:792 Nivel/(12603:12603): Petición del personaje: Mario
+[INFO] 11:34:18:793 Nivel/(12603:12603): Petición del personaje: Mario
+[INFO] 11:34:19:347 Nivel/(12603:12603): Desconexión repentina de: Mario.
+[INFO] 11:34:20:347 Nivel/(12603:12603): Peticion de liberación de recursos
+[DEBUG] 11:35:39:18 Nivel/(13088:13088): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 11:35:39:19 Nivel/(13088:13088): Hand shake con Orquestador
+[INFO] 11:35:42:308 Nivel/(13088:13088): Conexión del personaje Mario
+[INFO] 11:35:42:308 Nivel/(13088:13088): Petición del personaje: Mario
+[INFO] 11:35:42:308 Nivel/(13088:13088): Petición del personaje: Mario
+[INFO] 11:35:43:309 Nivel/(13088:13088): Petición del personaje: Mario
+[INFO] 11:35:44:309 Nivel/(13088:13088): Petición del personaje: Mario
+[INFO] 11:35:45:310 Nivel/(13088:13088): Petición del personaje: Mario
+[INFO] 11:35:46:311 Nivel/(13088:13088): Petición del personaje: Mario
+[INFO] 11:35:46:311 Nivel/(13088:13088): Petición del personaje: Mario
+[INFO] 11:35:47:312 Nivel/(13088:13088): Petición del personaje: Mario
+[INFO] 11:35:47:366 Nivel/(13088:13088): Petición del personaje: Mario
+[INFO] 11:35:48:366 Nivel/(13088:13088): Petición del personaje: Mario
+[INFO] 11:35:49:367 Nivel/(13088:13088): Petición del personaje: Mario
+[INFO] 11:35:50:368 Nivel/(13088:13088): Petición del personaje: Mario
+[INFO] 11:35:51:368 Nivel/(13088:13088): Petición del personaje: Mario
+[INFO] 11:35:52:369 Nivel/(13088:13088): Petición del personaje: Mario
+[INFO] 11:35:52:370 Nivel/(13088:13088): Petición del personaje: Mario
+[INFO] 11:35:53:372 Nivel/(13088:13088): Petición del personaje: Mario
+[INFO] 11:35:53:373 Nivel/(13088:13088): Petición del personaje: Mario
+[INFO] 11:35:54:373 Nivel/(13088:13088): Petición del personaje: Mario
+[INFO] 11:35:57:588 Nivel/(13088:13088): Desconexión repentina de: Mario.
+[INFO] 11:36:03:613 Nivel/(13088:13088): Peticion de liberación de recursos
+[DEBUG] 11:36:17:593 Nivel/(13389:13389): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 11:36:17:594 Nivel/(13389:13389): Hand shake con Orquestador
+[INFO] 11:36:19:915 Nivel/(13389:13389): Conexión del personaje Mario
+[INFO] 11:36:19:916 Nivel/(13389:13389): Petición del personaje: Mario
+[INFO] 11:36:19:916 Nivel/(13389:13389): Petición del personaje: Mario
+[INFO] 11:36:20:916 Nivel/(13389:13389): Petición del personaje: Mario
+[INFO] 11:36:21:917 Nivel/(13389:13389): Petición del personaje: Mario
+[INFO] 11:36:22:918 Nivel/(13389:13389): Petición del personaje: Mario
+[INFO] 11:36:23:918 Nivel/(13389:13389): Petición del personaje: Mario
+[INFO] 11:36:23:918 Nivel/(13389:13389): Petición del personaje: Mario
+[INFO] 11:36:24:919 Nivel/(13389:13389): Petición del personaje: Mario
+[INFO] 11:36:24:920 Nivel/(13389:13389): Petición del personaje: Mario
+[INFO] 11:36:25:920 Nivel/(13389:13389): Petición del personaje: Mario
+[INFO] 11:36:27:124 Nivel/(13389:13389): Desconexión repentina de: Mario.
+[DEBUG] 11:37:41:128 Nivel/(13738:13738): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 11:37:41:128 Nivel/(13738:13738): Hand shake con Orquestador
+[INFO] 11:37:44:266 Nivel/(13738:13738): Conexión del personaje Mario
+[INFO] 11:37:44:266 Nivel/(13738:13738): Petición del personaje: Mario
+[INFO] 11:37:44:266 Nivel/(13738:13738): Petición del personaje: Mario
+[INFO] 11:37:45:267 Nivel/(13738:13738): Petición del personaje: Mario
+[INFO] 11:37:46:267 Nivel/(13738:13738): Petición del personaje: Mario
+[INFO] 11:37:47:268 Nivel/(13738:13738): Petición del personaje: Mario
+[INFO] 11:37:48:269 Nivel/(13738:13738): Petición del personaje: Mario
+[INFO] 11:37:48:269 Nivel/(13738:13738): Petición del personaje: Mario
+[INFO] 11:37:49:270 Nivel/(13738:13738): Petición del personaje: Mario
+[INFO] 11:37:49:271 Nivel/(13738:13738): Petición del personaje: Mario
+[INFO] 11:37:50:272 Nivel/(13738:13738): Petición del personaje: Mario
+[INFO] 11:37:52:860 Nivel/(13738:13738): Desconexión repentina de: Mario.
+[DEBUG] 11:38:15:578 Nivel/(14083:14083): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 11:38:15:579 Nivel/(14083:14083): Hand shake con Orquestador
+[INFO] 11:38:16:626 Nivel/(14083:14083): Conexión del personaje Mario
+[INFO] 11:38:16:626 Nivel/(14083:14083): Petición del personaje: Mario
+[INFO] 11:38:16:626 Nivel/(14083:14083): Petición del personaje: Mario
+[INFO] 11:38:17:629 Nivel/(14083:14083): Petición del personaje: Mario
+[INFO] 11:38:18:630 Nivel/(14083:14083): Petición del personaje: Mario
+[INFO] 11:38:19:630 Nivel/(14083:14083): Petición del personaje: Mario
+[INFO] 11:38:20:631 Nivel/(14083:14083): Petición del personaje: Mario
+[INFO] 11:38:20:661 Nivel/(14083:14083): Petición del personaje: Mario
+[INFO] 11:38:21:740 Nivel/(14083:14083): Petición del personaje: Mario
+[INFO] 11:38:21:740 Nivel/(14083:14083): Petición del personaje: Mario
+[INFO] 11:38:22:741 Nivel/(14083:14083): Petición del personaje: Mario
+[INFO] 11:38:23:741 Nivel/(14083:14083): Petición del personaje: Mario
+[INFO] 11:38:24:25 Nivel/(14083:14083): Desconexión repentina de: Mario.
+[INFO] 11:38:25:25 Nivel/(14083:14083): Peticion de liberación de recursos
+[INFO] 11:38:25:26 Nivel/(14083:14083): Liberando recursos indicados por el Orquestador
+[DEBUG] 11:43:23:921 Nivel/(14630:14630): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 11:43:23:924 Nivel/(14630:14630): Hand shake con Orquestador
+[DEBUG] 11:43:46:214 Nivel/(15056:15056): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 11:43:46:217 Nivel/(15056:15056): Hand shake con Orquestador
+[INFO] 11:43:48:752 Nivel/(15056:15056): Conexión del personaje Mario
+[INFO] 11:43:48:825 Nivel/(15056:15056): Petición del personaje: Mario
+[INFO] 11:43:48:827 Nivel/(15056:15056): Petición del personaje: Mario
+[INFO] 11:43:48:827 Nivel/(15056:15056): Petición del personaje: Mario
+[INFO] 11:43:48:827 Nivel/(15056:15056): Desconexión repentina de: Mario.
+[INFO] 11:43:49:827 Nivel/(15056:15056): Peticion de liberación de recursos
+[DEBUG] 11:44:24:670 Nivel/(15350:15350): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 11:44:24:673 Nivel/(15350:15350): Hand shake con Orquestador
+[INFO] 11:44:26:879 Nivel/(15350:15350): Conexión del personaje Mario
+[INFO] 11:44:59:489 Nivel/(15350:15350): Petición del personaje: Mario
+[INFO] 11:44:59:491 Nivel/(15350:15350): Petición del personaje: Mario
+[INFO] 11:44:59:491 Nivel/(15350:15350): Petición del personaje: Mario
+[INFO] 11:44:59:491 Nivel/(15350:15350): Desconexión repentina de: Mario.
+[INFO] 11:45:00:491 Nivel/(15350:15350): Peticion de liberación de recursos
+[DEBUG] 11:49:03:768 Nivel/(15965:15965): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 11:49:03:770 Nivel/(15965:15965): Hand shake con Orquestador
+[INFO] 11:49:04:861 Nivel/(15965:15965): Conexión del personaje Mario
+[INFO] 11:49:04:861 Nivel/(15965:15965): Petición del personaje: Mario
+[INFO] 11:49:04:862 Nivel/(15965:15965): Petición del personaje: Mario
+[INFO] 11:49:05:863 Nivel/(15965:15965): Petición del personaje: Mario
+[INFO] 11:49:06:863 Nivel/(15965:15965): Petición del personaje: Mario
+[INFO] 11:49:07:865 Nivel/(15965:15965): Petición del personaje: Mario
+[INFO] 11:49:08:865 Nivel/(15965:15965): Petición del personaje: Mario
+[INFO] 11:49:08:866 Nivel/(15965:15965): Petición del personaje: Mario
+[INFO] 11:49:09:867 Nivel/(15965:15965): Petición del personaje: Mario
+[INFO] 11:49:09:867 Nivel/(15965:15965): Petición del personaje: Mario
+[INFO] 11:49:10:867 Nivel/(15965:15965): Petición del personaje: Mario
+[INFO] 11:49:11:868 Nivel/(15965:15965): Petición del personaje: Mario
+[INFO] 11:49:12:870 Nivel/(15965:15965): Petición del personaje: Mario
+[INFO] 11:49:13:871 Nivel/(15965:15965): Petición del personaje: Mario
+[INFO] 11:49:14:872 Nivel/(15965:15965): Petición del personaje: Mario
+[INFO] 11:49:14:872 Nivel/(15965:15965): Petición del personaje: Mario
+[INFO] 11:49:15:873 Nivel/(15965:15965): Petición del personaje: Mario
+[INFO] 11:49:15:873 Nivel/(15965:15965): Petición del personaje: Mario
+[INFO] 11:49:16:874 Nivel/(15965:15965): Petición del personaje: Mario
+[INFO] 11:49:17:894 Nivel/(15965:15965): Petición del personaje: Mario
+[INFO] 11:49:18:895 Nivel/(15965:15965): Petición del personaje: Mario
+[INFO] 11:49:19:896 Nivel/(15965:15965): Petición del personaje: Mario
+[DEBUG] 11:50:00:70 Nivel/(16407:16407): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 11:50:00:72 Nivel/(16407:16407): Hand shake con Orquestador
+[INFO] 11:50:01:72 Nivel/(16407:16407): Conexión del personaje Mario
+[INFO] 11:50:01:72 Nivel/(16407:16407): Petición del personaje: Mario
+[INFO] 11:50:01:73 Nivel/(16407:16407): Petición del personaje: Mario
+[INFO] 11:50:02:73 Nivel/(16407:16407): Petición del personaje: Mario
+[INFO] 11:50:03:74 Nivel/(16407:16407): Petición del personaje: Mario
+[INFO] 11:50:04:75 Nivel/(16407:16407): Petición del personaje: Mario
+[INFO] 11:50:05:76 Nivel/(16407:16407): Petición del personaje: Mario
+[INFO] 11:50:05:76 Nivel/(16407:16407): Petición del personaje: Mario
+[INFO] 11:50:06:77 Nivel/(16407:16407): Petición del personaje: Mario
+[INFO] 11:50:06:77 Nivel/(16407:16407): Petición del personaje: Mario
+[INFO] 11:50:06:724 Nivel/(16407:16407): Desconexión repentina de: Mario.
+[DEBUG] 13:52:23:657 Nivel/(18422:18422): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 13:52:23:658 Nivel/(18422:18422): Hand shake con Orquestador
+[DEBUG] 13:54:17:279 Nivel/(19434:19434): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 13:54:17:282 Nivel/(19434:19434): Hand shake con Orquestador
+[INFO] 13:54:20:63 Nivel/(19434:19434): Conexión del personaje Mario
+[INFO] 13:54:20:63 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:20:64 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:21:64 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:22:65 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:23:66 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:24:66 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:24:67 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:25:67 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:25:99 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:26:100 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:27:101 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:28:101 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:29:102 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:30:102 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:30:128 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:30:836 Nivel/(19434:19434): Desconexión repentina de: Mario.
+[INFO] 13:54:31:836 Nivel/(19434:19434): Peticion de liberación de recursos
+[INFO] 13:54:31:836 Nivel/(19434:19434): Liberando recursos indicados por el Orquestador
+[INFO] 13:54:36:462 Nivel/(19434:19434): Conexión del personaje Mario
+[INFO] 13:54:36:462 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:36:463 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:37:463 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:37:546 Nivel/(19434:19434): Conexión del personaje Lucas
+[INFO] 13:54:38:464 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:39:465 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:40:465 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:40:466 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:41:547 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:54:41:556 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:54:42:556 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:54:43:557 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:54:44:558 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:44:558 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:45:558 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:46:559 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:47:583 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:54:48:584 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:54:48:584 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:54:49:585 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:50:585 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:51:586 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:51:586 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:52:587 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:54:52:587 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:54:53:588 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:54:54:588 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:54:55:589 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:55:589 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:56:590 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:57:591 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:54:58:592 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:54:59:592 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:55:00:593 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:55:00:593 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:55:01:594 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:02:595 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:03:596 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:03:596 Nivel/(19434:19434): Petición del personaje: Mario
+[DEBUG] 13:55:05:285 Nivel/(19434:19436): Personaje involucrado en deadlock: Mario
+[DEBUG] 13:55:05:285 Nivel/(19434:19436): Personaje involucrado en deadlock: Lucas
+[DEBUG] 13:55:05:285 Nivel/(19434:19436): Recovery: 1
+[DEBUG] 13:55:05:285 Nivel/(19434:19436): Victima: Mario
+[INFO] 13:55:05:286 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:06:286 Nivel/(19434:19434): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[INFO] 13:55:06:286 Nivel/(19434:19434): Conexión del personaje Mario
+[INFO] 13:55:06:286 Nivel/(19434:19434): Liberando recursos indicados por el Orquestador
+[INFO] 13:55:06:287 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:55:06:287 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:55:07:287 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:55:08:312 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:55:09:313 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:09:313 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:10:314 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:11:314 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:12:317 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:55:13:321 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:55:14:322 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:55:14:322 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:55:15:323 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:16:323 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:16:324 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:17:325 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:55:17:341 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:55:18:343 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:55:19:344 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:55:19:344 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:55:19:345 Nivel/(19434:19434): Petición del personaje: Lucas
+[INFO] 13:55:20:345 Nivel/(19434:19434): Desconexión del personaje Lucas y peticion de liberación de recursos al Orquestador
+[INFO] 13:55:20:345 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:20:346 Nivel/(19434:19434): Liberando recursos indicados por el Orquestador
+[INFO] 13:55:20:346 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:21:346 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:22:347 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:23:374 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:24:374 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:25:375 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:25:375 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:26:376 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:26:377 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:27:377 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:28:378 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:29:378 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:30:379 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:31:379 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:31:380 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:32:381 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:32:381 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:33:381 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:34:394 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:34:395 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:34:395 Nivel/(19434:19434): Petición del personaje: Mario
+[INFO] 13:55:35:395 Nivel/(19434:19434): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[INFO] 13:55:35:396 Nivel/(19434:19434): Liberando recursos indicados por el Orquestador
+[DEBUG] 13:56:59:208 Nivel/(20183:20183): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 13:56:59:210 Nivel/(20183:20183): Hand shake con Orquestador
+[DEBUG] 13:59:41:85 Nivel/(20449:20449): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 13:59:41:86 Nivel/(20449:20449): Hand shake con Orquestador
+[INFO] 13:59:43:231 Nivel/(20449:20449): Conexión del personaje Mario
+[INFO] 13:59:43:231 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 13:59:43:233 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 13:59:44:67 Nivel/(20449:20449): Conexión del personaje Lucas
+[INFO] 13:59:44:233 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 13:59:45:234 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 13:59:46:249 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 13:59:47:414 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 13:59:47:415 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 13:59:48:415 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 13:59:48:416 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 13:59:49:416 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 13:59:50:417 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 13:59:51:418 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 13:59:51:418 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 13:59:52:418 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 13:59:53:419 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 13:59:54:420 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 13:59:55:420 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 13:59:55:421 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 13:59:56:422 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 13:59:57:424 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 13:59:58:425 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 13:59:58:425 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 13:59:59:426 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 13:59:59:426 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 14:00:00:427 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 14:00:01:427 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 14:00:02:430 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 14:00:02:430 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 14:00:03:431 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 14:00:04:431 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 14:00:05:432 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 14:00:06:433 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 14:00:07:451 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 14:00:07:451 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 14:00:08:452 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 14:00:09:453 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 14:00:10:453 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 14:00:10:454 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 14:00:11:454 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 14:00:11:474 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 14:00:12:477 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 14:00:13:477 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 14:00:13:478 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 14:00:13:478 Nivel/(20449:20449): Petición del personaje: Mario
+[INFO] 14:00:14:478 Nivel/(20449:20449): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[INFO] 14:00:14:479 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 14:00:14:479 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 14:00:14:479 Nivel/(20449:20449): Liberando recursos indicados por el Orquestador
+[INFO] 14:00:15:479 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 14:00:16:480 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 14:00:17:503 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 14:00:18:504 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 14:00:19:505 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 14:00:19:505 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 14:00:20:506 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 14:00:20:506 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 14:00:21:507 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 14:00:22:508 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 14:00:22:509 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 14:00:22:509 Nivel/(20449:20449): Petición del personaje: Lucas
+[INFO] 14:00:23:509 Nivel/(20449:20449): Desconexión del personaje Lucas y peticion de liberación de recursos al Orquestador
+[INFO] 14:00:23:510 Nivel/(20449:20449): Liberando recursos indicados por el Orquestador
+[DEBUG] 14:07:43:958 Nivel/(21042:21042): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 14:07:43:960 Nivel/(21042:21042): Hand shake con Orquestador
+[INFO] 14:07:46:858 Nivel/(21042:21042): Conexión del personaje Mario
+[INFO] 14:07:46:858 Nivel/(21042:21042): Petición del personaje: Mario
+[INFO] 14:07:46:858 Nivel/(21042:21042): Petición del personaje: Mario
+[INFO] 14:07:47:859 Nivel/(21042:21042): Petición del personaje: Mario
+[INFO] 14:07:48:859 Nivel/(21042:21042): Petición del personaje: Mario
+[INFO] 14:07:49:294 Nivel/(21042:21042): Desconexión repentina de: Mario.
+[INFO] 14:07:50:294 Nivel/(21042:21042): Peticion de liberación de recursos
+[INFO] 14:07:50:294 Nivel/(21042:21042): Liberando recursos indicados por el Orquestador
+[DEBUG] 14:11:17:774 Nivel/(21528:21528): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 14:11:17:776 Nivel/(21528:21528): Hand shake con Orquestador
+[INFO] 14:11:18:988 Nivel/(21528:21528): Conexión del personaje Mario
+[INFO] 14:11:18:988 Nivel/(21528:21528): Petición del personaje: Mario
+[INFO] 14:11:18:990 Nivel/(21528:21528): Petición del personaje: Mario
+[INFO] 14:11:19:991 Nivel/(21528:21528): Petición del personaje: Mario
+[INFO] 14:11:20:991 Nivel/(21528:21528): Petición del personaje: Mario
+[INFO] 14:11:21:992 Nivel/(21528:21528): Petición del personaje: Mario
+[INFO] 14:11:22:993 Nivel/(21528:21528): Petición del personaje: Mario
+[INFO] 14:11:22:993 Nivel/(21528:21528): Petición del personaje: Mario
+[INFO] 14:11:23:67 Nivel/(21528:21528): Petición del personaje: Mario
+[INFO] 14:11:23:67 Nivel/(21528:21528): Petición del personaje: Mario
+[INFO] 14:11:23:67 Nivel/(21528:21528): Petición del personaje: Mario
+[INFO] 14:11:23:68 Nivel/(21528:21528): Desconexión repentina de: Mario.
+[INFO] 14:11:24:68 Nivel/(21528:21528): Peticion de liberación de recursos
+[DEBUG] 14:13:25:919 Nivel/(21830:21830): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 14:13:25:922 Nivel/(21830:21830): Hand shake con Orquestador
+[DEBUG] 14:14:32:395 Nivel/(22246:22246): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 14:14:32:396 Nivel/(22246:22246): Hand shake con Orquestador
+[INFO] 14:14:33:852 Nivel/(22246:22246): Conexión del personaje Mario
+[INFO] 14:14:48:630 Nivel/(22246:22246): Petición del personaje: Mario
+[INFO] 14:14:48:632 Nivel/(22246:22246): Petición del personaje: Mario
+[INFO] 14:14:49:632 Nivel/(22246:22246): Petición del personaje: Mario
+[INFO] 14:14:50:633 Nivel/(22246:22246): Petición del personaje: Mario
+[INFO] 14:15:28:454 Nivel/(22246:22246): Petición del personaje: Mario
+[INFO] 14:15:29:455 Nivel/(22246:22246): Petición del personaje: Mario
+[INFO] 14:15:29:455 Nivel/(22246:22246): Petición del personaje: Mario
+[INFO] 14:16:10:315 Nivel/(22246:22246): Petición del personaje: Mario
+[INFO] 14:16:10:316 Nivel/(22246:22246): Petición del personaje: Mario
+[INFO] 14:16:10:316 Nivel/(22246:22246): Petición del personaje: Mario
+[INFO] 14:16:10:317 Nivel/(22246:22246): Desconexión repentina de: Mario.
+[INFO] 14:16:11:317 Nivel/(22246:22246): Peticion de liberación de recursos
+[DEBUG] 14:17:10:618 Nivel/(22753:22753): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 14:17:10:621 Nivel/(22753:22753): Hand shake con Orquestador
+[INFO] 14:17:11:523 Nivel/(22753:22753): Conexión del personaje Mario
+[INFO] 14:17:11:524 Nivel/(22753:22753): Petición del personaje: Mario
+[INFO] 14:17:11:524 Nivel/(22753:22753): Petición del personaje: Mario
+[INFO] 14:17:12:525 Nivel/(22753:22753): Petición del personaje: Mario
+[INFO] 14:17:13:525 Nivel/(22753:22753): Petición del personaje: Mario
+[INFO] 14:17:14:597 Nivel/(22753:22753): Petición del personaje: Mario
+[INFO] 14:17:15:606 Nivel/(22753:22753): Petición del personaje: Mario
+[INFO] 14:17:15:607 Nivel/(22753:22753): Petición del personaje: Mario
+[INFO] 14:17:15:685 Nivel/(22753:22753): Petición del personaje: Mario
+[INFO] 14:17:15:685 Nivel/(22753:22753): Petición del personaje: Mario
+[INFO] 14:17:15:686 Nivel/(22753:22753): Petición del personaje: Mario
+[INFO] 14:17:15:686 Nivel/(22753:22753): Desconexión repentina de: Mario.
+[INFO] 14:17:16:686 Nivel/(22753:22753): Peticion de liberación de recursos
+[DEBUG] 14:17:36:911 Nivel/(23039:23039): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 14:17:36:914 Nivel/(23039:23039): Hand shake con Orquestador
+[INFO] 14:17:37:657 Nivel/(23039:23039): Conexión del personaje Mario
+[INFO] 14:17:39:266 Nivel/(23039:23039): Petición del personaje: Mario
+[INFO] 14:17:39:268 Nivel/(23039:23039): Petición del personaje: Mario
+[INFO] 14:17:40:268 Nivel/(23039:23039): Petición del personaje: Mario
+[INFO] 14:17:41:269 Nivel/(23039:23039): Petición del personaje: Mario
+[INFO] 14:17:54:424 Nivel/(23039:23039): Petición del personaje: Mario
+[INFO] 14:17:55:424 Nivel/(23039:23039): Petición del personaje: Mario
+[INFO] 14:17:55:425 Nivel/(23039:23039): Petición del personaje: Mario
+[INFO] 14:18:43:293 Nivel/(23039:23039): Petición del personaje: Mario
+[INFO] 14:18:43:293 Nivel/(23039:23039): Petición del personaje: Mario
+[INFO] 14:18:43:293 Nivel/(23039:23039): Petición del personaje: Mario
+[INFO] 14:18:43:294 Nivel/(23039:23039): Desconexión repentina de: Mario.
+[INFO] 14:18:44:294 Nivel/(23039:23039): Peticion de liberación de recursos
+[DEBUG] 14:18:51:270 Nivel/(23485:23485): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 14:18:51:273 Nivel/(23485:23485): Hand shake con Orquestador
+[INFO] 14:18:52:196 Nivel/(23485:23485): Conexión del personaje Mario
+[INFO] 14:18:52:196 Nivel/(23485:23485): Petición del personaje: Mario
+[INFO] 14:18:52:197 Nivel/(23485:23485): Petición del personaje: Mario
+[INFO] 14:18:53:197 Nivel/(23485:23485): Petición del personaje: Mario
+[INFO] 14:18:54:198 Nivel/(23485:23485): Petición del personaje: Mario
+[INFO] 14:18:55:199 Nivel/(23485:23485): Petición del personaje: Mario
+[INFO] 14:18:56:286 Nivel/(23485:23485): Petición del personaje: Mario
+[INFO] 14:18:56:286 Nivel/(23485:23485): Petición del personaje: Mario
+[INFO] 14:18:56:366 Nivel/(23485:23485): Petición del personaje: Mario
+[INFO] 14:18:56:366 Nivel/(23485:23485): Petición del personaje: Mario
+[INFO] 14:18:56:366 Nivel/(23485:23485): Petición del personaje: Mario
+[INFO] 14:18:56:367 Nivel/(23485:23485): Desconexión repentina de: Mario.
+[INFO] 14:18:57:367 Nivel/(23485:23485): Peticion de liberación de recursos
+[DEBUG] 14:19:08:758 Nivel/(23772:23772): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 14:19:08:761 Nivel/(23772:23772): Hand shake con Orquestador
+[INFO] 14:19:09:696 Nivel/(23772:23772): Conexión del personaje Mario
+[INFO] 14:19:11:950 Nivel/(23772:23772): Petición del personaje: Mario
+[INFO] 14:19:11:950 Nivel/(23772:23772): Petición del personaje: Mario
+[INFO] 14:19:12:951 Nivel/(23772:23772): Petición del personaje: Mario
+[INFO] 14:19:13:952 Nivel/(23772:23772): Petición del personaje: Mario
+[INFO] 14:19:44:551 Nivel/(23772:23772): Petición del personaje: Mario
+[INFO] 14:19:45:551 Nivel/(23772:23772): Petición del personaje: Mario
+[INFO] 14:19:45:552 Nivel/(23772:23772): Petición del personaje: Mario
+[INFO] 14:20:32:742 Nivel/(23772:23772): Petición del personaje: Mario
+[INFO] 14:20:32:743 Nivel/(23772:23772): Petición del personaje: Mario
+[INFO] 14:20:32:743 Nivel/(23772:23772): Petición del personaje: Mario
+[INFO] 14:20:32:743 Nivel/(23772:23772): Desconexión repentina de: Mario.
+[INFO] 14:20:33:744 Nivel/(23772:23772): Peticion de liberación de recursos
+[DEBUG] 14:25:57:619 Nivel/(24162:24162): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 14:25:57:622 Nivel/(24162:24162): Hand shake con Orquestador
+[INFO] 14:25:58:632 Nivel/(24162:24162): Conexión del personaje Mario
+[INFO] 14:26:01:299 Nivel/(24162:24162): Petición del personaje: Mario
+[INFO] 14:26:01:301 Nivel/(24162:24162): Petición del personaje: Mario
+[INFO] 14:26:02:302 Nivel/(24162:24162): Petición del personaje: Mario
+[INFO] 14:26:03:303 Nivel/(24162:24162): Petición del personaje: Mario
+[INFO] 14:26:07:43 Nivel/(24162:24162): Petición del personaje: Mario
+[INFO] 14:26:08:44 Nivel/(24162:24162): Petición del personaje: Mario
+[INFO] 14:26:08:44 Nivel/(24162:24162): Petición del personaje: Mario
+[INFO] 14:26:09:303 Nivel/(24162:24162): Petición del personaje: Mario
+[INFO] 14:26:09:304 Nivel/(24162:24162): Petición del personaje: Mario
+[INFO] 14:26:09:304 Nivel/(24162:24162): Petición del personaje: Mario
+[INFO] 14:26:09:304 Nivel/(24162:24162): Desconexión repentina de: Mario.
+[INFO] 14:26:10:304 Nivel/(24162:24162): Peticion de liberación de recursos
+[DEBUG] 14:26:23:500 Nivel/(24478:24478): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 14:26:23:502 Nivel/(24478:24478): Hand shake con Orquestador
+[INFO] 14:26:24:406 Nivel/(24478:24478): Conexión del personaje Mario
+[INFO] 14:26:24:406 Nivel/(24478:24478): Petición del personaje: Mario
+[INFO] 14:26:24:406 Nivel/(24478:24478): Petición del personaje: Mario
+[INFO] 14:26:25:407 Nivel/(24478:24478): Petición del personaje: Mario
+[INFO] 14:26:26:407 Nivel/(24478:24478): Petición del personaje: Mario
+[INFO] 14:26:27:408 Nivel/(24478:24478): Petición del personaje: Mario
+[INFO] 14:26:28:409 Nivel/(24478:24478): Petición del personaje: Mario
+[INFO] 14:26:28:409 Nivel/(24478:24478): Petición del personaje: Mario
+[INFO] 14:27:18:467 Nivel/(24478:24478): Petición del personaje: Mario
+[INFO] 14:27:18:468 Nivel/(24478:24478): Petición del personaje: Mario
+[INFO] 14:27:18:468 Nivel/(24478:24478): Petición del personaje: Mario
+[INFO] 14:27:18:469 Nivel/(24478:24478): Desconexión repentina de: Mario.
+[INFO] 14:27:19:469 Nivel/(24478:24478): Peticion de liberación de recursos
+[DEBUG] 14:30:54:236 Nivel/(25000:25000): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 14:30:54:238 Nivel/(25000:25000): Hand shake con Orquestador
+[INFO] 14:30:56:150 Nivel/(25000:25000): Conexión del personaje Mario
+[INFO] 14:30:56:150 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:30:56:151 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:30:57:151 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:30:58:152 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:30:59:153 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:00:153 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:00:154 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:01:155 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:01:155 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:02:155 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:03:158 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:04:158 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:05:159 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:06:159 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:06:160 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:07:160 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:07:162 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:08:163 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:09:163 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:10:164 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:11:164 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:12:165 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:12:182 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:13:184 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:13:184 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:14:185 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:15:185 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:15:186 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:15:186 Nivel/(25000:25000): Petición del personaje: Mario
+[INFO] 14:31:16:186 Nivel/(25000:25000): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[INFO] 14:31:16:187 Nivel/(25000:25000): Liberando recursos indicados por el Orquestador
+[DEBUG] 14:34:22:91 Nivel/(25713:25713): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 14:34:22:94 Nivel/(25713:25713): Hand shake con Orquestador
+[INFO] 14:34:28:207 Nivel/(25713:25713): Conexión del personaje Mario
+[INFO] 14:34:28:207 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:28:208 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:29:208 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:29:341 Nivel/(25713:25713): Conexión del personaje Lucas
+[INFO] 14:34:30:209 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:31:209 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:32:210 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:32:210 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:33:211 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:34:33:236 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:34:34:237 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:34:35:237 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:34:36:238 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:36:238 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:37:239 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:38:239 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:39:242 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:34:40:242 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:34:40:243 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:34:41:244 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:42:244 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:43:245 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:43:246 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:44:248 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:34:44:248 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:34:45:249 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:34:46:249 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:34:47:250 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:47:250 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:48:251 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:49:252 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:50:253 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:34:51:253 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:34:52:254 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:34:52:255 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:34:53:255 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:54:256 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:55:257 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:55:257 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:56:258 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:56:258 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:57:259 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:58:259 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:58:259 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:58:260 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:34:59:260 Nivel/(25713:25713): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[INFO] 14:34:59:261 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:34:59:261 Nivel/(25713:25713): Liberando recursos indicados por el Orquestador
+[INFO] 14:34:59:261 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:00:262 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:01:262 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:02:263 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:03:263 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:04:264 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:04:264 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:05:265 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:05:265 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:06:266 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:07:266 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:07:267 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:07:267 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:08:267 Nivel/(25713:25713): Desconexión del personaje Lucas y peticion de liberación de recursos al Orquestador
+[INFO] 14:35:08:267 Nivel/(25713:25713): Liberando recursos indicados por el Orquestador
+[INFO] 14:35:11:945 Nivel/(25713:25713): Conexión del personaje Mario
+[INFO] 14:35:11:945 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:11:945 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:12:946 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:13:130 Nivel/(25713:25713): Conexión del personaje Lucas
+[INFO] 14:35:13:946 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:14:947 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:15:947 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:15:948 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:16:948 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:16:949 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:17:949 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:18:950 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:19:951 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:19:951 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:20:952 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:21:952 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:22:954 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:23:956 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:23:956 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:24:957 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:25:958 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:26:958 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:26:958 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:27:959 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:27:962 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:28:963 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:29:963 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:30:964 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:30:964 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:31:965 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:32:965 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:33:967 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:34:969 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:35:969 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:35:970 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:36:970 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:37:971 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:38:971 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:38:991 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:39:993 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:39:993 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:40:993 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:41:994 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:41:994 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:41:995 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:35:42:995 Nivel/(25713:25713): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[INFO] 14:35:42:995 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:42:996 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:42:996 Nivel/(25713:25713): Liberando recursos indicados por el Orquestador
+[INFO] 14:35:43:996 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:44:997 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:45:998 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:46:998 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:47:999 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:47:999 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:49:105 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:49:106 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:50:106 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:51:106 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:51:107 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:51:107 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:35:52:107 Nivel/(25713:25713): Desconexión del personaje Lucas y peticion de liberación de recursos al Orquestador
+[INFO] 14:35:52:108 Nivel/(25713:25713): Liberando recursos indicados por el Orquestador
+[INFO] 14:36:19:709 Nivel/(25713:25713): Conexión del personaje Mario
+[INFO] 14:36:19:709 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:19:710 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:20:710 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:21:711 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:22:712 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:23:777 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:23:777 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:24:499 Nivel/(25713:25713): Conexión del personaje Lucas
+[INFO] 14:36:24:778 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:24:778 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:25:779 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:26:779 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:27:819 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:27:895 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:28:896 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:29:896 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:30:897 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:31:898 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:32:898 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:32:903 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:33:906 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:34:906 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:34:907 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:35:907 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:35:908 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:36:908 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:37:909 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:38:923 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:38:923 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:39:924 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:40:924 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:41:925 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:42:926 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:43:928 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:43:928 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:44:929 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:45:930 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:46:930 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:46:930 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:47:931 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:47:949 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:48:949 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:49:950 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:49:950 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:49:950 Nivel/(25713:25713): Petición del personaje: Mario
+[INFO] 14:36:50:951 Nivel/(25713:25713): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[INFO] 14:36:50:951 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:50:952 Nivel/(25713:25713): Liberando recursos indicados por el Orquestador
+[INFO] 14:36:50:952 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:51:952 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:52:953 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:53:954 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:54:954 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:55:955 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:55:955 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:56:956 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:56:956 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:57:957 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:58:957 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:58:958 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:58:958 Nivel/(25713:25713): Petición del personaje: Lucas
+[INFO] 14:36:59:958 Nivel/(25713:25713): Desconexión del personaje Lucas y peticion de liberación de recursos al Orquestador
+[INFO] 14:36:59:959 Nivel/(25713:25713): Liberando recursos indicados por el Orquestador
+[DEBUG] 14:37:21:491 Nivel/(26467:26467): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 14:37:21:494 Nivel/(26467:26467): Hand shake con Orquestador
+[INFO] 14:37:26:286 Nivel/(26467:26467): Conexión del personaje Mario
+[INFO] 14:37:26:286 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:37:26:287 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:37:36:287 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:37:40:723 Nivel/(26467:26467): Conexión del personaje Lucas
+[INFO] 14:37:46:288 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:37:56:289 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:37:56:290 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:38:06:290 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:38:16:291 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:38:26:292 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:38:26:292 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:38:31:292 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:38:36:293 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:38:41:295 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:38:41:296 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:38:46:297 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:38:46:299 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:38:51:299 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:38:56:300 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:39:01:301 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:39:06:302 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:39:11:302 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:39:11:304 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:39:16:305 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:39:16:306 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:39:21:306 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:39:26:308 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:39:31:308 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:39:36:309 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:39:41:310 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:39:41:311 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:39:46:311 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:39:46:313 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:39:51:313 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:39:56:314 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:40:01:315 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:40:06:315 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:40:11:316 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:40:11:316 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:40:16:317 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:40:16:319 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:40:21:321 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:40:26:350 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:40:26:351 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:40:26:352 Nivel/(26467:26467): Petición del personaje: Mario
+[INFO] 14:40:27:352 Nivel/(26467:26467): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[INFO] 14:40:27:353 Nivel/(26467:26467): Liberando recursos indicados por el Orquestador
+[INFO] 14:40:31:353 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:40:31:353 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:40:36:354 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:40:41:354 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:40:46:355 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:40:51:356 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:40:56:357 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:40:56:358 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:41:01:359 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:41:01:360 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:41:06:361 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:41:11:362 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:41:11:362 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:41:11:362 Nivel/(26467:26467): Petición del personaje: Lucas
+[INFO] 14:41:12:363 Nivel/(26467:26467): Desconexión del personaje Lucas y peticion de liberación de recursos al Orquestador
+[INFO] 14:41:12:363 Nivel/(26467:26467): Liberando recursos indicados por el Orquestador
+[DEBUG] 14:44:50:91 Nivel/(27113:27113): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 14:44:50:92 Nivel/(27113:27113): Hand shake con Orquestador
+[INFO] 14:44:51:282 Nivel/(27113:27113): Conexión del personaje Mario
+[INFO] 14:44:51:282 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:44:51:282 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:44:52:283 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:44:53:283 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:44:54:284 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:44:55:285 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:44:55:285 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:44:56:448 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:44:56:448 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:44:57:449 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:44:58:449 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:44:59:450 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:00:450 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:01:451 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:01:451 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:02:452 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:02:452 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:03:453 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:04:453 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:05:454 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:06:455 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:07:455 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:07:455 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:08:456 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:08:456 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:09:457 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:10:457 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:10:458 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:10:458 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:11:458 Nivel/(27113:27113): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[INFO] 14:45:11:489 Nivel/(27113:27113): Liberando recursos indicados por el Orquestador
+[INFO] 14:45:30:559 Nivel/(27113:27113): Conexión del personaje Mario
+[INFO] 14:45:30:559 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:30:559 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:35:560 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:40:560 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:45:561 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:50:562 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:50:562 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:55:563 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:45:55:565 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:46:00:565 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:46:05:567 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:46:10:568 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:46:15:569 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:46:20:570 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:46:20:594 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:46:25:596 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:46:25:597 Nivel/(27113:27113): Petición del personaje: Mario
+[INFO] 14:46:30:598 Nivel/(27113:27113): Petición del personaje: Mario
+[DEBUG] 14:50:18:431 Nivel/(27577:27577): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 14:50:18:433 Nivel/(27577:27577): Hand shake con Orquestador
+[DEBUG] 15:12:30:689 Nivel/(28622:28622): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 15:12:30:691 Nivel/(28622:28622): Hand shake con Orquestador
+[INFO] 15:12:33:318 Nivel/(28622:28622): Conexión del personaje Mario
+[INFO] 15:12:33:318 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:33:320 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:34:320 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:35:321 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:36:322 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:37:322 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:37:323 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:38:323 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:38:339 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:39:339 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:40:340 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:41:341 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:42:341 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:42:766 Nivel/(28622:28622): Conexión del personaje Lucas
+[INFO] 15:12:43:460 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:43:467 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:44:468 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:12:44:468 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:12:45:469 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:45:469 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:46:470 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:12:47:470 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:48:471 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:12:49:472 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:50:473 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:12:51:473 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:52:474 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:12:52:474 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:12:53:475 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:54:502 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:12:54:502 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:12:55:503 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:55:503 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:56:504 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:12:57:505 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:57:505 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:12:58:530 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:12:59:533 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:13:00:533 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:13:01:534 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:13:01:534 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:13:01:535 Nivel/(28622:28622): Petición del personaje: Mario
+[INFO] 15:13:02:535 Nivel/(28622:28622): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[INFO] 15:13:02:535 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:13:02:535 Nivel/(28622:28622): Liberando recursos indicados por el Orquestador
+[INFO] 15:13:03:540 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:13:03:541 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:13:04:542 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:13:04:542 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:13:05:543 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:13:06:543 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:13:07:544 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:13:08:545 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:13:09:546 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:13:09:546 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:13:10:547 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:13:10:547 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:13:15:549 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:13:20:552 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:13:20:553 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:13:20:554 Nivel/(28622:28622): Petición del personaje: Lucas
+[INFO] 15:13:21:554 Nivel/(28622:28622): Desconexión del personaje Lucas y peticion de liberación de recursos al Orquestador
+[INFO] 15:13:21:554 Nivel/(28622:28622): Liberando recursos indicados por el Orquestador
+[DEBUG] 15:14:16:593 Nivel/(29341:29341): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 15:14:16:595 Nivel/(29341:29341): Hand shake con Orquestador
+[INFO] 15:14:19:122 Nivel/(29341:29341): Conexión del personaje Mario
+[INFO] 15:14:19:123 Nivel/(29341:29341): Petición del personaje: Mario
+[INFO] 15:14:19:123 Nivel/(29341:29341): Petición del personaje: Mario
+[INFO] 15:14:24:124 Nivel/(29341:29341): Petición del personaje: Mario
+[INFO] 15:14:25:531 Nivel/(29341:29341): Conexión del personaje Lucas
+[INFO] 15:14:29:152 Nivel/(29341:29341): Petición del personaje: Mario
+[INFO] 15:14:34:222 Nivel/(29341:29341): Petición del personaje: Lucas
+[INFO] 15:14:34:223 Nivel/(29341:29341): Petición del personaje: Lucas
+[INFO] 15:14:35:223 Nivel/(29341:29341): Petición del personaje: Mario
+[INFO] 15:14:36:224 Nivel/(29341:29341): Petición del personaje: Lucas
+[INFO] 15:14:37:225 Nivel/(29341:29341): Petición del personaje: Mario
+[INFO] 15:14:37:225 Nivel/(29341:29341): Petición del personaje: Mario
+[INFO] 15:14:38:226 Nivel/(29341:29341): Petición del personaje: Lucas
+[INFO] 15:14:39:229 Nivel/(29341:29341): Petición del personaje: Mario
+[INFO] 15:14:39:231 Nivel/(29341:29341): Petición del personaje: Mario
+[INFO] 15:14:40:232 Nivel/(29341:29341): Petición del personaje: Lucas
+[INFO] 15:14:41:233 Nivel/(29341:29341): Petición del personaje: Mario
+[INFO] 15:14:42:234 Nivel/(29341:29341): Petición del personaje: Lucas
+[INFO] 15:14:42:234 Nivel/(29341:29341): Petición del personaje: Lucas
+[INFO] 15:14:43:235 Nivel/(29341:29341): Petición del personaje: Mario
+[INFO] 15:14:44:257 Nivel/(29341:29341): Petición del personaje: Lucas
+[INFO] 15:14:44:261 Nivel/(29341:29341): Petición del personaje: Lucas
+[INFO] 15:14:45:261 Nivel/(29341:29341): Petición del personaje: Mario
+[INFO] 15:14:46:262 Nivel/(29341:29341): Petición del personaje: Lucas
+[INFO] 15:14:46:703 Nivel/(29341:29341): Petición del personaje: Mario
+[INFO] 15:14:46:704 Nivel/(29341:29341): Petición del personaje: Lucas
+[INFO] 15:14:46:704 Nivel/(29341:29341): Petición del personaje: Mario
+[INFO] 15:14:46:704 Nivel/(29341:29341): Petición del personaje: Lucas
+[INFO] 15:14:46:704 Nivel/(29341:29341): Petición del personaje: Mario
+[INFO] 15:14:46:705 Nivel/(29341:29341): Desconexión repentina de: Lucas.
+[INFO] 15:14:47:705 Nivel/(29341:29341): Peticion de liberación de recursos
+[DEBUG] 15:16:43:100 Nivel/(29811:29811): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 15:16:43:103 Nivel/(29811:29811): Hand shake con Orquestador
+[INFO] 15:16:57:932 Nivel/(29811:29811): Conexión del personaje Mario
+[INFO] 15:16:57:932 Nivel/(29811:29811): Petición del personaje: Mario
+[INFO] 15:16:57:932 Nivel/(29811:29811): Petición del personaje: Mario
+[INFO] 15:17:02:933 Nivel/(29811:29811): Petición del personaje: Mario
+[INFO] 15:17:07:934 Nivel/(29811:29811): Petición del personaje: Mario
+[INFO] 15:17:26:18 Nivel/(29811:29811): Petición del personaje: Mario
+[INFO] 15:17:26:18 Nivel/(29811:29811): Petición del personaje: Mario
+[INFO] 15:17:26:19 Nivel/(29811:29811): Petición del personaje: Mario
+[INFO] 15:17:26:19 Nivel/(29811:29811): Desconexión repentina de: Mario.
+[INFO] 15:17:27:19 Nivel/(29811:29811): Peticion de liberación de recursos
+[DEBUG] 15:17:54:237 Nivel/(30105:30105): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 15:17:54:239 Nivel/(30105:30105): Hand shake con Orquestador
+[DEBUG] 15:18:09:131 Nivel/(30248:30248): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 15:18:09:134 Nivel/(30248:30248): Hand shake con Orquestador
+[DEBUG] 15:18:31:500 Nivel/(30429:30429): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 15:18:31:503 Nivel/(30429:30429): Hand shake con Orquestador
+[DEBUG] 15:19:12:119 Nivel/(30628:30628): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 15:19:12:122 Nivel/(30628:30628): Hand shake con Orquestador
+[INFO] 15:19:27:640 Nivel/(30628:30628): Conexión del personaje Mario
+[INFO] 15:19:27:641 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:27:641 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:28:642 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:29:643 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:30:643 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:31:644 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:31:644 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:32:645 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:32:645 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:33:646 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:34:647 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:35:647 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:36:648 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:37:648 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:37:649 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:38:649 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:38:650 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:39:650 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:40:651 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:41:652 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:42:654 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:43:656 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:43:656 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:44:657 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:44:657 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:45:658 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:46:659 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:46:659 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:46:660 Nivel/(30628:30628): Petición del personaje: Mario
+[INFO] 15:19:47:660 Nivel/(30628:30628): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[DEBUG] 15:20:25:303 Nivel/(30959:30959): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 15:20:25:306 Nivel/(30959:30959): Hand shake con Orquestador
+[INFO] 15:20:34:194 Nivel/(30959:30959): Conexión del personaje Mario
+[INFO] 15:20:35:650 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:20:35:651 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:20:40:652 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:20:45:678 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:20:57:394 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:20:59:954 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:20:59:954 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:00:955 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:00:956 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:01:956 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:02:957 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:03:958 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:04:965 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:05:966 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:05:966 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:06:967 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:06:967 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:07:968 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:08:969 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:09:992 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:10:994 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:15:843 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:15:843 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:21:499 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:21:499 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:25:515 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:25:516 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:25:516 Nivel/(30959:30959): Petición del personaje: Mario
+[INFO] 15:21:25:516 Nivel/(30959:30959): Desconexión repentina de: Mario.
+[INFO] 15:21:26:517 Nivel/(30959:30959): Peticion de liberación de recursos
+[DEBUG] 15:22:09:315 Nivel/(31446:31446): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 15:22:09:316 Nivel/(31446:31446): Hand shake con Orquestador
+[INFO] 15:22:19:579 Nivel/(31446:31446): Conexión del personaje Mario
+[INFO] 15:22:19:580 Nivel/(31446:31446): Petición del personaje: Mario
+[INFO] 15:22:19:580 Nivel/(31446:31446): Petición del personaje: Mario
+[INFO] 15:22:24:581 Nivel/(31446:31446): Petición del personaje: Mario
+[INFO] 15:22:25:724 Nivel/(31446:31446): Conexión del personaje Lucas
+[INFO] 15:22:29:618 Nivel/(31446:31446): Petición del personaje: Mario
+[INFO] 15:22:34:681 Nivel/(31446:31446): Petición del personaje: Lucas
+[INFO] 15:22:34:682 Nivel/(31446:31446): Petición del personaje: Lucas
+[INFO] 15:22:39:684 Nivel/(31446:31446): Petición del personaje: Mario
+[INFO] 15:22:42:686 Nivel/(31446:31446): Petición del personaje: Mario
+[INFO] 15:22:42:686 Nivel/(31446:31446): Petición del personaje: Mario
+[INFO] 15:22:45:687 Nivel/(31446:31446): Petición del personaje: Lucas
+[INFO] 15:22:48:688 Nivel/(31446:31446): Petición del personaje: Lucas
+[INFO] 15:22:51:688 Nivel/(31446:31446): Petición del personaje: Lucas
+[INFO] 15:22:54:689 Nivel/(31446:31446): Petición del personaje: Lucas
+[INFO] 15:22:54:689 Nivel/(31446:31446): Petición del personaje: Lucas
+[INFO] 15:22:57:690 Nivel/(31446:31446): Petición del personaje: Mario
+[INFO] 15:22:57:690 Nivel/(31446:31446): Petición del personaje: Mario
+[INFO] 15:23:00:691 Nivel/(31446:31446): Petición del personaje: Mario
+[INFO] 15:23:03:691 Nivel/(31446:31446): Petición del personaje: Mario
+[INFO] 15:23:06:692 Nivel/(31446:31446): Petición del personaje: Mario
+[INFO] 15:23:09:692 Nivel/(31446:31446): Petición del personaje: Mario
+[INFO] 15:23:12:693 Nivel/(31446:31446): Petición del personaje: Lucas
+[INFO] 15:23:12:693 Nivel/(31446:31446): Petición del personaje: Lucas
+[INFO] 15:23:15:694 Nivel/(31446:31446): Petición del personaje: Lucas
+[INFO] 15:23:18:694 Nivel/(31446:31446): Petición del personaje: Lucas
+[INFO] 15:23:21:695 Nivel/(31446:31446): Petición del personaje: Lucas
+[INFO] 15:23:23:414 Nivel/(31446:31446): Petición del personaje: Mario
+[INFO] 15:23:23:414 Nivel/(31446:31446): Petición del personaje: Mario
+[INFO] 15:23:23:414 Nivel/(31446:31446): Petición del personaje: Lucas
+[INFO] 15:23:23:415 Nivel/(31446:31446): Petición del personaje: Mario
+[INFO] 15:23:23:415 Nivel/(31446:31446): Petición del personaje: Lucas
+[INFO] 15:23:23:415 Nivel/(31446:31446): Petición del personaje: Mario
+[INFO] 15:23:23:415 Nivel/(31446:31446): Petición del personaje: Lucas
+[INFO] 15:23:23:415 Nivel/(31446:31446): Desconexión repentina de: Lucas.
+[INFO] 15:23:24:415 Nivel/(31446:31446): Peticion de liberación de recursos
+[DEBUG] 15:23:48:936 Nivel/(31958:31958): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 15:23:48:938 Nivel/(31958:31958): Hand shake con Orquestador
+[INFO] 15:24:00:93 Nivel/(31958:31958): Conexión del personaje Mario
+[INFO] 15:24:00:93 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:00:95 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:01:95 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:02:96 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:02:196 Nivel/(31958:31958): Conexión del personaje Lucas
+[INFO] 15:24:03:97 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:04:97 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:04:98 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:05:99 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:05:99 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:06:99 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:07:100 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:08:101 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:09:101 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:10:102 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:10:102 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:11:103 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:12:103 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:13:105 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:14:106 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:14:106 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:15:107 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:15:107 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:16:108 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:16:108 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:17:109 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:18:111 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:19:112 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:20:112 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:21:113 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:21:113 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:22:114 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:23:116 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:24:117 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:25:117 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:26:118 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:26:118 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:27:119 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:27:121 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:28:123 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:28:124 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:29:124 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:30:125 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:30:125 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:30:125 Nivel/(31958:31958): Petición del personaje: Mario
+[INFO] 15:24:31:125 Nivel/(31958:31958): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[INFO] 15:24:31:126 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:31:126 Nivel/(31958:31958): Liberando recursos indicados por el Orquestador
+[INFO] 15:24:31:127 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:32:127 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:33:128 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:34:128 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:35:129 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:36:129 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:36:130 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:37:130 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:37:132 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:38:132 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:39:133 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:39:133 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:39:133 Nivel/(31958:31958): Petición del personaje: Lucas
+[INFO] 15:24:40:134 Nivel/(31958:31958): Desconexión del personaje Lucas y peticion de liberación de recursos al Orquestador
+[INFO] 15:24:40:134 Nivel/(31958:31958): Liberando recursos indicados por el Orquestador
+[DEBUG] 15:28:09:672 Nivel/(32435:32435): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 15:28:09:675 Nivel/(32435:32435): Hand shake con Orquestador
+[INFO] 15:28:52:766 Nivel/(32435:32435): Conexión del personaje Mario
+[INFO] 15:28:52:766 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:28:52:767 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:28:53:767 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:28:54:44 Nivel/(32435:32435): Conexión del personaje Lucas
+[INFO] 15:28:54:768 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:28:55:769 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:28:56:769 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:28:56:770 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:28:57:770 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:28:57:771 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:28:58:771 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:28:59:788 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:00:789 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:00:789 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:01:790 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:02:790 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:03:793 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:04:795 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:04:795 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:05:796 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:06:797 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:07:797 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:07:797 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:08:798 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:08:833 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:09:833 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:10:834 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:11:835 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:11:835 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:12:835 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:13:836 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:14:838 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:15:839 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:16:839 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:16:840 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:17:841 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:18:841 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:19:844 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:19:844 Nivel/(32435:32435): Petición del personaje: Mario
+[DEBUG] 15:29:21:678 Nivel/(32435:32437): Personaje involucrado en deadlock: Mario
+[DEBUG] 15:29:21:679 Nivel/(32435:32437): Personaje involucrado en deadlock: Lucas
+[DEBUG] 15:29:21:679 Nivel/(32435:32437): Recovery: 1
+[DEBUG] 15:29:21:679 Nivel/(32435:32437): Victima: Mario
+[INFO] 15:29:21:679 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:22:680 Nivel/(32435:32435): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[INFO] 15:29:22:680 Nivel/(32435:32435): Conexión del personaje Mario
+[INFO] 15:29:22:680 Nivel/(32435:32435): Liberando recursos indicados por el Orquestador
+[INFO] 15:29:22:680 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:22:681 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:23:681 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:24:682 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:25:682 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:25:683 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:26:683 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:27:684 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:28:684 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:29:685 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:30:687 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:30:688 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:31:688 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:32:689 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:32:689 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:33:690 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:33:690 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:34:691 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:35:694 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:35:694 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:35:694 Nivel/(32435:32435): Petición del personaje: Lucas
+[INFO] 15:29:36:695 Nivel/(32435:32435): Desconexión del personaje Lucas y peticion de liberación de recursos al Orquestador
+[INFO] 15:29:36:695 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:36:695 Nivel/(32435:32435): Liberando recursos indicados por el Orquestador
+[INFO] 15:29:36:696 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:37:696 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:38:697 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:39:720 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:40:721 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:41:722 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:41:722 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:42:723 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:42:723 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:43:724 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:44:724 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:45:726 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:46:727 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:47:727 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:47:727 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:48:728 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:48:728 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:49:729 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:50:731 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:50:731 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:50:731 Nivel/(32435:32435): Petición del personaje: Mario
+[INFO] 15:29:51:732 Nivel/(32435:32435): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[INFO] 15:29:51:732 Nivel/(32435:32435): Liberando recursos indicados por el Orquestador
+[DEBUG] 15:30:05:291 Nivel/(322:322): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 15:30:05:294 Nivel/(322:322): Hand shake con Orquestador
+[INFO] 15:30:12:928 Nivel/(322:322): Conexión del personaje Mario
+[INFO] 15:30:12:929 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:12:929 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:13:929 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:14:27 Nivel/(322:322): Conexión del personaje Lucas
+[INFO] 15:30:14:930 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:15:931 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:16:931 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:16:932 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:17:932 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:17:933 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:18:933 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:19:934 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:20:934 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:20:935 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:21:935 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:22:936 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:23:938 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:24:939 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:24:939 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:25:940 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:26:940 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:27:941 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:27:942 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:28:943 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:28:944 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:29:944 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:30:945 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:31:945 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:31:945 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:32:946 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:33:947 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:34:949 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:35:950 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:36:950 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:36:950 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:37:951 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:38:952 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:39:973 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:39:973 Nivel/(322:322): Petición del personaje: Mario
+[DEBUG] 15:30:41:296 Nivel/(322:325): Personaje involucrado en deadlock: Mario
+[DEBUG] 15:30:41:296 Nivel/(322:325): Personaje involucrado en deadlock: Lucas
+[DEBUG] 15:30:41:296 Nivel/(322:325): Recovery: 1
+[DEBUG] 15:30:41:296 Nivel/(322:325): Victima: Mario
+[INFO] 15:30:41:297 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:42:297 Nivel/(322:322): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[INFO] 15:30:42:297 Nivel/(322:322): Conexión del personaje Mario
+[INFO] 15:30:42:297 Nivel/(322:322): Liberando recursos indicados por el Orquestador
+[INFO] 15:30:42:298 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:42:298 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:43:299 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:44:299 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:45:302 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:45:303 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:46:303 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:47:304 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:48:304 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:49:305 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:50:307 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:50:307 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:51:308 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:52:308 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:52:309 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:53:310 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:53:310 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:54:310 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:55:313 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:55:313 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:55:313 Nivel/(322:322): Petición del personaje: Lucas
+[INFO] 15:30:56:313 Nivel/(322:322): Desconexión del personaje Lucas y peticion de liberación de recursos al Orquestador
+[INFO] 15:30:56:314 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:56:314 Nivel/(322:322): Liberando recursos indicados por el Orquestador
+[INFO] 15:30:56:314 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:57:315 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:58:315 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:30:59:318 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:31:00:320 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:31:01:321 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:31:01:321 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:31:02:322 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:31:02:322 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:31:03:323 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:31:04:323 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:31:05:325 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:31:06:326 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:31:07:327 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:31:07:327 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:31:08:328 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:31:08:328 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:31:09:328 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:31:10:355 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:31:10:355 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:31:10:356 Nivel/(322:322): Petición del personaje: Mario
+[INFO] 15:31:11:356 Nivel/(322:322): Desconexión del personaje Mario y peticion de liberación de recursos al Orquestador
+[INFO] 15:31:11:357 Nivel/(322:322): Liberando recursos indicados por el Orquestador
+[DEBUG] 16:31:43:44 Nivel/(11490:11490): Me conecto con el Orquestador. IP:192.168.1.100 Puerto:9930
+[INFO] 16:31:43:45 Nivel/(11490:11490): Hand shake con Orquestador

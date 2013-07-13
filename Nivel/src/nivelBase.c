@@ -125,7 +125,7 @@ int main(int argc, char **argv) {
 	int *cols = (int*) malloc(sizeof(int));
 
 
-//	nivel_gui_inicializar();
+	nivel_gui_inicializar();
 //
 //	nivel_gui_get_area_nivel(&rows, &cols);
 

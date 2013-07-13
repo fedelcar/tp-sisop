@@ -1,0 +1,8 @@
+nombre=Lucas
+simbolo=@
+planDeNiveles=[nivel1]
+obj[nivel1]=[F,H,F,M]
+obj[nivel3]=[H,M,F]
+obj[nivel4]=[M,F,M]
+vidas=5
+orquestador=127.0.0.1:9930
