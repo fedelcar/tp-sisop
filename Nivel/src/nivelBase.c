@@ -123,12 +123,16 @@ int main(int argc, char **argv) {
 
 	int *rows = (int*) malloc(sizeof(int));
 	int *cols = (int*) malloc(sizeof(int));
-	rows = (int*) 10;
-	cols = (int*) 10;
 
-	nivel_gui_inicializar();
 
-	nivel_gui_get_area_nivel(&rows, &cols);
+//	nivel_gui_inicializar();
+//
+//	nivel_gui_get_area_nivel(&rows, &cols);
+
+	rows = (int*) 100;
+	cols = (int*) 100;
+
+	log_info(log, "rows: %d, cols: %d", rows, cols);
 
 	int j, len, rc, on = 1;
 	int listen_sd, max_sd, new_sd;
@@ -397,6 +401,7 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 		resource_struct *personaje = (resource_struct*) dictionary_get(
 				listaPersonajes, string_from_format("%d", fd));
 		log_info(log, string_from_format("Petición del personaje: %s", personaje->nombre));
+
 		movimientoPersonaje(personaje, rows, cols, bufferSocket, master_set, fd,
 				socketOrquestador, listaSimbolos, log);
 	} else if (string_starts_with(bufferSocket, DEATH)){
@@ -417,7 +422,7 @@ void agregarRecursos(t_dictionary *recursosAt, ITEM_NIVEL *listaItems, t_list *l
 
 	for(i = 0 ; i < list_size(listaSimbolos) ; i++){
 		temp = buscarRecurso(listaItems, ((char*) list_get(listaSimbolos, i))[0]);
-		temp->quantity = temp->quantity + (int) dictionary_get(recursosAt, list_get(listaSimbolos, i));
+		temp->quantity = temp->quantity + *((uint32_t*) dictionary_get(recursosAt, list_get(listaSimbolos, i)));
 	}
 
 }
@@ -574,16 +579,17 @@ void agregarRecursosOrquestador(char *bufferSocket, ITEM_NIVEL *listaItems, t_li
 
 	int j = 0;
 
-	t_dictionary *recursosDisponibles = dictionary_create();
 
+	ITEM_NIVEL* temp;
+
+	int i = 0;
 	for (j = 1; j < list_size(listaSimbolos) + 1; j++) {
 		simbolos = string_split(data[j], DOSPUNTOS);
-		dictionary_put(recursosDisponibles, simbolos[0], atoi(simbolos[1]));
+		temp = buscarRecurso(listaItems, (simbolos[0])[0]);
+		temp->quantity = temp->quantity + atoi(simbolos[1]);
+		i++;
 	}
 
-	agregarRecursos(recursosDisponibles, listaItems, listaSimbolos);
-
-	free(recursosDisponibles);
 
 }
 
