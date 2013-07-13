@@ -1,12 +1,10 @@
 # Object files
-*.o
+
 
 # Libraries
-*.a
+
 
 # Shared objects (inc. Windows DLLs)
-*.dll
-*.so.*
-*.dylib
+
 
 # Executables
