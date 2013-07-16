@@ -1,3 +1,4 @@
+
 /*
  * orquestador.c
  *
@@ -466,7 +467,6 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 				list_remove(scheduler_queue->pjList, i);
 			}
 		}
-		log_info(log, "Un personaje finalizo su plan de niveles");
 	} else if (string_starts_with(response, "Termine todo")) {
 
 		flagTerminoUnPersonaje = TRUE;
@@ -576,10 +576,10 @@ void executeKoopa(t_list *niveles, t_dictionary* levels_queues, t_orquestador *o
 	}
 	if (final == TRUE) {
 		log_info(log, "Ejecutando Koopa");
-			char * arg1 = orquestador_config->argumento1;
-			char * arg2[] = { "koopa", orquestador_config->argumento2, NULL };
-			char * arg3[] = { orquestador_config->argumento3, "TERM=xterm", NULL };
-			int ejecKoopa = execve(arg1, arg2, arg3);
+//			char * arg1 = orquestador_config->argumento1;
+//			char * arg2[] = { "koopa", orquestador_config->argumento2, NULL };
+//			char * arg3[] = { orquestador_config->argumento3, "TERM=xterm", NULL };
+//			int ejecKoopa = execve(arg1, arg2, arg3);
 	}
 
 }

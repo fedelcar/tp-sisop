@@ -111,7 +111,7 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 
 			analize_response(response, scheduler_queue, personaje, &breakIt);
 
-			sleep(sleepTime);
+			usleep(sleepTime);
 			free(response);
 			turno++;
 		}
@@ -149,7 +149,7 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 
 		memcpy(&working_set, &master_set, sizeof(master_set));
 
-		timeout.tv_sec = 0;
+		timeout.tv_sec = 1;
 		timeout.tv_usec = 0;
 
 		rc = select(FD_SETSIZE, &working_set, NULL, NULL, &timeout);
