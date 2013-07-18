@@ -125,7 +125,7 @@ int main(int argc, char **argv) {
 	int *cols = (int*) malloc(sizeof(int));
 
 
-	nivel_gui_inicializar();
+//	nivel_gui_inicializar();
 //
 //	nivel_gui_get_area_nivel(&rows, &cols);
 
@@ -336,7 +336,6 @@ void analize_response(int fd, t_list *threads, t_level_config *nivel,
 				if(fd == *(((datos_personaje*) list_get(threads, i))->fd)){
 					list_remove(threads, i);
 				}
-			free(personajeABorrar);
 		}
 		}
 		FD_CLR(fd, master_set);
