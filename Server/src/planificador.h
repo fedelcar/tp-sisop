@@ -11,14 +11,14 @@
 struct scheduler_struct{
 
 	char *port;
-	int *timeToWait;
+	long *timeToWait;
 
 };
 
 typedef struct{
-	int *fd;
+	long fd;
 	char* nombre;
-	int *respondio;
+	long *respondio;
 }personaje_planificador;
 
 typedef struct{

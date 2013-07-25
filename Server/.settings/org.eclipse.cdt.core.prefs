@@ -1,6 +1,6 @@
 eclipse.preferences.version=1
 environment/project/cdt.managedbuild.config.gnu.exe.debug.1492460145/LC_ALL/delimiter=\:
-environment/project/cdt.managedbuild.config.gnu.exe.debug.1492460145/LC_ALL/operation=append
-environment/project/cdt.managedbuild.config.gnu.exe.debug.1492460145/LC_ALL/value=
+environment/project/cdt.managedbuild.config.gnu.exe.debug.1492460145/LC_ALL/operation=replace
+environment/project/cdt.managedbuild.config.gnu.exe.debug.1492460145/LC_ALL/value=c
 environment/project/cdt.managedbuild.config.gnu.exe.debug.1492460145/append=true
 environment/project/cdt.managedbuild.config.gnu.exe.debug.1492460145/appendContributed=true

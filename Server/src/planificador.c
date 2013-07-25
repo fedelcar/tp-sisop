@@ -42,7 +42,7 @@
 #define SETNAME "SETNAME"
 
 void analize_response(char *response, t_scheduler_queue *scheduler_queue,
-		personaje_planificador *personaje, int *breakIt);
+		personaje_planificador *personaje, long *breakIt);
 void showLog(t_scheduler_queue *scheduler_queue,
 		personaje_planificador *personaje);
 void showLogNew(t_scheduler_queue *scheduler_queue);
@@ -51,18 +51,20 @@ t_log *log;
 
 void planificar(t_scheduler_queue *scheduler_queue) {
 
+		pthread_mutex_lock(scheduler_queue->mutex);
+
 	if (queue_size(scheduler_queue->character_queue) > 0) {
 
 		char *response = (char *) malloc(MAXDATASIZE);
-		int turno = 0;
+		long turno = 0;
 
-		int *breakIt;
+		long *breakIt;
 
 		breakIt = FALSE;
 
-		int turnoActual = scheduler_queue->orquestador_config->turnos;
+		long turnoActual = scheduler_queue->orquestador_config->turnos;
 
-		int sleepTime = scheduler_queue->orquestador_config->intervalo;
+		long sleepTime = ((scheduler_queue->orquestador_config->intervalo)*1000000);
 
 		turno = 0;
 
@@ -81,7 +83,7 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 
 			if (string_starts_with(response, BROKEN)) {
 
-				int j = 0;
+				long j = 0;
 
 				for (j = 0; j < list_size(scheduler_queue->pjList); j++) {
 					if (string_equals_ignore_case(personaje->nombre,
@@ -97,7 +99,7 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 			response = recieveMessage(personaje->fd);
 
 			if (string_starts_with(response, BROKEN)) {
-				int j = 0;
+				long j = 0;
 
 				for (j = 0; j < list_size(scheduler_queue->pjList); j++) {
 					if (string_equals_ignore_case(personaje->nombre,
@@ -111,6 +113,7 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 
 			analize_response(response, scheduler_queue, personaje, &breakIt);
 
+
 			usleep(sleepTime);
 			free(response);
 			turno++;
@@ -120,14 +123,15 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 			showLog(scheduler_queue, NULL );
 		}
 	}
+	pthread_mutex_unlock(scheduler_queue->mutex);
 }
 
 void planificador(t_scheduler_queue *scheduler_queue) {
 
 	log = scheduler_queue->log;
-	int j, rc = 1;
-	int max_sd, new_sd;
-	int desc_ready, end_server = FALSE;
+	long j, rc = 1;
+	long max_sd, new_sd;
+	long desc_ready, end_server = FALSE;
 	struct timeval timeout;
 	fd_set master_set;
 	fd_set working_set;
@@ -183,15 +187,33 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 								break;
 							}
 
+							pthread_mutex_lock(scheduler_queue->mutex);
+							sleep(1);
 							personaje_planificador *personaje =
 									(personaje_planificador*) malloc(
 											sizeof(personaje_planificador));
 							personaje->fd = new_sd;
 							personaje->respondio = 1;
-							personaje->nombre = recieveMessage(new_sd);
+							personaje->nombre = (string_split(recieveMessage(new_sd), ","))[0];
+							realloc(personaje->nombre , sizeof(personaje->nombre));
+							log_info(log, "Nuevo personaje %s", personaje->nombre);
 
-							queue_push(scheduler_queue->character_queue,
-									personaje);
+							t_queue *temporary = queue_create();
+
+							long i = 0;
+
+							for(i = 0 ; i < queue_size(scheduler_queue->character_queue) ; i++){
+								queue_push(temporary, queue_pop(scheduler_queue->character_queue));
+							}
+
+
+							queue_push(temporary, personaje);
+
+							free(scheduler_queue->character_queue);
+
+							scheduler_queue->character_queue = temporary;
+
+							pthread_mutex_unlock(scheduler_queue->mutex);
 
 							showLogNew(scheduler_queue);
 
@@ -212,7 +234,7 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 }
 
 void analize_response(char *response, t_scheduler_queue *scheduler_queue,
-		personaje_planificador *personaje, int *breakIt) {
+		personaje_planificador *personaje, long *breakIt) {
 
 	if (string_starts_with(response, SIGNAL_BLOCKED)) {
 		response = string_substring_from(response, sizeof(SIGNAL_BLOCKED));
@@ -223,7 +245,8 @@ void analize_response(char *response, t_scheduler_queue *scheduler_queue,
 		*breakIt = TRUE;
 		queue_push(scheduler_queue->blocked_queue, blockedCharacter);
 		showLog(scheduler_queue, NULL );
-	} else if (string_equals_ignore_case(response, TERMINE_NIVEL)) {
+	} else if (string_starts_with(response, TERMINE_NIVEL)) {
+		*breakIt = TRUE;
 		close(personaje->fd);
 	} else if (string_starts_with(response, PEDIR)) {
 		*breakIt = TRUE;
@@ -236,10 +259,10 @@ void showLog(t_scheduler_queue *scheduler_queue,
 		personaje_planificador *personaje) {
 
 	char* myLog = (char*) malloc(MAXSIZE * 3);
-
+	memset(myLog, 0, sizeof(myLog));
 	string_append(&myLog, "Listos:");
 
-	int i = 0;
+	long i = 0;
 
 	if(queue_size(scheduler_queue->character_queue) > 0){
 	for (i = 0; i < queue_size(scheduler_queue->character_queue); i++) {
@@ -276,10 +299,10 @@ void showLog(t_scheduler_queue *scheduler_queue,
 void showLogNew(t_scheduler_queue *scheduler_queue) {
 
 	char* myLog = (char*) malloc(MAXSIZE * 3);
-
+	memset(myLog, 0, sizeof(myLog));
 	string_append(&myLog, "Listos:");
 
-	int i = 0;
+	long i = 0;
 
 	for (i = 0; i < queue_size(scheduler_queue->character_queue); i++) {
 		personaje_planificador *personaje_temporal = queue_pop(

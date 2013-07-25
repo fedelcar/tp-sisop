@@ -1,4 +1,3 @@
-
 /*
  * orquestador.c
  *
@@ -54,38 +53,40 @@
 #define TURNOS "turnos"
 #define INTERVALO "intervalo"
 
-char* stringRecursos(t_list *simbolos, t_dictionary *recursosDisponibles, int fd);
-void executeResponse(char* response, t_dictionary *levelsMap, int fd,
+char* stringRecursos(t_list *simbolos, t_dictionary *recursosDisponibles,
+		long fd);
+void executeResponse(char* response, t_dictionary *levelsMap, long fd,
 		t_dictionary *levels_queues, fd_set *socks,
 		t_orquestador *orquestador_config, char* path, t_list *niveles);
-int giveResource(t_scheduler_queue *queues, int *recurso,
+long giveResource(t_scheduler_queue *queues, long *recurso,
 		blocked_character *blockedCharacter);
-//void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues, fd_set *socks);
-void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues,
+//void orquestador(t_dictionary *levelsMap, long fd, t_dictionary *levels_queues, fd_set *socks);
+void orquestador(t_dictionary *levelsMap, long fd, t_dictionary *levels_queues,
 		fd_set *socks, t_orquestador *orquestador_config, char* path,
 		t_list *niveles);
-int *generateSocket(int* portInt, int *scheduler_port);
-void executeKoopa(t_list *niveles, t_dictionary* levels_queues, t_orquestador *orquestador_config);
+long *generateSocket(int* portInt, long *scheduler_port);
+void executeKoopa(t_list *niveles, t_dictionary* levels_queues,
+		t_orquestador *orquestador_config);
 void showLogBlocked(t_scheduler_queue *scheduler_queue);
 
-int flagTerminoUnPersonaje;
+long flagTerminoUnPersonaje;
 t_log *log;
+pthread_mutex_t *mutex;
 
-int main(int argc, char **argv) {
+long main(long argc, char **argv) {
 
 	flagTerminoUnPersonaje = FALSE;
-
+	mutex = (pthread_mutex_t*) malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(mutex, NULL );
 
 	/**
 	 * Lista de niveles
 	 */
 	t_orquestador *orquestador_config = getOrquestador(argv[1]);
 
-
 	char* pathLog = (char*) malloc(MAXSIZE);
 	memset(pathLog, 0, sizeof(pathLog));
 	string_append(&pathLog, "/home/tp/config/logs/orquestador.txt");
-
 
 	log = log_create(pathLog, "Plataforma", 1, LOG_LEVEL_DEBUG);
 
@@ -109,7 +110,7 @@ int main(int argc, char **argv) {
 
 	char** port = (char*) malloc(MAXSIZE);
 
-	int i;
+	long i;
 
 	t_dictionary *levels_queues = dictionary_create();
 
@@ -117,10 +118,10 @@ int main(int argc, char **argv) {
 
 	free(levelName);
 
-	int j, len, rc, on = 1;
-	int listen_sd, max_sd, new_sd;
-	int desc_ready, end_server = FALSE;
-	int close_conn;
+	long j, len, rc, on = 1;
+	long listen_sd, max_sd, new_sd;
+	long desc_ready, end_server = FALSE;
+	long close_conn;
 	char buffer[MAXSIZE];
 	struct sockaddr_in addr;
 	struct timeval timeout;
@@ -170,7 +171,6 @@ int main(int argc, char **argv) {
 	max_sd = listen_sd;
 	FD_SET(listen_sd, &master_set);
 
-
 	inotify_struct *datos = (inotify_struct*) malloc(sizeof(inotify_struct));
 	inotify_list_struct* data = (inotify_list_struct*) malloc(
 			sizeof(inotify_list_struct));
@@ -196,7 +196,6 @@ int main(int argc, char **argv) {
 	do {
 
 		memcpy(&working_set, &master_set, sizeof(master_set));
-
 
 		rc = select(FD_SETSIZE, &working_set, NULL, NULL, NULL );
 
@@ -235,9 +234,7 @@ int main(int argc, char **argv) {
 					close_conn = FALSE;
 
 					orquestador(levelsMap, j, levels_queues, &master_set,
-							orquestador_config,
-							argv[1],
-							niveles); //argv[0]
+							orquestador_config, argv[1], niveles); //argv[0]
 
 					if (close_conn) {
 						close(j);
@@ -255,12 +252,12 @@ int main(int argc, char **argv) {
 
 }
 
-void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues,
+void orquestador(t_dictionary *levelsMap, long fd, t_dictionary *levels_queues,
 		fd_set *socks, t_orquestador *orquestador_config, char* path,
 		t_list *niveles) {
 
 	char *response = (char *) malloc(MAXSIZE);
-
+	memset(response, 0, sizeof(response));
 	response = recieveMessage(fd);
 
 	if (string_starts_with(response, BROKEN)) {
@@ -272,7 +269,7 @@ void orquestador(t_dictionary *levelsMap, int fd, t_dictionary *levels_queues,
 
 }
 
-void executeResponse(char* response, t_dictionary *levelsMap, int fd,
+void executeResponse(char* response, t_dictionary *levelsMap, long fd,
 		t_dictionary *levels_queues, fd_set *socks,
 		t_orquestador *orquestador_config, char* path, t_list *niveles) {
 
@@ -295,7 +292,8 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 			string_append(&socketsToGo, COMA);
 			sendMessage(fd, socketsToGo);
 		}
-		log_info(log, "Conexión de personaje recibida, petición de IP y Puerto de nivel.");
+		log_info(log,
+				"Conexión de personaje recibida, petición de IP y Puerto de nivel.");
 		FD_CLR(fd, socks);
 		free(socketsToGo);
 		free(response);
@@ -306,33 +304,31 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 		response = string_substring_from(response, sizeof(NEWLVL));
 		char** split = string_split(response, COMA);
 
-//		len = sizeof addr;
-//		getpeername(fd, (struct sockaddr*) &addr, &len);
-//
-//		struct sockaddr_in *s = (struct sockaddr_in *) &addr;
-//
-//		inet_ntop(AF_INET, &s->sin_addr, ipstr, sizeof ipstr);
-
 		pthread_t *t = (pthread_t*) malloc(sizeof(pthread_t));
 
 		t_scheduler_queue *scheduler_queue = (t_scheduler_queue*) malloc(
 				sizeof(t_scheduler_queue));
 
-		int *scheduler_port = (int*) malloc(sizeof(int));
+		long *scheduler_port = (int*) malloc(sizeof(int));
 
 		scheduler_queue->blocked_queue = queue_create();
 		scheduler_queue->character_queue = queue_create();
 		scheduler_queue->listen_sd = generateSocket(DEFAULTPORT,
 				scheduler_port);
+
+//		pthread_mutex_t  *mutex = (pthread_mutex_t*) malloc(sizeof(pthread_mutex_t));
+//		pthread_mutex_init(mutex, NULL);
+
 		scheduler_queue->orquestador_config = orquestador_config;
 		scheduler_queue->path = path; //argv[0]
 		scheduler_queue->pjList = list_create();
 		scheduler_queue->simbolos = list_create();
 		scheduler_queue->log = log;
+		scheduler_queue->mutex = mutex;
 
 		char** simbolos = string_split(split[2], DOSPUNTOS);
 
-		int p = 0;
+		long p = 0;
 
 		for (p = 1; p < atoi(simbolos[0]) + 1; p++) {
 			list_add(scheduler_queue->simbolos, simbolos[p]);
@@ -359,28 +355,52 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 
 		response = string_substring_from(response, sizeof(FREERESC));
 
-		char** data = (char*) malloc(MAXSIZE);
+		char** data = string_split(response, COMA);
 
-		data = string_split(response, COMA);
+		t_queue *temporaryQueue = queue_create();
 
 		t_scheduler_queue *queues = dictionary_get(levels_queues, data[0]);
 
+		pthread_mutex_lock(queues->mutex);
+
+		t_queue *anotherQueue = queue_create();
+
+		long o = 0;
+		if (queue_size(queues->character_queue) > 0) {
+			log_info(log, "Mas de un personaje listo");
+			for (o = 0; o < queue_size(queues->character_queue); o++) {
+				personaje_planificador *personajeEnLista = queue_pop(
+						queues->character_queue);
+				personaje_planificador *nuevoPersonaje =
+						(personaje_planificador*) malloc(
+								sizeof(personaje_planificador));
+//				long *hola = (long*) malloc(sizeof(long));
+//				memcpy(hola, &(personajeEnLista->fd), sizeof(long));
+//				nuevoPersonaje->fd = hola;
+				nuevoPersonaje->fd = personajeEnLista->fd;
+				nuevoPersonaje->nombre = string_from_format("%s", personajeEnLista->nombre);
+				queue_push(anotherQueue, nuevoPersonaje);
+			}
+		}
+
 		char** simbolos;
 
-		int j = 2;
+		long j = 2;
 
 		t_dictionary *recursosDisponibles = dictionary_create();
 
 		for (j = 2; j < list_size(queues->simbolos) + 2; j++) {
 			simbolos = string_split(data[j], DOSPUNTOS);
-			dictionary_put(recursosDisponibles, simbolos[0], atoi(simbolos[1]));
+			long *temporary = (long*) malloc(sizeof(long));
+			*temporary = atoi(simbolos[1]);
+			dictionary_put(recursosDisponibles, simbolos[0], temporary);
 		}
 
 		if (queue_size(queues->blocked_queue) > 0) {
+			log_info(log, "Mas de un personaje bloqueado");
+			long i = 0;
 
-			int i = 0;
-
-			int k = 0;
+			long k = 0;
 
 			for (i = 0; i < queue_size(queues->blocked_queue); i++) {
 
@@ -395,44 +415,59 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 								dictionary_get(recursosDisponibles,
 										list_get(queues->simbolos, k)),
 								blockedCharacter) == 1) {
-							queue_push(queues->character_queue,
-									blockedCharacter->personaje);
+							personaje_planificador *nuevoPersonajeAgain =
+									(personaje_planificador*) malloc(
+											sizeof(personaje_planificador));
+							nuevoPersonajeAgain->fd =
+									blockedCharacter->personaje->fd;
+							nuevoPersonajeAgain->nombre =
+									blockedCharacter->personaje->nombre;
+							queue_push(temporaryQueue, nuevoPersonajeAgain);
 							//TODO log
 						} else {
-							queue_push(queues->blocked_queue,
-									blockedCharacter);
+							queue_push(queues->blocked_queue, blockedCharacter);
 						}
 					}
 				}
 				k = 0;
 			}
 		}
+
+		o = 0;
+		for (o = 0; o < queue_size(temporaryQueue); o++) {
+			queue_push(anotherQueue, queue_pop(temporaryQueue));
+		}
+
+		queues->character_queue = anotherQueue;
+
+		pthread_mutex_unlock(queues->mutex);
+
 		t_level_address *addresses = (t_level_address*) dictionary_get(
 				levelsMap, data[0]);
 
 		char **levelSocket = string_split(addresses->nivel, DOSPUNTOS);
 
-		int fdNivel = openSocketClient(levelSocket[1], levelSocket[0]);
+		long fdNivel = openSocketClient(levelSocket[1], levelSocket[0]);
 
 		sendMessage(fdNivel,
-				stringRecursos(queues->simbolos, recursosDisponibles, atoi(data[1])));
+				stringRecursos(queues->simbolos, recursosDisponibles,
+						atoi(data[1])));
 
-		free(data);
+		free(recursosDisponibles);
 
 		log_info(log, "Liberar recursos.");
-		if(flagTerminoUnPersonaje == TRUE){
+		if (flagTerminoUnPersonaje == TRUE) {
 			executeKoopa(niveles, levels_queues, orquestador_config);
 		}
-
 
 	} else if (string_starts_with(response, DEADLOCK)) {
 
 		response = string_substring_from(response, sizeof(DEADLOCK));
 		char** deadlockPointer = string_split(response, COMA);
 
-		int i = 0;
-		int size = atoi(deadlockPointer[0]) + 1;
-		int selected = atoi(deadlockPointer[1]);
+		long i = 0;
+		long size = atoi(deadlockPointer[0]) + 1;
+		long selected = atoi(deadlockPointer[1]);
 
 		for (i = 2; i < size; i++) {
 			if (atoi(deadlockPointer[i]) < selected) {
@@ -448,7 +483,7 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 
 		t_scheduler_queue *scheduler_queue = dictionary_get(levels_queues,
 				split[1]);
-		int i = 0;
+		long i = 0;
 		for (i = 0; i < queue_size(scheduler_queue->blocked_queue); i++) {
 			blocked_character *blockedCharacter = queue_pop(
 					scheduler_queue->blocked_queue);
@@ -477,21 +512,21 @@ void executeResponse(char* response, t_dictionary *levelsMap, int fd,
 
 }
 
-int giveResource(t_scheduler_queue *queues, int *recurso,
+long giveResource(t_scheduler_queue *queues, long *recurso,
 		blocked_character *blockedCharacter) {
-	if (recurso > 0) {
-		int value = recurso;
-		recurso = value - 1;
+	if (*recurso > 0) {
+		long value = *recurso;
+		*recurso = value - 1;
 		return 1;
 	} else {
 		return 0;
 	}
 }
 
-int *generateSocket(int* portInt, int *scheduler_port) {
+long *generateSocket(int* portInt, long *scheduler_port) {
 
-	int rc, on = 1;
-	int *listen_sd = (int*) malloc(sizeof(int));
+	long rc, on = 1;
+	long *listen_sd = (int*) malloc(sizeof(int));
 	struct sockaddr_in addr;
 
 	listen_sd = socket(AF_INET, SOCK_STREAM, 0);
@@ -540,33 +575,37 @@ int *generateSocket(int* portInt, int *scheduler_port) {
 	return listen_sd;
 }
 
-char* stringRecursos(t_list *simbolos, t_dictionary *recursosDisponibles, int fd) {
+char* stringRecursos(t_list *simbolos, t_dictionary *recursosDisponibles,
+		long fd) {
 
 	char* stringRecursos = (char*) malloc(MAXSIZE);
+	memset(&stringRecursos, 0, sizeof(stringRecursos));
 
-	string_append(&stringRecursos, string_from_format("RSC,%d,", fd));
+	stringRecursos = string_from_format("RSC,%d,", fd);
+//	string_append(&stringRecursos, string_from_format("RSC,%d,", fd));
 
-	int k = 0;
+	long k = 0;
 
-	int a = 0;
+	long a = 0;
 	char* b;
 
 	for (k = 0; k < list_size(simbolos); k++) {
 		string_append(&stringRecursos,
 				string_from_format("%s:%d,", list_get(simbolos, k),
-						dictionary_get(recursosDisponibles,
-								list_get(simbolos, k))));
+						*((long*) dictionary_get(recursosDisponibles,
+								list_get(simbolos, k)))));
 	}
 
 	return stringRecursos;
 }
 
-void executeKoopa(t_list *niveles, t_dictionary* levels_queues, t_orquestador *orquestador_config){
+void executeKoopa(t_list *niveles, t_dictionary* levels_queues,
+		t_orquestador *orquestador_config) {
 
-	int i = 0;
+	long i = 0;
 	char* nivel;
 	t_scheduler_queue *scheduler;
-	int final = TRUE;
+	long final = TRUE;
 	for (i = 0; i < list_size(niveles); i++) {
 		nivel = (char*) list_get(niveles, i);
 		scheduler = dictionary_get(levels_queues, nivel);
@@ -579,11 +618,10 @@ void executeKoopa(t_list *niveles, t_dictionary* levels_queues, t_orquestador *o
 //			char * arg1 = orquestador_config->argumento1;
 //			char * arg2[] = { "koopa", orquestador_config->argumento2, NULL };
 //			char * arg3[] = { orquestador_config->argumento3, "TERM=xterm", NULL };
-//			int ejecKoopa = execve(arg1, arg2, arg3);
+//			long ejecKoopa = execve(arg1, arg2, arg3);
 	}
 
 }
-
 
 void showLogBlocked(t_scheduler_queue *scheduler_queue) {
 
@@ -591,7 +629,7 @@ void showLogBlocked(t_scheduler_queue *scheduler_queue) {
 
 	string_append(&myLog, "Listos:");
 
-	int i = 0;
+	long i = 0;
 
 	for (i = 0; i < queue_size(scheduler_queue->character_queue); i++) {
 		personaje_planificador *personaje_temporal = queue_pop(
@@ -614,7 +652,8 @@ void showLogBlocked(t_scheduler_queue *scheduler_queue) {
 	}
 
 	string_append(&myLog,
-			string_from_format(";Ejecutando: %s", ((personaje_planificador*)scheduler_queue->personajeCorriendo)->nombre));
+			string_from_format(";Ejecutando: %s",
+					((personaje_planificador*) scheduler_queue->personajeCorriendo)->nombre));
 
 	log_info(log, myLog);
 }
