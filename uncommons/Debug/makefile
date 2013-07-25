@@ -26,7 +26,7 @@ endif
 all: libuncommons.so
 
 dependents:
-	-cd /home/utnso/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug && $(MAKE) clean all
+	-cd /home/utnso/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug && $(MAKE) all
 
 # Tool invocations
 libuncommons.so: $(OBJS) $(USER_OBJS) /home/utnso/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug/libso-commons-library.so

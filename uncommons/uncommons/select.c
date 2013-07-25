@@ -17,6 +17,7 @@
 #include "SocketsBasic.h"
 #include <commons/string.h>
 #include <string.h>
+#include <unistd.h>
 
 #define MAXSIZE 1024
 #define MAXQUEUE 100

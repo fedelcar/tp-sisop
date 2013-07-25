@@ -15,7 +15,7 @@ typedef struct {
 
 typedef struct{
 	char* nombre;
-	int* valor;
+	long* valor;
 }inotify_list_struct;
 
 int inotify(inotify_struct *datos);

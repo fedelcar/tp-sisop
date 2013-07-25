@@ -10,6 +10,7 @@
 #include <commons/collections/dictionary.h>
 #include <commons/collections/queue.h>
 #include <commons/log.h>
+#include <stdint.h>
 
 #define NOMBRE "nombre"
 #define CAJA "Caja"
@@ -26,8 +27,8 @@ typedef struct {
 	char *nombre;
 	t_dictionary *cajas;
 	char *orquestador;
-	int tiempoChequeoDeadlock;
-	int recovery;
+	long tiempoChequeoDeadlock;
+	long recovery;
 	char* localIp;
 } t_level_config;
 
@@ -39,8 +40,8 @@ typedef struct{
 
 
 typedef struct{
-	int posX;
-	int posY;
+	long posX;
+	long posY;
 }t_posicion;
 
 typedef struct{
@@ -48,7 +49,7 @@ typedef struct{
 	char *simbolo;
 	t_list *planDeNiveles;
 	t_dictionary *obj;
-	int vidas;
+	long vidas;
 	char *orquestador;
 } t_character;
 
@@ -60,15 +61,15 @@ typedef struct{
 typedef struct{
 	char *nombre;
 	char *simbolo;
-	int *instancias;
-	int *posX;
-	int *posY;
+	long *instancias;
+	long *posX;
+	long *posY;
 }t_caja;
 
 typedef struct{
-	int intervalo;
-	int puerto;
-	int turnos;
+	long intervalo;
+	long puerto;
+	long turnos;
 	char *argumento1;
 	char *argumento2;
 	char *argumento3;
@@ -78,15 +79,16 @@ typedef struct{
 	t_queue *character_queue;
 	t_queue *blocked_queue;
 	char *port;
-	int portInt;
+	long portInt;
 	t_orquestador *orquestador_config;
 	char *path;
-	int listen_sd;
+	long listen_sd;
 	fd_set *master_set;
 	t_list *pjList;
 	t_list *simbolos;
 	t_log *log;
 	void *personajeCorriendo;
+	pthread_mutex_t *mutex;
 }t_scheduler_queue;
 
 t_dictionary* getCharacters();

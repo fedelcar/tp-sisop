@@ -25,8 +25,17 @@ void getValues(inotify_struct * datos) {
 	for (y = 0; y<list_size(datos->lista);y++){
 
 		inotify_list_struct * dato = list_get(datos->lista,y);
-		*(dato->valor) = atoi(config_get_string_value(
-										configFile,dato->nombre));
+
+		if (config_has_property(configFile, dato->nombre)){
+
+				*(dato->valor) = atol(config_get_string_value(
+												configFile,dato->nombre));
+				}
+				else
+				{
+					break;
+				}
+
 	}
 }
 

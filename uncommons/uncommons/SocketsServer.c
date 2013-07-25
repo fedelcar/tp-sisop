@@ -7,6 +7,8 @@
 #include <string.h>
 #include <netdb.h>
 #include "SocketsBasic.h"
+#include <unistd.h>
+#include <stdlib.h>
 
 
 #include <arpa/inet.h>
