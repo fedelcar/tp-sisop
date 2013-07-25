@@ -26,9 +26,9 @@ endif
 all: Nivel
 
 dependents:
-	-cd /home/utnso/git/tp-20131c-tp-so-1c2013/Libreria-nivel/Debug && $(MAKE) clean all
-	-cd /home/utnso/git/tp-20131c-tp-so-1c2013/uncommons/Debug && $(MAKE) clean all
-	-cd /home/utnso/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug && $(MAKE) clean all
+	-cd /home/utnso/git/tp-20131c-tp-so-1c2013/Libreria-nivel/Debug && $(MAKE) all
+	-cd /home/utnso/git/tp-20131c-tp-so-1c2013/uncommons/Debug && $(MAKE) all
+	-cd /home/utnso/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug && $(MAKE) all
 
 # Tool invocations
 Nivel: $(OBJS) $(USER_OBJS) /home/utnso/git/tp-20131c-tp-so-1c2013/Libreria-nivel/Debug/libLibreria-nivel.so /home/utnso/git/tp-20131c-tp-so-1c2013/uncommons/Debug/libuncommons.so /home/utnso/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug/libso-commons-library.so

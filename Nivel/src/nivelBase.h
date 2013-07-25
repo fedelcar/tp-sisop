@@ -48,7 +48,7 @@ typedef struct {
 	ITEM_NIVEL *items;
 	int socket;
 	int recovery;
-	int* checkDeadlock;
+	long* checkDeadlock;
 	char *path;
 	int puerto;
 }deadlock_struct;

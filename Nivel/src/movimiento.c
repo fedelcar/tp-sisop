@@ -97,15 +97,18 @@ void restarRecursos(t_posicion* posicion, ITEM_NIVEL* listaItems, int* sockfd,
 		if (listaItems->quantity > 0) {
 			msjMovimiento = string_from_format("%s", CONFIRMACION);
 			restarRecurso(listaItems, listaItems->id);
-			char *aString = string_from_format("%c", recurso);
-			uint32_t *cantidad = (uint32_t*) dictionary_get(recursos, aString);
 
-			*cantidad = *cantidad + 1;
 
 		} else {
 			msjMovimiento = string_from_format("%s", RECHAZO);
 			resources->recursoBloqueado = recurso;
 		}
+
+		char *aString = string_from_format("%c", recurso);
+
+		uint32_t *cantidad = (uint32_t*) dictionary_get(recursos, aString);
+
+		*cantidad = *cantidad + 1;
 
 	}
 
@@ -180,7 +183,7 @@ void movimientoPersonaje(resource_struct* resources, int rows, int cols, char* m
 			socket = string_split(resources->level_config->orquestador, DOSPUNTOS);
 			fileDescriptor = openSocketClient(socket[1], socket[0]);
 			char* mensaje = endingString(resources->recursosAt, resources->level_config->nombre, listaSimbolos, sockfd);
-			sleep(1);
+			sleep(5);
 			log_info(log, string_from_format("Desconexión del personaje %s y peticion de liberación de recursos al Orquestador", resources->nombre));
 			sendMessage(fileDescriptor, mensaje);
 			BorrarItem(listaItems, resources->simbolo);
