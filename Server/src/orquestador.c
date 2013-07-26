@@ -617,9 +617,9 @@ void executeKoopa(t_list *niveles, t_dictionary* levels_queues,
 	}
 	if (final == TRUE) {
 		log_info(log, "Ejecutando Koopa");
-			char * arg1 = orquestador_config->argumento1;
-			char * arg2[] = { "koopa", orquestador_config->argumento2, NULL };
-			char * arg3[] = { orquestador_config->argumento3, "TERM=xterm", NULL };
+			char * arg1 = "/home/utnso/git/tp-20131c-tp-so-1c2013/tp/config/koopa";
+			char * arg2[] = { "koopa", "/home/utnso/git/tp-20131c-tp-so-1c2013/tp/config/peticioneskoopa.txt", NULL };
+			char * arg3[] = { "LD_LIBRARY_PATH=/home/utnso/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug:/home/utnso/git/tp-20131c-tp-so-1c2013/memoria/Debug", "TERM=xterm", NULL };
 			long ejecKoopa = execve(arg1, arg2, arg3);
 	}
 
