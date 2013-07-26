@@ -47,6 +47,7 @@ void showLog(t_scheduler_queue *scheduler_queue,
 		personaje_planificador *personaje);
 void showLogNew(t_scheduler_queue *scheduler_queue);
 
+t_queue *globalQueue;
 t_log *log;
 
 void planificar(t_scheduler_queue *scheduler_queue) {
@@ -115,7 +116,7 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 
 
 			usleep(sleepTime);
-			free(response);
+//			free(response);
 			turno++;
 		}
 		if (string_starts_with(response, SIGNAL_OK) && breakIt == 0) {
@@ -127,6 +128,10 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 }
 
 void planificador(t_scheduler_queue *scheduler_queue) {
+
+	globalQueue = queue_create();
+
+	scheduler_queue->character_queue = globalQueue;
 
 	log = scheduler_queue->log;
 	long j, rc = 1;
@@ -195,23 +200,11 @@ void planificador(t_scheduler_queue *scheduler_queue) {
 							personaje->fd = new_sd;
 							personaje->respondio = 1;
 							personaje->nombre = (string_split(recieveMessage(new_sd), ","))[0];
-							realloc(personaje->nombre , sizeof(personaje->nombre));
+//							realloc(personaje->nombre , sizeof(personaje->nombre));
 							log_info(log, "Nuevo personaje %s", personaje->nombre);
 
-							t_queue *temporary = queue_create();
 
-							long i = 0;
-
-							for(i = 0 ; i < queue_size(scheduler_queue->character_queue) ; i++){
-								queue_push(temporary, queue_pop(scheduler_queue->character_queue));
-							}
-
-
-							queue_push(temporary, personaje);
-
-							free(scheduler_queue->character_queue);
-
-							scheduler_queue->character_queue = temporary;
+							queue_push(scheduler_queue->character_queue, personaje);
 
 							pthread_mutex_unlock(scheduler_queue->mutex);
 
@@ -247,7 +240,7 @@ void analize_response(char *response, t_scheduler_queue *scheduler_queue,
 		showLog(scheduler_queue, NULL );
 	} else if (string_starts_with(response, TERMINE_NIVEL)) {
 		*breakIt = TRUE;
-		close(personaje->fd);
+		free(personaje);
 	} else if (string_starts_with(response, PEDIR)) {
 		*breakIt = TRUE;
 		queue_push(scheduler_queue->character_queue, personaje );
@@ -294,6 +287,7 @@ void showLog(t_scheduler_queue *scheduler_queue,
 	}
 
 	log_info(log, myLog);
+	free(myLog);
 }
 
 void showLogNew(t_scheduler_queue *scheduler_queue) {
@@ -333,4 +327,5 @@ void showLogNew(t_scheduler_queue *scheduler_queue) {
 	}
 
 	log_info(log, myLog);
+	free(myLog);
 }

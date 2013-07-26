@@ -275,8 +275,6 @@ void executeResponse(char* response, t_dictionary *levelsMap, long fd,
 
 	if (string_starts_with(response, LEVEL)) {
 		response = string_substring_from(response, sizeof(LEVEL));
-		t_level_address *level = (t_level_address *) malloc(
-				sizeof(t_level_address));
 		char *socketsToGo = (char*) malloc(MAXSIZE);
 		memset(socketsToGo, 0, sizeof(socketsToGo));
 		if (!dictionary_has_key(levelsMap, (string_split(response, PIPE))[0])) {
@@ -297,7 +295,6 @@ void executeResponse(char* response, t_dictionary *levelsMap, long fd,
 		FD_CLR(fd, socks);
 		free(socketsToGo);
 		free(response);
-		free(level);
 		close(fd);
 	} else if (string_starts_with(response, NEWLVL)) {
 
@@ -351,37 +348,38 @@ void executeResponse(char* response, t_dictionary *levelsMap, long fd,
 		pthread_create(t, NULL, (void *) planificador,
 				(t_scheduler_queue*) scheduler_queue);
 
+		free(split);
+
 	} else if (string_starts_with(response, FREERESC)) {
 
 		response = string_substring_from(response, sizeof(FREERESC));
 
 		char** data = string_split(response, COMA);
 
-		t_queue *temporaryQueue = queue_create();
+//		t_queue *temporaryQueue = queue_create();
 
 		t_scheduler_queue *queues = dictionary_get(levels_queues, data[0]);
 
 		pthread_mutex_lock(queues->mutex);
 
-		t_queue *anotherQueue = queue_create();
-
-		long o = 0;
-		if (queue_size(queues->character_queue) > 0) {
-			log_info(log, "Mas de un personaje listo");
-			for (o = 0; o < queue_size(queues->character_queue); o++) {
-				personaje_planificador *personajeEnLista = queue_pop(
-						queues->character_queue);
-				personaje_planificador *nuevoPersonaje =
-						(personaje_planificador*) malloc(
-								sizeof(personaje_planificador));
-//				long *hola = (long*) malloc(sizeof(long));
-//				memcpy(hola, &(personajeEnLista->fd), sizeof(long));
-//				nuevoPersonaje->fd = hola;
-				nuevoPersonaje->fd = personajeEnLista->fd;
-				nuevoPersonaje->nombre = string_from_format("%s", personajeEnLista->nombre);
-				queue_push(anotherQueue, nuevoPersonaje);
-			}
-		}
+//		t_queue *anotherQueue = queue_create();
+//		long o = 0;
+//		if (queue_size(queues->character_queue) > 0) {
+//			log_info(log, "Mas de un personaje listo");
+//			for (o = 0; o < queue_size(queues->character_queue); o++) {
+//				personaje_planificador *personajeEnLista = queue_pop(
+//						queues->character_queue);
+//				personaje_planificador *nuevoPersonaje =
+//						(personaje_planificador*) malloc(
+//								sizeof(personaje_planificador));
+////				long *hola = (long*) malloc(sizeof(long));
+////				memcpy(hola, &(personajeEnLista->fd), sizeof(long));
+////				nuevoPersonaje->fd = hola;
+//				nuevoPersonaje->fd = personajeEnLista->fd;
+//				nuevoPersonaje->nombre = string_from_format("%s", personajeEnLista->nombre);
+//				queue_push(anotherQueue, nuevoPersonaje);
+//			}
+//		}
 
 		char** simbolos;
 
@@ -415,14 +413,15 @@ void executeResponse(char* response, t_dictionary *levelsMap, long fd,
 								dictionary_get(recursosDisponibles,
 										list_get(queues->simbolos, k)),
 								blockedCharacter) == 1) {
-							personaje_planificador *nuevoPersonajeAgain =
-									(personaje_planificador*) malloc(
-											sizeof(personaje_planificador));
-							nuevoPersonajeAgain->fd =
-									blockedCharacter->personaje->fd;
-							nuevoPersonajeAgain->nombre =
-									blockedCharacter->personaje->nombre;
-							queue_push(temporaryQueue, nuevoPersonajeAgain);
+//							personaje_planificador *nuevoPersonajeAgain =
+//									(personaje_planificador*) malloc(
+//											sizeof(personaje_planificador));
+//							nuevoPersonajeAgain->fd =
+//									blockedCharacter->personaje->fd;
+//							nuevoPersonajeAgain->nombre =
+//									blockedCharacter->personaje->nombre;
+//							queue_push(temporaryQueue, nuevoPersonajeAgain);
+							queue_push(queues->character_queue, blockedCharacter->personaje);
 							//TODO log
 						} else {
 							queue_push(queues->blocked_queue, blockedCharacter);
@@ -433,12 +432,14 @@ void executeResponse(char* response, t_dictionary *levelsMap, long fd,
 			}
 		}
 
-		o = 0;
-		for (o = 0; o < queue_size(temporaryQueue); o++) {
-			queue_push(anotherQueue, queue_pop(temporaryQueue));
-		}
+//		o = 0;
+//		for (o = 0; o < queue_size(temporaryQueue); o++) {
+//			queue_push(anotherQueue, queue_pop(temporaryQueue));
+//		}
 
-		queues->character_queue = anotherQueue;
+//		free(queues->character_queue);
+//
+//		queues->character_queue = anotherQueue;
 
 		pthread_mutex_unlock(queues->mutex);
 
@@ -454,6 +455,7 @@ void executeResponse(char* response, t_dictionary *levelsMap, long fd,
 						atoi(data[1])));
 
 		free(recursosDisponibles);
+
 
 		log_info(log, "Liberar recursos.");
 		if (flagTerminoUnPersonaje == TRUE) {
