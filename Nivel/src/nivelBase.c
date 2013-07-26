@@ -78,7 +78,7 @@ int main(int argc, char **argv) {
 
 	char* pathLog = (char*) malloc(MAXSIZE);
 	memset(pathLog, 0, sizeof(pathLog));
-	string_append(&pathLog, "/home/tp/config/logs/");
+	string_append(&pathLog, "/home/utnso/git/tp-20131c-tp-so-1c2013/tp/logs/");
 	string_append(&pathLog, nivel->nombre);
 	string_append(&pathLog, ".txt");
 
