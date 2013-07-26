@@ -57,6 +57,7 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 	if (queue_size(scheduler_queue->character_queue) > 0) {
 
 		char *response = (char *) malloc(MAXDATASIZE);
+
 		long turno = 0;
 
 		long *breakIt;
@@ -79,6 +80,8 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 		showLog(scheduler_queue, personaje);
 
 		while (turno < turnoActual && breakIt == FALSE) {
+
+			memset(response,0,sizeof(response));
 
 			response = sendMessage(personaje->fd, "Tu turno");
 
@@ -116,13 +119,13 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 
 
 			usleep(sleepTime);
-			free(response);
 			turno++;
 		}
 		if (string_starts_with(response, SIGNAL_OK) && breakIt == 0) {
 			queue_push(scheduler_queue->character_queue, personaje);
 			showLog(scheduler_queue, NULL );
 		}
+
 	}
 	pthread_mutex_unlock(scheduler_queue->mutex);
 }
@@ -240,7 +243,7 @@ void analize_response(char *response, t_scheduler_queue *scheduler_queue,
 		showLog(scheduler_queue, NULL );
 	} else if (string_starts_with(response, TERMINE_NIVEL)) {
 		*breakIt = TRUE;
-		free(personaje);
+//		free(personaje);
 	} else if (string_starts_with(response, PEDIR)) {
 		*breakIt = TRUE;
 		queue_push(scheduler_queue->character_queue, personaje );
