@@ -116,7 +116,7 @@ void planificar(t_scheduler_queue *scheduler_queue) {
 
 
 			usleep(sleepTime);
-//			free(response);
+			free(response);
 			turno++;
 		}
 		if (string_starts_with(response, SIGNAL_OK) && breakIt == 0) {

@@ -617,10 +617,10 @@ void executeKoopa(t_list *niveles, t_dictionary* levels_queues,
 	}
 	if (final == TRUE) {
 		log_info(log, "Ejecutando Koopa");
-//			char * arg1 = orquestador_config->argumento1;
-//			char * arg2[] = { "koopa", orquestador_config->argumento2, NULL };
-//			char * arg3[] = { orquestador_config->argumento3, "TERM=xterm", NULL };
-//			long ejecKoopa = execve(arg1, arg2, arg3);
+			char * arg1 = orquestador_config->argumento1;
+			char * arg2[] = { "koopa", orquestador_config->argumento2, NULL };
+			char * arg3[] = { orquestador_config->argumento3, "TERM=xterm", NULL };
+			long ejecKoopa = execve(arg1, arg2, arg3);
 	}
 
 }
