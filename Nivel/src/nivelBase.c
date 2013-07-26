@@ -125,9 +125,9 @@ int main(int argc, char **argv) {
 	int *cols = (int*) malloc(sizeof(int));
 
 
-	nivel_gui_inicializar();
-
-	nivel_gui_get_area_nivel(&rows, &cols);
+//	nivel_gui_inicializar();
+//
+//	nivel_gui_get_area_nivel(&rows, &cols);
 
 //	rows = (int*) 100;
 //	cols = (int*) 100;
@@ -539,8 +539,8 @@ void deteccionInterbloqueo(deadlock_struct *deadlockStruct) {
 				datos = (datos_personaje*) list_get(deadlockStruct->list, j);
 
 				if (datos->id == atoi(response[0])) {
-
-					uint32_t *cantidad = (uint32_t*) dictionary_get(datos->recursosAt, datos->recurso);
+					char* cici = string_from_format("%c", (datos->recurso)[0]);
+					uint32_t *cantidad = (uint32_t*) dictionary_get(datos->recursosAt, cici);
 
 					*cantidad = *cantidad - 1;
 
