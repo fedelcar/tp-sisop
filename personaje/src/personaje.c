@@ -143,6 +143,7 @@ int main(int argc, char **argv) {
 	do { //		Comienzo Plan de Niveles
 
 		log_debug(log, "Esperando conexión");
+		sleep(1);
 		sockfdOrquestador = openSocketClient(puertoOrquestador, ipOrquestador);
 		mensaje = string_from_format(
 				"Me conecto con el Orquestador. IP:%s Puerto:%s", ipOrquestador,
