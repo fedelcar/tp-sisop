@@ -10,4 +10,7 @@ make
 cd /home/utnso/git/tp-20131c-tp-so-1c2013/Server/Debug
 make clean
 make
+mkdir /home/utnso/git/tp-20131c-tp-so-1c2013/tp/logs
+cd /home/utnso/git/tp-20131c-tp-so-1c2013/tp/config/niveles
+ifconfig
 
