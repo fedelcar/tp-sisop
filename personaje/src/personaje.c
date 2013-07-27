@@ -143,7 +143,7 @@ int main(int argc, char **argv) {
 	do { //		Comienzo Plan de Niveles
 
 		log_debug(log, "Esperando conexión");
-		sleep(1);
+
 		sockfdOrquestador = openSocketClient(puertoOrquestador, ipOrquestador);
 		mensaje = string_from_format(
 				"Me conecto con el Orquestador. IP:%s Puerto:%s", ipOrquestador,
@@ -250,7 +250,6 @@ int main(int argc, char **argv) {
 				pRecursoActual = pRecursoActual->next;
 
 				if (pRecursoActual == NULL ) {
-					sendMessage(sockfdPlanif, TERMINE_NIVEL);
 					break;
 				}
 
@@ -292,6 +291,7 @@ int main(int argc, char **argv) {
 		close(nivel->sockfdNivel);
 		log_debug(log, "Me desconecto con el Nivel");
 
+		sendMessage(sockfdPlanif, TERMINE_NIVEL);
 		close(sockfdPlanif);
 		log_debug(log, "Me desconecto con el Planificador");
 
@@ -511,7 +511,8 @@ int conectarseAlNivelActual(t_Nivel* nivel, int sockfdOrquestador,
 		recieveMessage(nivel->sockfdNivel);
 
 //		Le envio mi nombre al Planificador
-		sendMessage(*sockfdPlanif, string_from_format("%s,",personaje->nombre));
+		sendMessage(*sockfdPlanif,
+				string_from_format("%s,", personaje->nombre));
 		log_debug(log, personaje->nombre);
 
 	}
