@@ -26,15 +26,15 @@ endif
 all: Nivel
 
 dependents:
-	-cd /home/utnso/git/tp-20131c-tp-so-1c2013/Libreria-nivel/Debug && $(MAKE) all
-	-cd /home/utnso/git/tp-20131c-tp-so-1c2013/uncommons/Debug && $(MAKE) all
-	-cd /home/utnso/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug && $(MAKE) all
+	-cd /home/federico/git/tp-20131c-tp-so-1c2013/Libreria-nivel/Debug && $(MAKE) clean all
+	-cd /home/federico/git/tp-20131c-tp-so-1c2013/uncommons/Debug && $(MAKE) clean all
+	-cd /home/federico/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug && $(MAKE) clean all
 
 # Tool invocations
-Nivel: $(OBJS) $(USER_OBJS) /home/utnso/git/tp-20131c-tp-so-1c2013/Libreria-nivel/Debug/libLibreria-nivel.so /home/utnso/git/tp-20131c-tp-so-1c2013/uncommons/Debug/libuncommons.so /home/utnso/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug/libso-commons-library.so
+Nivel: $(OBJS) $(USER_OBJS) /home/federico/git/tp-20131c-tp-so-1c2013/Libreria-nivel/Debug/libLibreria-nivel.so /home/federico/git/tp-20131c-tp-so-1c2013/uncommons/Debug/libuncommons.so /home/federico/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug/libso-commons-library.so
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc -L"/home/utnso/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug" -L"/home/utnso/git/tp-20131c-tp-so-1c2013/uncommons/Debug" -L"/home/utnso/git/tp-20131c-tp-so-1c2013/Libreria-nivel/Debug" -o "Nivel" $(OBJS) $(USER_OBJS) $(LIBS)
+	gcc -L"/home/federico/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug" -L"/home/federico/git/tp-20131c-tp-so-1c2013/uncommons/Debug" -L"/home/federico/git/tp-20131c-tp-so-1c2013/Libreria-nivel/Debug" -o "Nivel" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -45,8 +45,8 @@ clean:
 
 .PHONY: all clean dependents
 .SECONDARY:
-/home/utnso/git/tp-20131c-tp-so-1c2013/Libreria-nivel/Debug/libLibreria-nivel.so:
-/home/utnso/git/tp-20131c-tp-so-1c2013/uncommons/Debug/libuncommons.so:
-/home/utnso/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug/libso-commons-library.so:
+/home/federico/git/tp-20131c-tp-so-1c2013/Libreria-nivel/Debug/libLibreria-nivel.so:
+/home/federico/git/tp-20131c-tp-so-1c2013/uncommons/Debug/libuncommons.so:
+/home/federico/git/tp-20131c-tp-so-1c2013/so-commons-library/Debug/libso-commons-library.so:
 
 -include ../makefile.targets

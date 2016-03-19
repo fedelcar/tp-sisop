@@ -273,6 +273,7 @@ int main(int argc, char **argv) {
 
 //		Informo que termine el nivel al Nivel y al Orquestador
 		sendMessage(nivel->sockfdNivel, LIBERAR_RECURSOS);
+		sendMessage(sockfdPlanif, TERMINE_NIVEL);
 
 		sockfdOrquestador = openSocketClient(puertoOrquestador, ipOrquestador);
 		mensaje = string_from_format(
@@ -291,7 +292,6 @@ int main(int argc, char **argv) {
 		close(nivel->sockfdNivel);
 		log_debug(log, "Me desconecto con el Nivel");
 
-		sendMessage(sockfdPlanif, TERMINE_NIVEL);
 		close(sockfdPlanif);
 		log_debug(log, "Me desconecto con el Planificador");
 

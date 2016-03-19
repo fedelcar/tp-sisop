@@ -17,7 +17,7 @@ C_DEPS += \
 %.o: ../%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C Compiler'
-	gcc -I"/home/utnso/git/tp-20131c-tp-so-1c2013/so-commons-library" -I"/home/utnso/git/tp-20131c-tp-so-1c2013/uncommons" -O0 -g3 -Wall -c -fmessage-length=0 -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	gcc -I"/home/federico/git/tp-20131c-tp-so-1c2013/so-commons-library" -I"/home/federico/git/tp-20131c-tp-so-1c2013/uncommons" -O0 -g3 -Wall -c -fmessage-length=0 -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
